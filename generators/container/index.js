@@ -1,7 +1,7 @@
 const fs = require('fs');
 const pascalcase = require('pascal-case');
 const replaceNew = require('replace-in-file');
-
+// https://itnext.io/building-react-app-part-3-component-generation-455e77d7b1c6
 
 module.exports = (componentName, routeName) => {
   
@@ -13,12 +13,12 @@ module.exports = (componentName, routeName) => {
 
   const nameList = {
     name: componentName,
-    route: routeName ? routeName : componentName
+    route: routeName || componentName
   };
 
   nameList.pascalCasedName = pascalcase(nameList.name);
 
-  let dir = './src/views/' + nameList.name;
+  const dir = `./src/views/${  nameList.name}`;
   fs.mkdirSync(dir);
 
   const templateList = [
@@ -48,7 +48,7 @@ module.exports = (componentName, routeName) => {
     
     if (template.fileType === 'directory') {
       
-      //incase sub directory files also required
+      // incase sub directory files also required
       fs.mkdirSync(`${dir}/${template.name}`);
       template.templateList.forEach(fileCreator)
     } else {
@@ -65,7 +65,7 @@ module.exports = (componentName, routeName) => {
   
   templateList.forEach(fileCreator);
   
-  //reducer and routes entry
+  // reducer and routes entry
   const replaceEntries = [
     {
       files: './src/app/reducers.js',

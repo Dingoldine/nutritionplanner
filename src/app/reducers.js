@@ -1,4 +1,4 @@
-import { combineReducers } from "redux"
+import { combineReducers } from 'redux'
 import homeReducer from '../views/home/reducer'
 
 /**
@@ -9,5 +9,5 @@ import homeReducer from '../views/home/reducer'
  * @type {Reducer<any>}
  */
 export const reducers = combineReducers({
-  home: homeReducer,
-});
+  home: homeReducer
+})

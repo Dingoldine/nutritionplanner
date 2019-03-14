@@ -1,7 +1,7 @@
-import React from 'react';
-import { Route, Switch }  from 'react-router-dom';
-import NotFound from "../views/notfound"
-import Home from "../views/home"
+import React from 'react'
+import { Route, Switch } from 'react-router-dom'
+import NotFound from '../views/notfound'
+import Home from '../views/home'
 
 /**
  * Defines components to routes mapping.
@@ -16,8 +16,8 @@ import Home from "../views/home"
 export default () => {
   return (
     <Switch>
-      <Route exact path="/" component={Home}/>
-      <Route path="*" component={NotFound}/>
+      <Route exact path="/" component={Home} />
+      <Route path="*" component={NotFound} />
     </Switch>
-  );
+  )
 }

@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
+    "firebase": "^5.8.5",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
@@ -20,11 +21,26 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "generate": "node ./generators/bin -n"
+    "generate": "node ./generators/bin -n",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier --write --single-quote --no-semi --print-width=120 --tab-width=2 \"src/**/*.{js,jsx} \"",
+    "lint": "eslint '**/*.{js,jsx}' --quiet",
+    "lint:fix": "eslint '**/*.{js,jsx}' --fix"
   },
   "devDependencies": {
+    "babel-eslint": "^10.0.1",
     "command-line-args": "^5.0.2",
+    "eslint": "^5.15.1",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-config-react": "^1.1.7",
+    "eslint-loader": "^2.1.2",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-react": "^7.12.4",
     "pascal-case": "^2.0.1",
+    "prettier": "^1.16.4",
     "replace-in-file": "^3.4.0"
   }
 }

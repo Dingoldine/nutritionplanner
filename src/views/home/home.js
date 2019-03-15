@@ -13,6 +13,8 @@ export default class Home extends Component {
   }
 
   render() {
-    return <Layout className="home">Welcome to Home {this.props.test}</Layout>
+
+      return <Layout className="home">Welcome to Home {this.props.test}</Layout>
+
   }
 }

@@ -1,27 +1,30 @@
 import React, { Component } from 'react'
-import './home.css'
-import { FaEnvelope, FaKey } from 'react-icons/fa';
-import { Link } from 'react-router-dom'
 import {
   Container, Col, Form,
   FormGroup, Label, Input,
   Button, FormFeedback
 } from 'reactstrap';
+import { FaEnvelope, FaKey, FaAddressBook } from 'react-icons/fa';
+import { Redirect } from 'react-router-dom'
 import Layout from '../../components/layout'
 import Actions from './actions'
 
+const INITIAL_STATE = {
+  username: '',
+  email: '',
+  password: '',
+  error: null,
+  validate: {
+    emailState: '',
+  },
+};
 
-export default class Home extends Component {
+class SignUp extends Component {
+  
   constructor(props) {
     super(props);
-    this.state = {
-      'email': '',
-      'password': '',
-      validate: {
-        emailState: '',
-      },
-    }
-  this.handleChange = this.handleChange.bind(this);
+    this.state = { ...INITIAL_STATE }
+    this.handleChange = this.handleChange.bind(this);
   }
   
 
@@ -36,6 +39,8 @@ export default class Home extends Component {
     await this.setState({
       [ name ]: value,
     });
+    console.log(value);
+    
   }
 
   validateEmail(e) {
@@ -50,18 +55,47 @@ export default class Home extends Component {
     }
 
     submitForm(e) {
+      const { username, email, password } = this.state
+      const { firebase } = this.props
+      const isInvalid = (password === '' || email === '' || username === '')
+      if(!isInvalid) {
+        console.log("Submitting")  
+        firebase.doCreateUserWithEmailAndPassword(email, password)
+        .then(authUser => {
+          console.log(authUser);
+          this.setState({ ...INITIAL_STATE });
+          return <Redirect to='/' />
+        })
+        .catch(error => {
+          console.log("Error creating user");
+          
+          this.setState({ error });
+        });
+      }
       e.preventDefault();
-      console.log(`Email: ${ this.state.email }`)
     }
 
     
   render() {
-      const { email, password } = this.state;
+      const { username, email, password, error } = this.state;
       return (
-      <Layout className="home">Welcome to Home {this.props.test} 
+      <Layout className="home">Welcome to Sign Up {this.props.test} 
         <Container className="loginPage">
-          <h2>Sign In</h2>
+          <h2>Sign Up</h2>
           <Form className="form" onSubmit={ (e) => this.submitForm(e) } >
+            <Col>
+              <FormGroup>
+                <Label for="signupUsername"><span><FaAddressBook /></span>  Username</Label>
+                <Input
+                type="text"
+                name="username"
+                id="signupUsername"
+                placeholder="Your nickname!"
+                value={ username }
+                onChange={ (e) => this.handleChange(e) }
+                />
+              </FormGroup>
+            </Col>
             <Col>
               <FormGroup>
                 <Label><span><FaEnvelope /></span>  Email</Label>
@@ -88,11 +122,11 @@ export default class Home extends Component {
             </Col>
             <Col>
               <FormGroup>
-                <Label for="signupPassword"><span><FaKey /></span>  Password</Label>
+                <Label for="examplePassword"><span><FaKey /></span>  Password</Label>
                 <Input
                 type="password"
                 name="password"
-                id="signupPassword"
+                id="examplePassword"
                 placeholder="********"
                 value={ password }
                 onChange={ (e) => this.handleChange(e) }
@@ -100,10 +134,12 @@ export default class Home extends Component {
               </FormGroup>
             </Col>
             <Button type="submit">Submit</Button>
-            <Link className="router-link" to="/signup">Sign Up</Link>
+            {error && error.message}
           </Form>
         </Container>
       </Layout>
       );
   }
 }
+
+export default SignUp;

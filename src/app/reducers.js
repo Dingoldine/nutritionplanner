@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 import homeReducer from '../views/home/reducer'
+import SignUpReducer from '../views/SignUp/reducer'
 
 /**
  * Defines mapping of individual view reducers to global state object.

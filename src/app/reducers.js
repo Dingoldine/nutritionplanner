@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
-import homeReducer from '../views/home/reducer'
+import SignInReducer from '../views/SignIn/reducer'
 import SignUpReducer from '../views/SignUp/reducer'
+import HomeReducer from '../views/Home/reducer'
 
 /**
  * Defines mapping of individual view reducers to global state object.
@@ -10,5 +11,5 @@ import SignUpReducer from '../views/SignUp/reducer'
  * @type {Reducer<any>}
  */
 export const reducers = combineReducers({
-  home: homeReducer
+  SignIn: SignInReducer
 })

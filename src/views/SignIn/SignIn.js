@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
+import './SignIn.css'
+import { FaEnvelope, FaKey } from 'react-icons/fa';
+import { Link } from 'react-router-dom'
 import {
   Container, Col, Form,
   FormGroup, Label, Input,
   Button, FormFeedback
 } from 'reactstrap';
-import { FaEnvelope, FaKey, FaAddressBook } from 'react-icons/fa';
 import Layout from '../../components/layout'
 
 const INITIAL_STATE = {
-  username: '',
   email: '',
   password: '',
   error: null,
@@ -17,8 +18,8 @@ const INITIAL_STATE = {
   },
 };
 
-class SignUp extends Component {
-  
+export default class SignIn extends Component {
+
   constructor(props) {
     super(props);
     this.state = { ...INITIAL_STATE }
@@ -32,8 +33,6 @@ class SignUp extends Component {
     await this.setState({
       [ name ]: value,
     });
-    console.log(value);
-    
   }
 
   validateEmail(e) {
@@ -48,47 +47,30 @@ class SignUp extends Component {
     }
 
     submitForm(e) {
-      const { username, email, password } = this.state
+      const { email, password } = this.state
       const { firebase, history } = this.props
-      const isInvalid = (password === '' || email === '' || username === '')
+      const isInvalid = (password === '' || email === '')
       if(!isInvalid) {
-        console.log("Submitting")  
-        firebase.doCreateUserWithEmailAndPassword(email, password)
-        .then(authUser => {
-          console.log(authUser);
-          this.setState({ ...INITIAL_STATE });
-          history.push('home');
-        })
-        .catch(error => {
-          console.log("Error creating user");
-          
-          this.setState({ error });
-        });
-      }
+        firebase.doSignInWithEmailAndPassword(email, password)
+          .then(() => {
+            this.setState({ ...INITIAL_STATE });
+            history.push('/home');
+          })
+          .catch(error => {
+            this.setState({ error });
+          });
+      }  
       e.preventDefault();
     }
 
     
   render() {
-      const { username, email, password, error, validate } = this.state;
+      const { email, password, error, validate } = this.state;
       return (
-      <Layout className="home">Welcome to Sign Up
+      <Layout className="home">Welcome to SignIn 
         <Container className="loginPage">
-          <h2>Sign Up</h2>
+          <h2>Sign In</h2>
           <Form className="form" onSubmit={ (e) => this.submitForm(e) } >
-            <Col>
-              <FormGroup>
-                <Label for="signupUsername"><span><FaAddressBook /></span>  Username</Label>
-                <Input
-                type="text"
-                name="username"
-                id="signupUsername"
-                placeholder="Your nickname!"
-                value={ username }
-                onChange={ (e) => this.handleChange(e) }
-                />
-              </FormGroup>
-            </Col>
             <Col>
               <FormGroup>
                 <Label><span><FaEnvelope /></span>  Email</Label>
@@ -115,11 +97,11 @@ class SignUp extends Component {
             </Col>
             <Col>
               <FormGroup>
-                <Label for="examplePassword"><span><FaKey /></span>  Password</Label>
+                <Label for="signupPassword"><span><FaKey /></span>  Password</Label>
                 <Input
                 type="password"
                 name="password"
-                id="examplePassword"
+                id="signupPassword"
                 placeholder="********"
                 value={ password }
                 onChange={ (e) => this.handleChange(e) }
@@ -128,11 +110,10 @@ class SignUp extends Component {
             </Col>
             <Button type="submit">Submit</Button>
             {error && error.message}
+            <Link className="router-link" to="/signup">Sign Up</Link>
           </Form>
         </Container>
       </Layout>
       );
   }
 }
-
-export default SignUp;

@@ -1,11 +1,11 @@
-import { connect } from 'react-redux'
-import Home from './home'
+import { connect } from 'react-redux';
+import Home from './Home';
 
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
   return {
-    test: state.home.test,
-    testData: state.home.testData
+    // test: state.Home.test,
+    // testData: state.Home.testData
   }
-}
+};
 
-export default connect(mapStateToProps)(Home)
+export default connect(mapStateToProps)(Home);

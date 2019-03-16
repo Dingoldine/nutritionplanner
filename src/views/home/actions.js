@@ -1,24 +1,25 @@
-import Network from '../../utils/network'
+
+import Network from '../../utils/network';
 
 const actions = {
-  test: msg => {
+  test: (msg) => {
     return {
-      type: 'TEST',
+      type: "TEST",
       payload: msg
     }
   },
   getTestData: () => {
     return async dispatch => {
-      dispatch({ type: 'GET_TEST_DATA_PENDING' })
-
+      dispatch({type: "GET_TEST_DATA_PENDING"});
+    
       try {
-        const response = await Network.get('/test')
-        dispatch({ type: 'GET_TEST_DATA_SUCCESS', payload: response.data })
+        let response = await Network.get('/test');
+        dispatch({type: "GET_TEST_DATA_SUCCESS", payload: response.data});
       } catch (error) {
-        dispatch({ type: 'GET_TEST_DATA_FAILED', payload: error.message })
+        dispatch({type: "GET_TEST_DATA_FAILED", payload: error.message});
       }
     }
   }
-}
+};
 
-export default actions
+export default actions;

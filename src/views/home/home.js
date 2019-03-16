@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './home.css'
+import { FaEnvelope, FaKey } from 'react-icons/fa';
 import {
   Container, Col, Form,
   FormGroup, Label, Input,
@@ -56,13 +57,13 @@ export default class Home extends Component {
   render() {
       const { email, password } = this.state;
       return (
-      <Layout className="home">Welcome to Home {this.props.test}
+      <Layout className="home">Welcome to Home {this.props.test} 
         <Container className="loginPage">
           <h2>Sign In</h2>
           <Form className="form" onSubmit={ (e) => this.submitForm(e) } >
             <Col>
               <FormGroup>
-                <Label>Email</Label>
+                <Label><span><FaEnvelope /></span>  Email</Label>
                 <Input
                   type="email"
                   name="email"
@@ -87,7 +88,7 @@ export default class Home extends Component {
             </Col>
             <Col>
               <FormGroup>
-                <Label for="examplePassword">Password</Label>
+                <Label for="examplePassword"><span><FaKey /></span>  Password</Label>
                 <Input
                 type="password"
                 name="password"

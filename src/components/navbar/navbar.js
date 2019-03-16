@@ -1,6 +1,7 @@
 import React from 'react'
 import './navbar.css'
 import { NavLink as RRNavLink } from 'react-router-dom';
+import { FaUserCircle, FaGithub } from 'react-icons/fa';
 import {
   Collapse,
   Navbar,
@@ -38,10 +39,10 @@ import {
               <Collapse isOpen={this.state.isOpen} navbar>
                 <Nav className="ml-auto" navbar>
                   <NavItem>
-                    <NavLink tag={RRNavLink} exact to="/" href="/components/">Components</NavLink>
+                    <NavLink tag={RRNavLink} exact to="/profile">Profile <span><FaUserCircle/></span></NavLink>
                   </NavItem>
                   <NavItem>
-                    <NavLink  href="https://gits-15.sys.kth.se/wwes/nutritionplanner">GitHub</NavLink>
+                    <NavLink  href="https://gits-15.sys.kth.se/wwes/nutritionplanner">GitHub <span><FaGithub/></span></NavLink>
                   </NavItem>
                   <UncontrolledDropdown nav inNavbar>
                     <DropdownToggle nav caret>

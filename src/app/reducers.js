@@ -1,7 +1,22 @@
 import { combineReducers } from 'redux'
-import SignInReducer from '../views/SignIn/reducer'
-import SignUpReducer from '../views/SignUp/reducer'
-import HomeReducer from '../views/Home/reducer'
+
+import { AUTH_USER } from './constants'
+
+const initialState = {
+  authUser: null,
+};
+
+function sessionReducer(state = initialState, action) {
+  switch (action.type) {
+    case AUTH_USER:
+      return {
+        ...state,
+        authUser: action.payload,
+      }
+    default:
+      return state;
+  }
+};
 
 /**
  * Defines mapping of individual view reducers to global state object.
@@ -11,5 +26,5 @@ import HomeReducer from '../views/Home/reducer'
  * @type {Reducer<any>}
  */
 export const reducers = combineReducers({
-  SignIn: SignInReducer
+  sessionState: sessionReducer,
 })

@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware } from 'redux'
 import logger from 'redux-logger'
-import freeze from 'redux-freeze'
+// import freeze from 'redux-freeze'
 import thunk from 'redux-thunk'
 import promise from 'redux-promise-middleware'
 import { reducers } from './reducers'
@@ -21,11 +21,11 @@ middlewares.push(thunk)
 // smart console logging of actions
 middlewares.push(logger)
 
-// add freeze dev middleware
-// this prevents state from being mutated anywhere in the app during dev
-if (process.env.NODE_ENV !== 'production') {
-  middlewares.push(freeze)
-}
+// // add freeze dev middleware
+// // this prevents state from being mutated anywhere in the app during dev
+// if (process.env.NODE_ENV !== 'production') {
+//   middlewares.push(freeze)
+// }
 
 // apply middlewares
 const middleware = applyMiddleware(...middlewares)

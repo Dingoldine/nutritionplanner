@@ -10,7 +10,8 @@
         "no-use-before-define": "off",
         "react/prop-types": "off",
         "import/extensions": "off",
-        "react/jsx-filename-extension": "off"
+        "react/jsx-filename-extension": "off",
+        "import/prefer-default-export": "off"
     },
     "parser": "babel-eslint",
     "plugins": ["prettier"],

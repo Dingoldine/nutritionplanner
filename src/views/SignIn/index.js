@@ -4,10 +4,9 @@ import SignIn from './SignIn'
 import { withFirebase } from '../../app/firebase'
 
 function mapStateToProps(state) {
-  // return {
-  //   test: state.home.test,
-  //   testData: state.home.testData
-  // }
+  return {
+    auth: state.auth,
+  }
 }
 
 const withConnect = connect(mapStateToProps);

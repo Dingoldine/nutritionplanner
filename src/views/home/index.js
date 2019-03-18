@@ -1,11 +1,25 @@
 import { connect } from 'react-redux';
+import { compose } from 'recompose';
 import Home from './Home';
+import { withAuthorization } from '../../app/session'
+import { withFirebase } from '../../app/firebase'
 
-const mapStateToProps = (state) => {
+function mapStateToProps(state) {
   return {
-    // test: state.Home.test,
-    // testData: state.Home.testData
+    authUser: state.sessionState.authUser,
   }
-};
+}
 
-export default connect(mapStateToProps)(Home);
+const mapDispatchToProps = dispatch => ({
+});
+
+const condition = authUser => !!authUser;
+
+export default compose(
+  withFirebase,
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
+  withAuthorization(condition),
+)(Home);

@@ -14,6 +14,7 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem } from 'reactstrap';
+  import SignOutButton from '../signOutButton';
 
   export default class Navigator extends React.Component {
     constructor(props) {
@@ -40,6 +41,9 @@ import {
                 <Nav className="ml-auto" navbar>
                   <NavItem>
                     <NavLink tag={RRNavLink} exact to="/profile">Profile <span><FaUserCircle/></span></NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <SignOutButton />
                   </NavItem>
                   <NavItem>
                     <NavLink  href="https://gits-15.sys.kth.se/wwes/nutritionplanner">GitHub <span><FaGithub/></span></NavLink>

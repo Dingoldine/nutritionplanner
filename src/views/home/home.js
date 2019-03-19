@@ -12,7 +12,7 @@ import {
 import PieChart from '../../components/chart'
 import Layout from '../../components/layout'
 // import Actions from './actions'
-import './home.css'
+import './Home.css'
 import { combineReducers } from 'redux';
 
 

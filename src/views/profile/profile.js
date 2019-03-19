@@ -4,7 +4,7 @@ import {
   ListGroup, ListGroupItem, Input,
   Button, FormFeedback
 } from 'reactstrap';
-import './profile.css'
+import './Profile.css'
 import Layout from '../../components/layout'
 import Actions from './actions'
 

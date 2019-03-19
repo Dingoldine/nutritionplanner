@@ -4,6 +4,7 @@ import NotFound from '../views/notfound'
 import SignIn from '../views/SignIn'
 import SignUp from '../views/SignUp'
 import Home from '../views/Home'
+import Profile from '../views/Profile'
 
 /**
  * Defines components to routes mapping.
@@ -21,6 +22,7 @@ export default () => {
       <Route exact path="/" component={SignIn} />
       <Route path="/signup" component={SignUp} />
       <Route path="/home" component={Home} />
+      <Route path="/profile" component={Profile} />
       <Route path="*" component={NotFound} />
     </Switch>
   )

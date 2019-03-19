@@ -55,10 +55,18 @@ class SignUp extends Component {
         console.log("Submitting")  
         firebase.doCreateUserWithEmailAndPassword(email, password)
         .then(authUser => {
-          console.log(authUser);
+          return firebase.user(authUser.user.uid).set(
+            {
+              username,
+              email,
+            },
+            { merge: true },
+          )
+        })
+        .then(() => {
           this.setState({ ...INITIAL_STATE });
           history.push('home');
-        })
+        })  
         .catch(error => {
           console.log("Error creating user");
           

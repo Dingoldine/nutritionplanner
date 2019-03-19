@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
-import Home from './Home';
+import Home from './home';
 import { withAuthorization } from '../../app/session'
 import { withFirebase } from '../../app/firebase'
 

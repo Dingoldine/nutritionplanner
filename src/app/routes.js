@@ -3,8 +3,8 @@ import { Route, Switch } from 'react-router-dom'
 import NotFound from '../views/notfound'
 import SignIn from '../views/SignIn'
 import SignUp from '../views/SignUp'
-import Home from '../views/Home'
-import Profile from '../views/Profile'
+import Home from '../views/home'
+import Profile from '../views/profile'
 
 /**
  * Defines components to routes mapping.

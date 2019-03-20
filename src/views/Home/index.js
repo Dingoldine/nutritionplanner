@@ -7,7 +7,7 @@ import { RECEIVE_FOOD, REQUEST_FOOD } from'./actions'
 
 function mapStateToProps(state) {
   return {
-    authUser: state.sessionState.authUser,
+    
   }
 }
 

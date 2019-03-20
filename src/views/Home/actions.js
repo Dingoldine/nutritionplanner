@@ -13,13 +13,13 @@ export const requestFood = () => ({
 
 export const receivedFood = json => ({
     type: RECEIVE_FOOD,
-    json: json.articles,
+    json: json.hints,
 });
 
 //  Fetch works, Dispatching does not yet
 export function fetchFood(searchTerm) {
     const ingredients = encodeURIComponent(searchTerm);
-    //  dispatch(requestFood());
+    //dispatch(requestFood());
     fetch(`https://api.edamam.com/api/food-database/parser?ingr=${ingredients}&app_id=${API.appID}&app_key=${API.key}`)
     .then(
         response => response.json(),
@@ -29,7 +29,7 @@ export function fetchFood(searchTerm) {
         console.log(json)
         console.log(json.parsed)
         console.log(json.hints)
-        //  dispatch(receivedFood(json));
+        //dispatch(receivedFood(json));
     }, 
     );
 }

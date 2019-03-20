@@ -17,6 +17,13 @@ const INITIAL_STATE = {
   },
 };
 
+const DEFAULT_VALUES = {
+  calories: 3200,
+  carbs: 352,
+  protein: 177,
+  fat: 121,
+}
+
 class SignUp extends Component {
   
   constructor(props) {
@@ -59,6 +66,7 @@ class SignUp extends Component {
             {
               username,
               email,
+              ...DEFAULT_VALUES
             },
             { merge: true },
           )

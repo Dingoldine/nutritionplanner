@@ -15,12 +15,13 @@ import {
   Button,
   Form
 } from 'reactstrap';
+import {
+  API
+} from '../../app/apikey'
+
 import PieChart from '../../components/chart'
 import Layout from '../../components/layout'
-import { fetchFood } from './actions'
 import './Home.css'
-
-
 
 
 
@@ -54,13 +55,45 @@ class Home extends Component { // eslint-disable-line
 
     this.state = {
       searchTerm: '',
-      currentlyDisplayed: [],
-      activeIndex: 0
+      searchResult: [],
+      activeIndex: 0,
+      isLoading: false,
+      hasErrored: false
     }
 
-  
-
   }
+
+  // eslint-disable-next-line react/sort-comp
+  fetchFood(searchTerm) {
+      this.setState({ isLoading: true });
+      const ingredients = encodeURIComponent(searchTerm);
+      
+      fetch(`https://api.edamam.com/api/food-database/parser?ingr=${ingredients}&app_id=${API.appID}&app_key=${API.key}`)
+          .then((response) => {
+              if (!response.ok) {
+                  throw Error(response.statusText);
+              }
+
+              this.setState({ isLoading: false });
+
+              return response;
+          })
+          .then((response) => response.json())
+          .then((searchResult) => {
+            console.log(searchResult.parsed)
+
+            const matchedFood = searchResult.parsed.map((item) => {
+              return item.food.label
+            })
+
+            //  search hints
+            console.log(searchResult.hints)
+          
+            this.setState({ searchResult: matchedFood } )
+          })
+
+          .catch(() => this.setState({ hasErrored: true }));
+    }
 
   onExiting() {
     this.animating = true;
@@ -100,11 +133,12 @@ class Home extends Component { // eslint-disable-line
   onSearch(e) {
     e.preventDefault();
     const { searchTerm } = this.state;
-    fetchFood(searchTerm)
+    this.fetchFood(searchTerm)
   }
 
   render () {
-    const { activeIndex } = this.state;
+    const { activeIndex, searchResult, isLoading, searchTerm } = this.state;
+    console.log(this.state)
     
     const slides = items.map((item) => {
       return (
@@ -134,13 +168,13 @@ class Home extends Component { // eslint-disable-line
           <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} />
           </Carousel>
           <Col sm="12" md={{ size: 6, offset: 3 }}>
-            <h2>Calories bro </h2>
+            {searchResult.map(item => <p> {item} </p> )}
             <Progress animated color="info" value={50} />
             <PieChart />
           </Col>
             {/*Search field and button*/}
           <Row className="search">
-            <Col sm="12">
+            <Col  sm="12" md={{ size: 6, offset: 3 }}>
             <Form className="form" onSubmit={ (e) => this.onSearch(e) } >
                 <InputGroup>
                     <Input 
@@ -158,6 +192,7 @@ class Home extends Component { // eslint-disable-line
                     </InputGroupAddon>
                 </InputGroup>
             </Form>
+                    
             </Col>
           </Row>
         </Container>

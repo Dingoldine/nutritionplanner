@@ -64,20 +64,50 @@ export default class Profile extends Component {
       }
     }
 
-    handleChangeProtein = (event, protein) => {
+    updateCalories = () => {
+      const { protein, carbs, fat } = this.state
+      const calories = (protein * 4 + carbs * 4 + fat * 9).toFixed(0)
+      this.setState({ calories })
+    }
+
+    handleChangeProtein = (event, Protein) => {
+      const protein = Protein.toFixed(0)
       this.setState({ protein });
+      this.updateCalories()
     };
 
-    handleChangeCarbs = (event, carbs) => {
+    handleChangeCarbs = (event, Carbs) => {
+      const carbs = Carbs.toFixed(0)
       this.setState({ carbs });
+      this.updateCalories()
     };
 
-    handleChangeFat = (event, fat) => {
+    handleChangeFat = (event, Fat) => {
+      const fat = Fat.toFixed(0)
       this.setState({ fat });
+      this.updateCalories()
     };
 
     onBtnSave = () => {
-      console.log("save");
+      const { firebase } = this.props
+      const { protein, carbs, fat, calories } = this.state
+      const currUser = firebase.auth.currentUser
+      if(currUser) {
+        firebase.user(currUser.uid).set(
+          {
+            protein,
+            carbs,
+            fat,
+            calories
+          },
+          {merge: true}
+        ).then(() => {
+          console.log("Success");
+        }).catch(err => {
+          console.log(err);
+          console.log("Failure to update user data");
+        })
+      }
     }
     
     render() {
@@ -85,7 +115,7 @@ export default class Profile extends Component {
 
         return (
         <Layout className="profile">
-          <Row className="justify-content-center">
+          <Row className="justify-content-center" style={{marginTop: 100, marginBottom: 50}}>
             <Col sm="2">
             <img src={require('../../images/face.png')} className="img-fluid" alt=""/>
         
@@ -103,10 +133,11 @@ export default class Profile extends Component {
           </Row>
           <Row className="justify-content-center">
             <Col sm="3" style={{textAlign: "center"}}>
-              Change your settings
-              <Slider onChange={this.handleChangeProtein} label="Protein" value={protein} min={0} max={300}/>
-              <Slider onChange={this.handleChangeCarbs} label="Carbs" value={carbs} min={0} max={600}/>
-              <Slider onChange={this.handleChangeFat} label="Fat" value={fat} min={0} max={200}/>
+              <div style={{fontSize: 25}}>Change your settings</div>
+              <div style={{fontSize: 18, marginBottom: 20}}>Calories: {calories}</div>
+              <Slider onChange={this.handleChangeProtein} label="Protein" value={protein} min={0} max={300} kcal={4}/>
+              <Slider onChange={this.handleChangeCarbs} label="Carbs" value={carbs} min={0} max={600} kcal={4}/>
+              <Slider onChange={this.handleChangeFat} label="Fat" value={fat} min={0} max={200} kcal={9}/>
               <Button color="primary" onClick={() => this.onBtnSave()}>Save</Button>
             </Col>
           </Row>  

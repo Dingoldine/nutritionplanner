@@ -7,13 +7,19 @@ import {
   CarouselCaption,
   Container, 
   Col,
-  Progress, 
+  Row,
+  Progress,
+  InputGroup,
+  Input,
+  InputGroupAddon,
+  Button,
+  Form
 } from 'reactstrap';
 import PieChart from '../../components/chart'
 import Layout from '../../components/layout'
-// import Actions from './actions'
+import { fetchFood } from './actions'
 import './Home.css'
-import { combineReducers } from 'redux';
+
 
 
 
@@ -39,12 +45,20 @@ class Home extends Component { // eslint-disable-line
   
   constructor(props) { // eslint-disable-line
     super(props);
-    this.state = { activeIndex: 0 };
     this.next = this.next.bind(this);
     this.previous = this.previous.bind(this);
     this.goToIndex = this.goToIndex.bind(this);
     this.onExiting = this.onExiting.bind(this);
     this.onExited = this.onExited.bind(this);
+
+    this.state = {
+      searchTerm: '',
+      currentlyDisplayed: [],
+      activeIndex: 0
+    }
+
+  
+
   }
 
   onExiting() {
@@ -70,6 +84,22 @@ class Home extends Component { // eslint-disable-line
   goToIndex(newIndex) {
     if (this.animating) return;
     this.setState({ activeIndex: newIndex });
+  }
+
+  handleChange = async (event) => {
+    const { target } = event;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    console.log(value)
+    const { name } = target;
+    await this.setState({
+      [ name ]: value,
+    });
+  }
+
+  onSearch(e) {
+    e.preventDefault();
+    const { searchTerm } = this.state;
+    fetchFood(searchTerm)
   }
 
   render () {
@@ -107,7 +137,28 @@ class Home extends Component { // eslint-disable-line
             <Progress animated color="info" value={50} />
             <PieChart />
           </Col>
-         
+            {/*Search field and button*/}
+          <Row className="search">
+            <Col sm="12">
+            <Form className="form" onSubmit={ (e) => this.onSearch(e) } >
+                <InputGroup>
+                    <Input 
+                      placeholder="Find a food"
+                      onChange={ (e) => {
+                        this.handleChange(e)
+                      } }
+                      name="searchTerm"
+
+                    />
+                    <InputGroupAddon addonType="prepend">
+                      <Button type="submit">
+                        Search
+                      </Button>
+                    </InputGroupAddon>
+                </InputGroup>
+            </Form>
+            </Col>
+          </Row>
         </Container>
       </Layout>
       

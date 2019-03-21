@@ -26,6 +26,7 @@ import {
 } from '../../app/apikey'
 import PieChart from '../../components/chart'
 import Layout from '../../components/layout'
+import FoodItem from '../../components/foodItem'
 import './Home.css'
 
 
@@ -63,7 +64,8 @@ class Home extends Component { // eslint-disable-line
       searchResult: [],
       activeIndex: 0,
       isLoading: false,
-      hasErrored: false
+      hasErrored: false,
+      searchSuggestions: []
     }
 
   }
@@ -85,15 +87,12 @@ class Home extends Component { // eslint-disable-line
           })
           .then((response) => response.json())
           .then((searchResult) => {
-            console.log(searchResult.parsed)
 
-            const matchedFood = searchResult.parsed.map((item) => {
-              console.log(item.food)
+
+            const matchedFood = searchResult.hints.map((item) => {
               return item.food
-            })
+            }); 
 
-            //  search hints
-            console.log(searchResult.hints)
           
             this.setState({ searchResult: matchedFood } )
           })
@@ -143,7 +142,7 @@ class Home extends Component { // eslint-disable-line
   }
 
   render () {
-    const { activeIndex, searchResult, isLoading, searchTerm } = this.state;
+    const { activeIndex, searchResult, isLoading } = this.state;
     console.log(this.state)
     
     const slides = items.map((item) => {
@@ -154,38 +153,16 @@ class Home extends Component { // eslint-disable-line
           key={item.src}
         >
         <img src={item.src} alt={item.altText} />
+        <Col sm="12" md={{ size: 6, offset: 3 }}>
+          <PieChart />
+        </Col>
         <CarouselCaption captionText={item.caption} captionHeader={item.caption} />
         </CarouselItem>
       );
     });
 
-    const Result = ({category, categoryLabel, foodId, nutrients, label}) => {
-      console.log(categoryLabel)
-      console.log(category)
-      console.log(foodId)
-      console.log(nutrients)
-      console.log(nutrients.FAT)
-      console.log(nutrients.ENERC_KCAL)
-      console.log(nutrients.CHOCDF)
-      console.log(nutrients.PROCNT)
-      return (
-        <div>
-          <Card body className="text-center">
-            <CardTitle>{label}</CardTitle>
-            <CardText>
-              <p>Fat:</p><span>{nutrients.FAT}g</span>
-              <p>KCal:</p><span>{nutrients.ENERC_KCAL}</span>
-              <p>CHOCDF:</p><span>{nutrients.CHOCDF}g</span>
-              <p>PRCNT</p><span>{nutrients.PROCNT}</span>
-            </CardText>
-            <Button>Add</Button>
-          </Card>
-        </div>
-      );
-      
-    }
 
-
+    //  Currently re-renders Search results every time the slide moves, not so good, must break the carousel that keeps updating state?
     return (
       <Layout className="home">
         <Container className="home" fluid="true">
@@ -200,8 +177,8 @@ class Home extends Component { // eslint-disable-line
           <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} />
           </Carousel>
           <Col sm="12" md={{ size: 6, offset: 3 }}>
+            <p> Daily Calories </p>
             <Progress animated color="info" value={50} />
-            <PieChart />
           </Col>
             {/*Search field and button*/}
           <Row className="search">
@@ -228,10 +205,8 @@ class Home extends Component { // eslint-disable-line
 
             {/*Search field and button*/}
             <Row className="results">
-              <Col  sm="12" >
-                {searchResult.map(item => <Result category = {item.category} categoryLabel = {item.categoryLabel} foodId = {item.foodId} nutrients = {item.nutrients} label={item.label}/> )}
-              </Col>
-          </Row>
+                {searchResult.map(item => <FoodItem category = {item.category} categoryLabel = {item.categoryLabel} foodId = {item.foodId} nutrients = {item.nutrients} label={item.label}/> )}
+            </Row>
         </Container>
       </Layout>
       

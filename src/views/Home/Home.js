@@ -13,12 +13,17 @@ import {
   Input,
   InputGroupAddon,
   Button,
-  Form
+  Form, 
+  Card, 
+  CardImg,
+  CardText,
+  CardBody,
+  CardTitle, 
+  CardSubtitle
 } from 'reactstrap';
 import {
   API
 } from '../../app/apikey'
-
 import PieChart from '../../components/chart'
 import Layout from '../../components/layout'
 import './Home.css'
@@ -83,7 +88,8 @@ class Home extends Component { // eslint-disable-line
             console.log(searchResult.parsed)
 
             const matchedFood = searchResult.parsed.map((item) => {
-              return item.food.label
+              console.log(item.food)
+              return item.food
             })
 
             //  search hints
@@ -153,6 +159,32 @@ class Home extends Component { // eslint-disable-line
       );
     });
 
+    const Result = ({category, categoryLabel, foodId, nutrients, label}) => {
+      console.log(categoryLabel)
+      console.log(category)
+      console.log(foodId)
+      console.log(nutrients)
+      console.log(nutrients.FAT)
+      console.log(nutrients.ENERC_KCAL)
+      console.log(nutrients.CHOCDF)
+      console.log(nutrients.PROCNT)
+      return (
+        <div>
+          <Card body className="text-center">
+            <CardTitle>{label}</CardTitle>
+            <CardText>
+              <p>Fat:</p><span>{nutrients.FAT}g</span>
+              <p>KCal:</p><span>{nutrients.ENERC_KCAL}</span>
+              <p>CHOCDF:</p><span>{nutrients.CHOCDF}g</span>
+              <p>PRCNT</p><span>{nutrients.PROCNT}</span>
+            </CardText>
+            <Button>Add</Button>
+          </Card>
+        </div>
+      );
+      
+    }
+
 
     return (
       <Layout className="home">
@@ -168,7 +200,6 @@ class Home extends Component { // eslint-disable-line
           <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} />
           </Carousel>
           <Col sm="12" md={{ size: 6, offset: 3 }}>
-            {searchResult.map(item => <p> {item} </p> )}
             <Progress animated color="info" value={50} />
             <PieChart />
           </Col>
@@ -192,8 +223,14 @@ class Home extends Component { // eslint-disable-line
                     </InputGroupAddon>
                 </InputGroup>
             </Form>
-                    
             </Col>
+          </Row>
+
+            {/*Search field and button*/}
+            <Row className="results">
+              <Col  sm="12" >
+                {searchResult.map(item => <Result category = {item.category} categoryLabel = {item.categoryLabel} foodId = {item.foodId} nutrients = {item.nutrients} label={item.label}/> )}
+              </Col>
           </Row>
         </Container>
       </Layout>

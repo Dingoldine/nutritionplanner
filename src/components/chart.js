@@ -56,7 +56,7 @@ export default class PieChart extends React.Component {
 
     return (
       <div>
-        <Pie data={data} options= {options} width={200}  height={200}/>
+        <Pie data={data} options= {options} width={300}  height={300}/>
       </div>
     );
   }

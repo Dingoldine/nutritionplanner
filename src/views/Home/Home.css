@@ -35,3 +35,13 @@
 .foodItem  {
   margin: 20px;
 }
+
+.cards{
+  
+    margin: 0 -15px;
+    justify-content: space-between;
+}
+
+ul {
+  list-style-type: none;
+}

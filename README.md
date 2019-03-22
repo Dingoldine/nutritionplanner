@@ -42,7 +42,9 @@ package-lock.json
 Application 
 /src 
     /config     settings 
+    
     /firebase   firebase deployement and database
+    
     /session    maintaining session
     
     /components stateless components, gets fed props

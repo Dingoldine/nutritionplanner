@@ -14,31 +14,27 @@ import {
   InputGroupAddon,
   Button,
   Form, 
-  Card, 
-  CardImg,
-  CardText,
-  CardBody,
-  CardTitle, 
-  CardSubtitle
 } from 'reactstrap';
+import axios from 'axios';
 import {
   API
-} from '../../app/apikey'
+} from '../../app/apikey';
 import PieChart from '../../components/chart'
 import Layout from '../../components/layout'
-import FoodItem from '../../components/foodItem'
+import FoodItem from '../../components/foodItem/foodItem'
 import './Home.css'
+import asianChick from '../../images/stockphoto1.jpg'
+import zenGirl from '../../images/stockphoto2.jpg'
 
 
-
-const items = [
+const slides = [
   {
-    src: 'data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22800%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20400%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15ba800aa1d%20text%20%7B%20fill%3A%23555%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A40pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15ba800aa1d%22%3E%3Crect%20width%3D%22800%22%20height%3D%22400%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22285.921875%22%20y%3D%22218.3%22%3EFirst%20slide%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E',
+    src: asianChick,
     altText: 'Slide 1',
     caption: 'Daily Summary'
   },
   {
-    src: 'data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22800%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20400%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15ba800aa20%20text%20%7B%20fill%3A%23444%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A40pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15ba800aa20%22%3E%3Crect%20width%3D%22800%22%20height%3D%22400%22%20fill%3D%22%23666%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22247.3203125%22%20y%3D%22218.3%22%3ESecond%20slide%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E',
+    src:  zenGirl,
     altText: 'Slide 2',
     caption: 'Week Overview'
   },
@@ -49,6 +45,22 @@ const items = [
   }
 ];
 
+const ListItem = props => {
+  console.log(props.photo)
+  return (
+    <li>    
+    <a href="" className="ui-select-choices-row-inner" uis-transclude-append="">
+    <div>
+      <div class="food-image-wrap">
+        <img class="common-food-image" src={props.photo} alt="No img" ></img>
+      </div>
+      {props.food_name}
+    </div>
+    </a>
+  </li>
+     
+  );
+}
 class Home extends Component { // eslint-disable-line
   
   constructor(props) { // eslint-disable-line
@@ -70,36 +82,6 @@ class Home extends Component { // eslint-disable-line
 
   }
 
-  // eslint-disable-next-line react/sort-comp
-  fetchFood(searchTerm) {
-      this.setState({ isLoading: true });
-      const ingredients = encodeURIComponent(searchTerm);
-      
-      fetch(`https://api.edamam.com/api/food-database/parser?ingr=${ingredients}&app_id=${API.appID}&app_key=${API.key}`)
-          .then((response) => {
-              if (!response.ok) {
-                  throw Error(response.statusText);
-              }
-
-              this.setState({ isLoading: false });
-
-              return response;
-          })
-          .then((response) => response.json())
-          .then((searchResult) => {
-
-
-            const matchedFood = searchResult.hints.map((item) => {
-              return item.food
-            }); 
-
-          
-            this.setState({ searchResult: matchedFood } )
-          })
-
-          .catch(() => this.setState({ hasErrored: true }));
-    }
-
   onExiting() {
     this.animating = true;
   }
@@ -110,13 +92,13 @@ class Home extends Component { // eslint-disable-line
 
   next() {
     if (this.animating) return;
-    const nextIndex = this.state.activeIndex === items.length - 1 ? 0 : this.state.activeIndex + 1;
+    const nextIndex = this.state.activeIndex === slides.length - 1 ? 0 : this.state.activeIndex + 1;
     this.setState({ activeIndex: nextIndex });
   }
 
   previous() {
     if (this.animating) return;
-    const nextIndex = this.state.activeIndex === 0 ? items.length - 1 : this.state.activeIndex - 1;
+    const nextIndex = this.state.activeIndex === 0 ? slides.length - 1 : this.state.activeIndex - 1;
     this.setState({ activeIndex: nextIndex });
   }
 
@@ -130,56 +112,94 @@ class Home extends Component { // eslint-disable-line
     const value = target.type === 'checkbox' ? target.checked : target.value;
     console.log(value)
     const { name } = target;
-    await this.setState({
-      [ name ]: value,
+
+    let requestConfig = {
+      headers: {
+        "x-app-id": API.appID,
+        "x-app-key": API.key,
+        }, 
+      params: {
+        branded: "false"
+      },
+    }
+    
+    //  This should work but response is Invalid app ID/Key:( 
+    axios.get(`https://trackapi.nutritionix.com/v2/search/instant?query=${value}`, 
+      requestConfig
+    ).then((response) => {
+      this.setState({
+        [ name ]: value,
+        searchResult: response.data.common
+      })
+  
+    })
+    .catch(function (error) {
+      console.log(error);
     });
   }
 
   onSearch(e) {
     e.preventDefault();
-    const { searchTerm } = this.state;
-    this.fetchFood(searchTerm)
   }
 
   render () {
     const { activeIndex, searchResult, isLoading } = this.state;
     console.log(this.state)
     
-    const slides = items.map((item) => {
-      return (
-        <CarouselItem
-          onExiting={this.onExiting}
-          onExited={this.onExited}
-          key={item.src}
-        >
-        <img src={item.src} alt={item.altText} />
-        <Col sm="12" md={{ size: 6, offset: 3 }}>
-          <PieChart />
-        </Col>
-        <CarouselCaption captionText={item.caption} captionHeader={item.caption} />
-        </CarouselItem>
-      );
-    });
+
 
 
     //  Currently re-renders Search results every time the slide moves, not so good, must break the carousel that keeps updating state?
     return (
       <Layout className="home">
         <Container className="home" fluid="true">
+        {/*Carousel Slider*/}
           <Carousel
             activeIndex={activeIndex}
             next={this.next}
             previous={this.previous}
           >
-          <CarouselIndicators items={items} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
-          {slides}
+          <CarouselIndicators items={slides} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
+          {[
+                    <CarouselItem
+                    onExiting={this.onExiting}
+                    onExited={this.onExited}
+                    key={slides[0].src}
+                  >
+                  <img src={slides[0].src} alt={slides[0].altText} />
+                  <Col sm="12" md={{ size: 6, offset: 3 }}>
+                    <PieChart />
+                  </Col>
+                  <Col sm="12" md={{ size: 6, offset: 3 }}>
+                  <p> Daily Calories </p>
+            <       Progress animated color="info" value={50} />
+                </Col>
+                  <CarouselCaption captionText={slides[0].caption} captionHeader={slides[0].caption} />
+                  </CarouselItem>,
+
+                  <CarouselItem
+                  onExiting={this.onExiting}
+                  onExited={this.onExited}
+                  key={slides[1].src}
+                  >
+                  <img src={slides[1].src} alt={slides[1].altText} />
+                  <CarouselCaption captionText={slides[1].caption} captionHeader={slides[1].caption} />
+                  </CarouselItem>,
+
+
+                <CarouselItem
+                onExiting={this.onExiting}
+                onExited={this.onExited}
+                key={slides[2].src}
+                >
+                <img src={slides[2].src} alt={slides[2].altText} />
+                <CarouselCaption captionText={slides[2].caption} captionHeader={slides[2].caption} />
+                </CarouselItem>,
+          ]}
+
           <CarouselControl direction="prev" directionText="Previous" onClickHandler={this.previous} />
           <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} />
           </Carousel>
-          <Col sm="12" md={{ size: 6, offset: 3 }}>
-            <p> Daily Calories </p>
-            <Progress animated color="info" value={50} />
-          </Col>
             {/*Search field and button*/}
           <Row className="search">
             <Col  sm="12" md={{ size: 6, offset: 3 }}>
@@ -200,13 +220,14 @@ class Home extends Component { // eslint-disable-line
                     </InputGroupAddon>
                 </InputGroup>
             </Form>
+            <ul>{searchResult.map(item => <ListItem food_name = {item.food_name} serving_unit = {item.serving_unit} serving_qty = {item.serving_qty} photo = {item.photo.thumb} /> )}</ul>
             </Col>
           </Row>
-
-            {/*Search field and button*/}
-            <Row className="results">
-                {searchResult.map(item => <FoodItem category = {item.category} categoryLabel = {item.categoryLabel} foodId = {item.foodId} nutrients = {item.nutrients} label={item.label}/> )}
-            </Row>
+            
+            {/*            
+            <Row className="cards">
+                {searchResult.map(item => <FoodItem food_name = {item.food_name} serving_unit = {item.serving_unit} serving_qty = {item.serving_qty} photo = {item.photo.thumb} /> )}
+            </Row> */}
         </Container>
       </Layout>
       

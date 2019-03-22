@@ -3,20 +3,20 @@ import { combineReducers } from 'redux'
 import { AUTH_USER } from './constants'
 
 const initialState = {
-  authUser: null,
-};
+  authUser: null
+}
 
 function sessionReducer(state = initialState, action) {
   switch (action.type) {
     case AUTH_USER:
       return {
         ...state,
-        authUser: action.payload,
+        authUser: action.payload
       }
     default:
-      return state;
+      return state
   }
-};
+}
 
 /**
  * Defines mapping of individual view reducers to global state object.
@@ -26,5 +26,5 @@ function sessionReducer(state = initialState, action) {
  * @type {Reducer<any>}
  */
 export const reducers = combineReducers({
-  sessionState: sessionReducer,
+  sessionState: sessionReducer
 })

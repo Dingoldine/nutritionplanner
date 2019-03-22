@@ -1,7 +1,7 @@
 import React from 'react'
 import Header from './header'
 import Footer from './footer'
-import Navbar from './navbar/navbar';
+import Navbar from './navbar/navbar'
 
 export default props => {
   return (

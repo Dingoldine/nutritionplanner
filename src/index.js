@@ -1,13 +1,11 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Provider } from 'react-redux';
-import {store} from './app/store.js';
+import { Provider } from 'react-redux'
+import { store } from './app/store.js'
 import App from './app'
 import registerServiceWorker from './registerServiceWorker'
-import Firebase, { FirebaseContext } from './app/firebase';
-
-
+import Firebase, { FirebaseContext } from './app/firebase'
 
 /**
  * Entry point into the application.
@@ -18,12 +16,12 @@ import Firebase, { FirebaseContext } from './app/firebase';
  */
 // ReactDOM.render(<App />, document.getElementById('root'))
 ReactDOM.render(
-    <Provider store={store}>
-      <FirebaseContext.Provider value={new Firebase()}>
-        <App />
-      </FirebaseContext.Provider>
-    </Provider>,
-    document.getElementById('root'),
-  );
+  <Provider store={store}>
+    <FirebaseContext.Provider value={new Firebase()}>
+      <App />
+    </FirebaseContext.Provider>
+  </Provider>,
+  document.getElementById('root')
+)
 
 registerServiceWorker()

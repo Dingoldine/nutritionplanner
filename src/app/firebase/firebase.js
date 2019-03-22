@@ -16,7 +16,7 @@ class Firebase {
     app.initializeApp(config)
 
     /* Helpers */
-    this.fieldValue = app.firestore.FieldValue;
+    this.fieldValue = app.firestore.FieldValue
 
     /* Firebase APIs */
     this.auth = app.auth()
@@ -24,25 +24,21 @@ class Firebase {
   }
   // *** Auth API ***
 
-  doCreateUserWithEmailAndPassword = (email, password) =>
-    this.auth.createUserWithEmailAndPassword(email, password);
+  doCreateUserWithEmailAndPassword = (email, password) => this.auth.createUserWithEmailAndPassword(email, password)
 
-  doSignInWithEmailAndPassword = (email, password) =>
-    this.auth.signInWithEmailAndPassword(email, password);
+  doSignInWithEmailAndPassword = (email, password) => this.auth.signInWithEmailAndPassword(email, password)
 
-  doSignOut = () => this.auth.signOut();
+  doSignOut = () => this.auth.signOut()
 
-  doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
+  doPasswordReset = email => this.auth.sendPasswordResetEmail(email)
 
-  doPasswordUpdate = password =>
-    this.auth.currentUser.updatePassword(password);
+  doPasswordUpdate = password => this.auth.currentUser.updatePassword(password)
 
-  
-    // *** User API ***
+  // *** User API ***
 
-  user = uid => this.db.doc(`users/${uid}`);
+  user = uid => this.db.doc(`users/${uid}`)
 
-  users = () => this.db.collection('users');
+  users = () => this.db.collection('users')
 }
 
 export default Firebase

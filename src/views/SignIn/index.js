@@ -5,10 +5,13 @@ import { withFirebase } from '../../app/firebase'
 
 function mapStateToProps(state) {
   return {
-    auth: state.auth,
+    auth: state.auth
   }
 }
 
-const withConnect = connect(mapStateToProps);
+const withConnect = connect(mapStateToProps)
 
-export default compose(withConnect, withFirebase)(SignIn)
+export default compose(
+  withConnect,
+  withFirebase
+)(SignIn)

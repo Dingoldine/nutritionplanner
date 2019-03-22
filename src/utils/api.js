@@ -15,12 +15,11 @@ const requestConfig = {
   }
 }
 
-export function makeGetNutritionRequest(value) {
-  axios
-    .get(`https://trackapi.nutritionix.com/v2/search/instant?query=${value}`, requestConfig)
-    .then(res => res)
+export function makeGetNutritionRequest(value) { 
+  return axios.get(`https://trackapi.nutritionix.com/v2/search/instant?query=${value}`, requestConfig)
+    .then(res => res.data)
     .catch(err => {
       console.log(err)
-      console.log('Error in makeGetNutritionRequest')
-    })
+      console.log("Error in makeGetNutritionRequest")
+    });
 }

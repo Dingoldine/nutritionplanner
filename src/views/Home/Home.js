@@ -96,11 +96,11 @@ class Home extends Component {
     const value = target.type === 'checkbox' ? target.checked : target.value
     const { name } = target
 
-    makeGetNutritionRequest
-      .then(response => {
+    makeGetNutritionRequest(value)      
+    .then(res => {
         this.setState({
           [name]: value,
-          searchResult: response.data.common
+          searchResult: res.common
         })
       })
       .catch(err => {

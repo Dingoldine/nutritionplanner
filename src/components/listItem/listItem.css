@@ -1,0 +1,34 @@
+.food-image-wrap {
+    float:left; 
+    height:40px;
+    width:40px; 
+} 
+    
+.food-item-container{
+    width:100%;
+    height:auto;
+    padding:1%;
+    font-size: 18px;
+    padding-top: 11px;
+    border-bottom: 1px solid rgba(0,0,0,.15);
+}
+
+.common-food-image {
+    width: 100%;
+    height: 100%;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.item-link {
+    text-decoration: none;
+    color: #242424;
+    list-style: none;
+    font-size: 14px;
+    text-align: left;
+}
+
+.item-link:hover, .item-link:visited, .item-link:link, a:active {
+    text-decoration: none;
+    color: #242424
+}

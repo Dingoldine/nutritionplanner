@@ -17,7 +17,7 @@ import {
 } from 'reactstrap'
 import PieChart from '../../components/chart'
 import Layout from '../../components/layout'
-import FoodItem from '../../components/foodItem/foodItem'
+import ListItem from '../../components/listItem/listItem'
 import { makeGetNutritionRequest } from '../../utils/api'
 import './Home.css'
 import asianChick from '../../images/stockphoto1.jpg'
@@ -42,20 +42,6 @@ const slides = [
   }
 ]
 
-const ListItem = props => {
-  return (
-    <li>
-      <a href="" className="item-link">
-        <div className = "food-Item-container"> 
-          <div className="food-image-wrap">
-            <img className="common-food-image" src={props.photo} alt="No img"></img> 
-          </div>
-          <p> {props.food_name}</p>
-        </div>
-      </a>
-    </li>
-  )
-}
 class Home extends Component {
   // eslint-disable-line
 
@@ -214,6 +200,7 @@ class Home extends Component {
                     placeholder="Find a food"
                     onChange={e => { this.handleChange(e)}}
                     name="searchTerm"
+                    autocomplete="off"
                   />
                   <InputGroupAddon addonType="prepend">
                     <Button type="submit">Search</Button>
@@ -223,9 +210,9 @@ class Home extends Component {
                   <ul className ="dropdown-list"  onClick={this.handleDropdownClick} onKeyDown={this.handleDropdownClick} ref={this.node}>
                   {searchResult.map(item => (
                     <ListItem
-                      food_name={item.food_name}
-                      serving_unit={item.serving_unit}
-                      serving_qty={item.serving_qty}
+                      foodName={item.food_name}
+                      servingUnit={item.serving_unit}
+                      servingQty={item.serving_qty}
                       photo={item.photo.thumb}
                     />
                   ))}

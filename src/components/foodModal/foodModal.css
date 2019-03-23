@@ -1,0 +1,57 @@
+.reactjs-modal {
+    font-size: 12px;
+}
+
+.reactjs-modal > .modalHeader {
+    width: 100%;
+    border-bottom: 1px solid gray;
+    font-size: 18px;
+    text-align: center;
+    padding: 5px;
+}
+
+.reactjs-modal > .modalContent {
+    width: 100%;
+    padding: 10px 5px;
+}
+
+.reactjs-modal > .modalActions {
+    width: 100%;
+    padding: 10px 5px;
+    margin: auto;
+    text-align: center;
+}
+
+.reactjs-modal > .modalClose {
+    cursor: pointer;
+    position: absolute;
+    display: block;
+    padding: 2px 5px;
+    line-height: 20px;
+    right: -10px;
+    top: -10px;
+    font-size: 24px;
+    background: #ffffff;
+    border-radius: 18px;
+    border: 1px solid #cfcece;
+}
+
+.modalButton {
+    font-family: Roboto,Arial,sans-serif;
+    color: #000;
+    cursor: pointer;
+    padding: 0 30px;
+    display: inline-block;
+    margin: 10px 15px;
+    text-transform: uppercase;
+    line-height: 2em;
+    letter-spacing: 1.5px;
+    font-size: 1em;
+    outline: none;
+    position: relative;
+    font-size: 14px;
+    border: 3px solid #cfcece;
+    background-color: #fff;
+    border-radius: 15px 15px 15px 15px;
+    transition: all .3s;
+}

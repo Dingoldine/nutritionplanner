@@ -43,7 +43,6 @@ const slides = [
 ]
 
 const ListItem = props => {
-  console.log(props.photo)
   return (
     <li>
       <a href="" className="item-link">
@@ -68,6 +67,8 @@ class Home extends Component {
     this.goToIndex = this.goToIndex.bind(this)
     this.onExiting = this.onExiting.bind(this)
     this.onExited = this.onExited.bind(this)
+    this.handleDropdownClick = this.handleDropdownClick.bind(this);
+    this.handleOutsideDropdownClick = this.handleOutsideDropdownClick.bind(this);
 
     this.state = {
       searchTerm: '',
@@ -75,8 +76,20 @@ class Home extends Component {
       activeIndex: 0,
       isLoading: false,
       hasErrored: false,
-      searchSuggestions: []
+      searchSuggestions: [],
+      dropdownVisible: false
     }
+
+    this.node = React.createRef()
+
+  }
+
+  componentWillMount() {
+    document.addEventListener('mousedown', this.handleDropdownClick, false) 
+  }
+
+  componentWillUnmount(){
+    document.removeEventListener('mousedown', this.handleDropdownClick, false)
   }
 
   onExiting() {
@@ -95,8 +108,8 @@ class Home extends Component {
     const { target } = event
     const value = target.type === 'checkbox' ? target.checked : target.value
     const { name } = target
-
-    makeGetNutritionRequest(value)      
+    
+    await makeGetNutritionRequest(value)      
     .then(res => {
         this.setState({
           [name]: value,
@@ -107,7 +120,14 @@ class Home extends Component {
         console.log(err)
         console.log('Error in handleChange')
       })
+
+      if (this.state.searchResult.length > 0){
+        this.setState({
+          dropdownVisible: true
+        })
+      }
   }
+
 
   next() {
     if (this.animating) return
@@ -128,20 +148,39 @@ class Home extends Component {
     this.setState({ activeIndex: newIndex })
   }
 
+  handleOutsideDropdownClick(e) {
+    console.log("click outside")
+    this.setState({
+      dropdownVisible: false
+    })
+  }
+
+  handleDropdownClick(e) {
+    //click is inside dropdown container, do nothing
+    if(this.state.dropdownVisible){
+      if (this.node.current.contains(e.target)) {
+        console.log("contains")
+        return;
+      }
+    }
+    //if the click is outside
+    this.handleOutsideDropdownClick()
+  }
+
   render() {
-    const { activeIndex, searchResult, isLoading } = this.state
+    const { activeIndex, searchResult, isLoading, dropdownVisible } = this.state
     console.log(this.state)
 
     //  Currently re-renders Search results every time the slide moves, not so good, must break the carousel that keeps updating state?
     return (
-      <Layout className="home">
-        <Container className="home" fluid="true">
+      <Layout className="home" >
+        <Container fluid="true" className="home">
           {/*Carousel Slider*/}
           <Carousel activeIndex={activeIndex} next={this.next} previous={this.previous}>
             <CarouselIndicators items={slides} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
             {[
               <CarouselItem onExiting={this.onExiting} onExited={this.onExited} key={slides[0].src}>
-                <img src={slides[0].src} alt={slides[0].altText} />
+                <img src={slides[0].src} alt={slides[0].altText}/>
                 <Col sm="12" md={{ size: 6, offset: 3 }}>
                   <PieChart />
                 </Col>
@@ -180,24 +219,27 @@ class Home extends Component {
                     <Button type="submit">Search</Button>
                   </InputGroupAddon>
                 </InputGroup>
-                <ul className ="dropdown-list">
-                {searchResult.map(item => (
-                  <ListItem
-                    food_name={item.food_name}
-                    serving_unit={item.serving_unit}
-                    serving_qty={item.serving_qty}
-                    photo={item.photo.thumb}
-                  />
-                ))}
-              </ul>
+                {dropdownVisible && (
+                  <ul className ="dropdown-list"  onClick={this.handleDropdownClick} onKeyDown={this.handleDropdownClick} ref={this.node}>
+                  {searchResult.map(item => (
+                    <ListItem
+                      food_name={item.food_name}
+                      serving_unit={item.serving_unit}
+                      serving_qty={item.serving_qty}
+                      photo={item.photo.thumb}
+                    />
+                  ))}
+                </ul>
+                )}
               </Form>
             </Col>
           </Row>
-
+          
           {/*            
             <Row className="cards">
                 {searchResult.map(item => <FoodItem food_name = {item.food_name} serving_unit = {item.serving_unit} serving_qty = {item.serving_qty} photo = {item.photo.thumb} /> )}
             </Row> */}
+
         </Container>
       </Layout>
     )

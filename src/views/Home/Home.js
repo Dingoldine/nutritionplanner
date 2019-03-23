@@ -46,12 +46,12 @@ const ListItem = props => {
   console.log(props.photo)
   return (
     <li>
-      <a href="" className="ui-select-choices-row-inner" uis-transclude-append="">
-        <div>
-          <div class="food-image-wrap">
-            <img class="common-food-image" src={props.photo} alt="No img" />
+      <a href="" className="item-link">
+        <div className = "food-Item-container"> 
+          <div className="food-image-wrap">
+            <img className="common-food-image" src={props.photo} alt="No img"></img> 
           </div>
-          {props.food_name}
+          <p> {props.food_name}</p>
         </div>
       </a>
     </li>
@@ -180,8 +180,7 @@ class Home extends Component {
                     <Button type="submit">Search</Button>
                   </InputGroupAddon>
                 </InputGroup>
-              </Form>
-              <ul>
+                <ul className ="dropdown-list">
                 {searchResult.map(item => (
                   <ListItem
                     food_name={item.food_name}
@@ -191,6 +190,7 @@ class Home extends Component {
                   />
                 ))}
               </ul>
+              </Form>
             </Col>
           </Row>
 

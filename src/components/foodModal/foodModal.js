@@ -2,9 +2,10 @@ import React from 'react'
 import Popup from 'reactjs-popup'
 import './foodModal.css'
 
+
 export default ({foodName}) => (
     <Popup
-    trigger={<button className="modalButton"> ADD </button>}
+    trigger={<div className="openModal"></div>}
     modal
     closeOnDocumentClick
   >

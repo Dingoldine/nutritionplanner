@@ -23,6 +23,7 @@ import './Home.css'
 import asianChick from '../../images/stockphoto1.jpg'
 import zenGirl from '../../images/stockphoto2.jpg'
 
+
 const slides = [
   {
     src: asianChick,
@@ -55,6 +56,7 @@ class Home extends Component {
     this.onExited = this.onExited.bind(this)
     this.handleDropdownClick = this.handleDropdownClick.bind(this);
     this.handleOutsideDropdownClick = this.handleOutsideDropdownClick.bind(this);
+  
 
     this.state = {
       searchTerm: '',
@@ -153,6 +155,8 @@ class Home extends Component {
     this.handleOutsideDropdownClick()
   }
 
+
+
   render() {
     const { activeIndex, searchResult, isLoading, dropdownVisible } = this.state
     console.log(this.state)
@@ -207,16 +211,18 @@ class Home extends Component {
                   </InputGroupAddon>
                 </InputGroup>
                 {dropdownVisible && (
-                  <ul className ="dropdown-list"  onClick={this.handleDropdownClick} onKeyDown={this.handleDropdownClick} ref={this.node}>
-                  {searchResult.map(item => (
-                    <ListItem
-                      foodName={item.food_name}
-                      servingUnit={item.serving_unit}
-                      servingQty={item.serving_qty}
-                      photo={item.photo.thumb}
-                    />
-                  ))}
-                </ul>
+                  <div className="dropdown-div">
+                    <ul className ="dropdown-list"  onClick={this.handleDropdownClick} onKeyDown={this.handleDropdownClick} ref={this.node}>
+                    {searchResult.map(item => (
+                      <ListItem
+                        foodName={item.food_name}
+                        servingUnit={item.serving_unit}
+                        servingQty={item.serving_qty}
+                        photo={item.photo.thumb}
+                      />
+                    ))}
+                  </ul>
+                </div>
                 )}
               </Form>
             </Col>

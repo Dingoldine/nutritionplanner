@@ -5,7 +5,7 @@ const API = {
   key: '50899e1faf51fd589ffe38f518bbef62'
 }
 
-const requestConfig = {
+const getRequestConfig = {
   headers: {
     'x-app-id': API.appID,
     'x-app-key': API.key
@@ -15,8 +15,25 @@ const requestConfig = {
   }
 }
 
-export function makeGetNutritionRequest(value) { 
-  return axios.get(`https://trackapi.nutritionix.com/v2/search/instant?query=${value}`, requestConfig)
+const postRequestConfig = {
+  headers: {
+    'Content-Type': 'application/json;charset=UTF-8',
+    "Access-Control-Allow-Origin": "*",
+    'x-app-id': API.appID,
+    'x-app-key': API.key
+  }
+}
+export function makeGetFoodRequest(value) { 
+  return axios.get(`https://trackapi.nutritionix.com/v2/search/instant?query=${value}`, getRequestConfig)
+    .then(res => res.data)
+    .catch(err => {
+      console.log(err)
+      console.log("Error in makeGetNutritionRequest")
+    });
+}
+
+export function makeGetNutrientsRequest(value) { 
+  return axios.post(`https://trackapi.nutritionix.com/v2/natural/nutrients/`, {'query':value} , postRequestConfig)
     .then(res => res.data)
     .catch(err => {
       console.log(err)

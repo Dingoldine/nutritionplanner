@@ -4,10 +4,10 @@ import FoodModal from '../foodModal/foodModal'
 
 
 
-export default ({photo, foodName}) => {
+export default ({photo, foodName, onClick, onClose, nutrients}) => {
     return (
       <div className="listEntry">
-        <FoodModal foodName={foodName}/>
+        <FoodModal foodName={foodName} onClick={onClick} onClose={onClose} nutrients={nutrients}/>
         <li>
             <div className = "food-item-container"> 
               <div className="food-image-wrap">

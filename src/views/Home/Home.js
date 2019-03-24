@@ -18,7 +18,7 @@ import {
 import PieChart from '../../components/chart'
 import Layout from '../../components/layout'
 import ListItem from '../../components/listItem/listItem'
-import { makeGetNutritionRequest } from '../../utils/api'
+import { makeGetNutrientsRequest, makeGetFoodRequest } from '../../utils/api'
 import './Home.css'
 import asianChick from '../../images/stockphoto1.jpg'
 import zenGirl from '../../images/stockphoto2.jpg'
@@ -56,6 +56,8 @@ class Home extends Component {
     this.onExited = this.onExited.bind(this)
     this.handleDropdownClick = this.handleDropdownClick.bind(this);
     this.handleOutsideDropdownClick = this.handleOutsideDropdownClick.bind(this);
+    this.handleClickOnListItem = this.handleClickOnListItem.bind(this);
+    this.handleModalClose = this.handleModalClose.bind(this);
   
 
     this.state = {
@@ -65,7 +67,8 @@ class Home extends Component {
       isLoading: false,
       hasErrored: false,
       searchSuggestions: [],
-      dropdownVisible: false
+      dropdownVisible: false,
+      detailedNutritentInfo: []
     }
 
     this.node = React.createRef()
@@ -97,7 +100,7 @@ class Home extends Component {
     const value = target.type === 'checkbox' ? target.checked : target.value
     const { name } = target
     
-    await makeGetNutritionRequest(value)      
+    await makeGetFoodRequest(value)      
     .then(res => {
         this.setState({
           [name]: value,
@@ -155,10 +158,33 @@ class Home extends Component {
     this.handleOutsideDropdownClick()
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  async handleClickOnListItem(name){
+    //  if lenght of this is 0, then we make a api call, otherwise we already have the info
+    if (this.state.detailedNutritentInfo.length === 0){
+      await makeGetNutrientsRequest(name)      
+      .then(res => {
+        this.setState({
+          detailedNutritentInfo: res.foods
+        })
+        })
+        .catch(err => {
+          console.log(err)
+          console.log('Error in handleChange')
+        })
+    }
+  }
+
+    handleModalClose(){
+      //  empty the list of detailed nutrition info in state
+      this.setState({
+        detailedNutritentInfo: []
+      })
+    }
 
 
   render() {
-    const { activeIndex, searchResult, isLoading, dropdownVisible } = this.state
+    const { activeIndex, searchResult, isLoading, dropdownVisible, detailedNutritentInfo } = this.state
     console.log(this.state)
 
     //  Currently re-renders Search results every time the slide moves, not so good, must break the carousel that keeps updating state?
@@ -219,6 +245,9 @@ class Home extends Component {
                         servingUnit={item.serving_unit}
                         servingQty={item.serving_qty}
                         photo={item.photo.thumb}
+                        onClick={this.handleClickOnListItem}
+                        onClose={this.handleModalClose}
+                        nutrients = {detailedNutritentInfo}
                       />
                     ))}
                   </ul>

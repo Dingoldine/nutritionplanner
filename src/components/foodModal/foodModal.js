@@ -1,11 +1,11 @@
 import React from 'react'
 import Popup from 'reactjs-popup'
 import './foodModal.css'
-
+import {FaChevronRight} from 'react-icons/fa'
 
 export default ({foodName}) => (
     <Popup
-    trigger={<div className="openModal"></div>}
+    trigger={<div className="openModal"><div className="icon-container"><FaChevronRight /><FaChevronRight /></div></div>}
     modal
     closeOnDocumentClick
   >

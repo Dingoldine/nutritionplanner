@@ -66,8 +66,8 @@ class Home extends Component {
       activeIndex: 0,
       isLoading: false,
       hasErrored: false,
-      searchSuggestions: [],
       dropdownVisible: false,
+      modalVisible: false,
       detailedNutritentInfo: []
     }
 
@@ -93,6 +93,24 @@ class Home extends Component {
 
   onSearch(e) { //eslint-disable-line
     e.preventDefault()
+
+    makeGetFoodRequest(this.state.searchTerm)      
+    .then(res => {
+        this.setState({
+          searchResult: res.common
+        })
+      })
+      .catch(err => {
+        console.log(err)
+        console.log('Error in handleChange')
+      })
+
+    if (this.state.searchResult.length > 0){
+      
+      this.setState({
+        dropdownVisible: true
+      })
+    }
   }
 
   handleChange = async event => {
@@ -115,6 +133,10 @@ class Home extends Component {
       if (this.state.searchResult.length > 0){
         this.setState({
           dropdownVisible: true
+        })
+      } else {
+        this.setState({
+          dropdownVisible: false
         })
       }
   }
@@ -141,9 +163,13 @@ class Home extends Component {
 
   handleOutsideDropdownClick(e) {
     console.log("click outside")
-    this.setState({
-      dropdownVisible: false
-    })
+    if (this.state.dropdownVisible){
+      this.setState({
+        dropdownVisible: false,
+        detailedNutritentInfo: []
+      })
+    }
+
   }
 
   handleDropdownClick(e) {
@@ -151,6 +177,9 @@ class Home extends Component {
     if(this.state.dropdownVisible){
       if (this.node.current.contains(e.target)) {
         console.log("contains")
+        if(this.state.modalVisible) {
+          console.log("clicked outside while modal was open")
+        }
         return;
       }
     }
@@ -165,7 +194,8 @@ class Home extends Component {
       await makeGetNutrientsRequest(name)      
       .then(res => {
         this.setState({
-          detailedNutritentInfo: res.foods
+          detailedNutritentInfo: res.foods,
+          modalVisible: true
         })
         })
         .catch(err => {
@@ -177,6 +207,7 @@ class Home extends Component {
 
     handleModalClose(){
       //  empty the list of detailed nutrition info in state
+      console.log("CLOSEEE")
       this.setState({
         detailedNutritentInfo: []
       })

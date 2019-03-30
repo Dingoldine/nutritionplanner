@@ -4,10 +4,10 @@ import FoodModal from '../foodModal/foodModal'
 
 
 
-export default ({photo, foodName }) => {
+export default ({photo, foodName, firebase}) => {
     return (
       <div className="listEntry">
-        <FoodModal foodName={foodName} />
+        <FoodModal foodName={foodName} firebase={firebase} key={foodName} />
         <li>
             <div className = "food-item-container"> 
               <div className="food-image-wrap">

@@ -1,10 +1,12 @@
 /* eslint-disable no-sequences */
 import React from 'react'
 import Popup from 'reactjs-popup'
+import dateFormat from "dateformat"
 import { Container, Col, Row, ListGroup, ListGroupItem, Input, InputGroup, InputGroupButtonDropdown, DropdownToggle, DropdownItem, DropdownMenu, Button } from 'reactstrap'
 import './foodModal.css'
 import { FaChevronRight } from 'react-icons/fa'
 import { makeGetNutrientsRequest } from '../../utils/api'
+
 
 class FoodModal extends React.Component { // eslint-disable-line
 
@@ -68,7 +70,48 @@ class FoodModal extends React.Component { // eslint-disable-line
   }
 
   handleAddFood() { // eslint-disable-line
-    console.log("food to be added")
+    const { foodName, quantity, calories, protein, carbs, sugar, fats} = this.state
+    const { firebase } = this.props
+    const currUser = firebase.auth.currentUser
+
+    //  for creating a document with todays date, or fetching if existing
+    const date = new Date();
+
+    const today = dateFormat(date, "isoDate", true);
+    
+    const time = dateFormat(date, "longTime", true); // -> "10:46:21 PM UTC etc"
+    
+    const foodObject = 
+    {
+      [time]: {
+        foodName,
+        quantity,
+        calories,
+        protein, 
+        carbs,
+        sugar,
+        fats
+      }
+    }
+
+    if (currUser) {
+      firebase
+        .user(currUser.uid)
+        .collection('consumption')
+        .doc(today)
+        .set(
+          foodObject,
+          { merge: true }
+        )
+        .then(() => {
+          console.log('Successfully added an item')
+        })
+        .catch(err => {
+          console.log(err)
+          console.log('Failure to add a food item')
+        }) 
+    }
+
   }
 
   handleInputChanged = async event => {
@@ -149,7 +192,6 @@ class FoodModal extends React.Component { // eslint-disable-line
         <div className="modalContent">
         <div className="row justify-content-md-center">
           {' '}
-          {console.log(nutrients)}
           <Col sm="4">
             <ListGroup>
               <ListGroupItem>{servingSelected ? <p>{quantity} Serving ({nutrients.serving_unit})({nutrients.serving_weight_grams}g)</p> : <p>{quantity}g</p>}</ListGroupItem>
@@ -183,8 +225,8 @@ class FoodModal extends React.Component { // eslint-disable-line
             className="modalButton"
             type="button"
             onClick={() => {
-              console.log('food added ')
               this.handleAddFood()
+              close()
             }}
           >
             add

@@ -14,10 +14,12 @@ const INITIAL_STATE = {
 }
 
 const DEFAULT_VALUES = {
+  settings: {
   calories: 3200,
   carbs: 352,
   protein: 177,
   fat: 121
+  }
 }
 
 class SignUp extends Component {

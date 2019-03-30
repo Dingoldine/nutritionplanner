@@ -124,6 +124,7 @@ class Home extends Component {
 
   handleDropdownClick(e) {
     // click is inside dropdown container, do nothing
+    e.stopPropagation();
     if(this.state.dropdownVisible){
       if (this.node.current.contains(e.target)) {
         // if(this.state.modalVisible) {
@@ -138,8 +139,8 @@ class Home extends Component {
 
   render() {
     const { searchResult, dropdownVisible } = this.state
-    console.log(this.state)
-
+    console.log(this.props)
+    const { firebase } = this.props
     return (
       <Layout className="home" >
         <Container fluid="true" className="home">
@@ -168,6 +169,8 @@ class Home extends Component {
                         servingUnit={item.serving_unit}
                         servingQty={item.serving_qty}
                         photo={item.photo.thumb}
+                        firebase={firebase}
+                        key={item.food_name}
                       />
                     ))}
                   </ul>
@@ -176,12 +179,6 @@ class Home extends Component {
               </Form>
             </Col>
           </Row>
-          
-          {/*            
-            <Row className="cards">
-                {searchResult.map(item => <FoodItem food_name = {item.food_name} serving_unit = {item.serving_unit} serving_qty = {item.serving_qty} photo = {item.photo.thumb} /> )}
-            </Row> */}
-
         </Container>
       </Layout>
     )

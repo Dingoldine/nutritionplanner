@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useRef } from 'react'
 import { Container, Col, Row, ListGroup, ListGroupItem, Button, FormFeedback } from 'reactstrap'
 import Slider from '../../components/slider.js'
 import './Profile.css'
@@ -14,13 +14,20 @@ const styles = {
   }
 }
 
+//  makes sure first render dont fail when trying to access user.settings
+const initialUserState = {
+  username: "",
+  email: "",
+  settings: []
+}
+
 export default class Profile extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
       loading: false,
-      user: '',
+      user: initialUserState,
       calories: 0,
       protein: 0,
       carbs: 0,
@@ -32,7 +39,7 @@ export default class Profile extends Component {
 
   componentDidMount() {
     const { user } = this.state
-    if (user) {
+    if (user !== initialUserState) {
       return
     }
 
@@ -40,15 +47,16 @@ export default class Profile extends Component {
     const currUser = firebase.auth.currentUser
 
     this.setState({ loading: true })
-
+    
+    console.log(currUser)
     if (currUser) {
       this.unsubscribe = firebase.user(currUser.uid).onSnapshot(snapshot => {
         this.setState({
           user: snapshot.data(),
-          calories: snapshot.data().calories,
-          protein: snapshot.data().protein,
-          carbs: snapshot.data().carbs,
-          fat: snapshot.data().fat,
+          calories: snapshot.data().settings.calories,
+          protein: snapshot.data().settings.protein,
+          carbs: snapshot.data().settings.carbs,
+          fat: snapshot.data().settings.fat,
           loading: false
         })
         console.log(snapshot.data())
@@ -81,18 +89,21 @@ export default class Profile extends Component {
   }
 
   onBtnSave = () => {
+    console.log(this.props)
     const { firebase } = this.props
     const { protein, carbs, fat, calories } = this.state
     const currUser = firebase.auth.currentUser
     if (currUser) {
       firebase
         .user(currUser.uid)
-        .set(
+        .set( 
           {
+          settings: {
             protein,
             carbs,
             fat,
             calories
+            }
           },
           { merge: true }
         )
@@ -108,7 +119,7 @@ export default class Profile extends Component {
 
   render() {
     const { user, calories, carbs, protein, fat } = this.state
-
+    
     return (
       <Layout className="profile">
         <Row className="justify-content-center" style={{ marginTop: 100, marginBottom: 50 }}>
@@ -119,10 +130,10 @@ export default class Profile extends Component {
             <ListGroup>
               <ListGroupItem>Username: {user.username}</ListGroupItem>
               <ListGroupItem>Email: {user.email}</ListGroupItem>
-              <ListGroupItem>Total calories: {user.calories}</ListGroupItem>
-              <ListGroupItem>Protein: {user.protein}</ListGroupItem>
-              <ListGroupItem>Carbs: {user.carbs}</ListGroupItem>
-              <ListGroupItem>Fat: {user.fat}</ListGroupItem>
+              <ListGroupItem>Total calories: {user.settings.calories}</ListGroupItem>
+              <ListGroupItem>Protein: {user.settings.protein}</ListGroupItem>
+              <ListGroupItem>Carbs: {user.settings.carbs}</ListGroupItem>
+              <ListGroupItem>Fat: {user.settings.fat}</ListGroupItem>
             </ListGroup>
           </Col>
         </Row>

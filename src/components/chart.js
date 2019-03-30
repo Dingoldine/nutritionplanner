@@ -19,6 +19,7 @@ export default class PieChart extends React.Component {
   }
 
   render() {
+    const {dailyFats, dailyProteins, dailyCarbs } = this.props
     const options = {
       annotation: {
         annotations: [
@@ -43,6 +44,16 @@ export default class PieChart extends React.Component {
           boxWidth: 10
         }
       }
+    }
+    const data = {
+      labels: ['Fat', 'Protein', 'Carbs'],
+      datasets: [
+        {
+          data: [dailyFats, dailyProteins, dailyCarbs],
+          backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+          hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+        }
+      ]
     }
 
     return (

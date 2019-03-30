@@ -66,6 +66,7 @@ class CarouselComponent extends React.Component {
 
     render() {
         const { activeIndex } = this.state
+        const {dailyFats, dailyProteins, dailyCarbs } = this.props
         return(
             <Carousel activeIndex={activeIndex} next={this.next} previous={this.previous}>
             <CarouselIndicators items={slides} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
@@ -73,7 +74,7 @@ class CarouselComponent extends React.Component {
               <CarouselItem onExiting={this.onExiting} onExited={this.onExited} key={slides[0].src}>
                 <img src={slides[0].src} alt={slides[0].altText}/>
                 <Col sm="12" md={{ size: 6, offset: 3 }}>
-                  <PieChart />
+                  <PieChart dailyFats={dailyFats} dailyCarbs={dailyCarbs} dailyProteins ={dailyProteins}/>
                 </Col>
                 <Col sm="12" md={{ size: 6, offset: 3 }}>
                   <p> Daily Calories </p>

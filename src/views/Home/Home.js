@@ -14,6 +14,7 @@ import Layout from '../../components/layout'
 import ListItem from '../../components/listItem/listItem'
 import { makeGetFoodRequest } from '../../utils/api'
 import './Home.css'
+import dateFormat from 'dateformat'
 
 
 class Home extends Component {
@@ -22,7 +23,7 @@ class Home extends Component {
   constructor(props) {
     // eslint-disable-line
     super(props)
-    
+
     this.onExiting = this.onExiting.bind(this)
     this.onExited = this.onExited.bind(this)
     this.handleDropdownClick = this.handleDropdownClick.bind(this);
@@ -36,8 +37,11 @@ class Home extends Component {
       isLoading: false,
       hasErrored: false,
       dropdownVisible: false,
-      // modalVisible: false,
-      detailedNutritentInfo: []
+      detailedNutritentInfo: [],
+      dailyCalories: 0,
+      dailyFats: 0,
+      dailyProteins: 0,
+      dailySugars: 0
     }
 
     this.node = React.createRef()
@@ -45,12 +49,103 @@ class Home extends Component {
   }
 
   componentWillMount() {
-    document.addEventListener('mousedown', this.handleDropdownClick, false) 
+    document.addEventListener('mousedown', this.handleDropdownClick, false)
+  }
+
+  componentDidMount(){
+    const { firebase } = this.props
+    const currUser = firebase.auth.currentUser
+    const { dailyCalories } = this.state  
+    
+    //  store this for later use inside db fetch
+    var _this = this;
+    //  for creating a document with todays date
+    const date = new Date();
+
+    const today = dateFormat(date, "isoDate", true);
+
+    firebase
+    .user(currUser.uid)
+    .collection('consumption')
+    .get()
+    .then(function(querySnapshot) {
+      querySnapshot.forEach((doc) => {
+          // doc.data() is never undefined for query doc snapshots
+          console.log(doc.id, " => ", doc.data());
+
+          if (doc.id === today){
+            console.log("a match")
+            console.log(doc.data())
+            const objectKeys = Object.keys(doc.data());
+            console.log("objectKeys: ", objectKeys)
+
+            let calories = 0
+            let carbs = 0
+            let fats = 0
+            let proteins = 0
+            let sugar = 0
+            Object.entries(doc.data()).forEach(([key, value]) => {
+              console.log()
+              console.log(`key= ${key} value = ${value}`)
+              
+              
+              // eslint-disable-next-line no-restricted-syntax
+              // eslint-disable-next-line guard-for-in
+              // eslint-disable-next-line prefer-const
+              for (let property in value) {
+                console.log(`key = ${property} value = ${value[property]}`)
+                
+                switch(property) {
+                  case "calories":
+                    calories += parseFloat(value[property])
+                    break;
+                  // eslint-disable-next-line no-undef
+                  case "carbs":
+                    carbs += parseFloat(value[property])
+                    break;
+                  case "fats":
+                    fats += parseFloat(value[property])
+                    break;
+                  case "protein":
+                    proteins += parseFloat(value[property])
+                    break;
+                  case "sugar":
+                    sugar += parseFloat(value[property])
+                    break;
+                  default:
+                    // code block
+                } 
+             }
+            })
+
+            console.log("")
+            _this.setState({
+              dailyCalories: calories,
+              dailyCarbs: carbs,
+              dailyFats: fats,
+              dailyProteins: proteins,
+              dailySugars: sugar
+            }, () => {
+              console.log(_this.state);
+          });
+
+          }
+            
+      });
+      
+  
+    })
+    .catch(err => {
+      console.log(err)
+      console.log('Failure to fetch an item')
+    }) 
   }
 
   componentWillUnmount(){
     document.removeEventListener('mousedown', this.handleDropdownClick, false)
   }
+
+
 
   onExiting() {
     this.animating = true
@@ -138,13 +233,12 @@ class Home extends Component {
   }
 
   render() {
-    const { searchResult, dropdownVisible } = this.state
-    console.log(this.props)
+    const { searchResult, dropdownVisible, dailyFats, dailyProteins, dailyCarbs } = this.state
     const { firebase } = this.props
     return (
       <Layout className="home" >
         <Container fluid="true" className="home">
-          <Carousel/>
+          <Carousel dailyFats={dailyFats} dailyCarbs={dailyCarbs} dailyProteins ={dailyProteins}/>
           {/* Search field and button */}
           <Row className="search">
             <Col sm="12" md={{ size: 6, offset: 3 }}>
@@ -154,7 +248,7 @@ class Home extends Component {
                     placeholder="Find a food"
                     onChange={e => { this.handleChange(e)}}
                     name="searchTerm"
-                    autocomplete="off"
+                    autoComplete="off"
                   />
                   <InputGroupAddon addonType="prepend">
                     <Button type="submit">Search</Button>

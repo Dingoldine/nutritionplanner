@@ -69,12 +69,23 @@ class FoodModal extends React.Component { // eslint-disable-line
     })
   }
 
+/*  3:49:52 PM UTC
+      calories "4.74"
+      carbs "1.42"
+      fats 0
+      foodName "ice tea"
+      grams 474
+      protein "0.00"
+      sugar "0.00"  
+
+    Perfoms entry like this  
+*/
   handleAddFood() { // eslint-disable-line
-    const { foodName, quantity, calories, protein, carbs, sugar, fats} = this.state
+    const { foodName, grams, calories, protein, carbs, sugar, fats} = this.state
     const { firebase } = this.props
     const currUser = firebase.auth.currentUser
 
-    //  for creating a document with todays date, or fetching if existing
+    //  for creating a document with todays date
     const date = new Date();
 
     const today = dateFormat(date, "isoDate", true);
@@ -85,7 +96,7 @@ class FoodModal extends React.Component { // eslint-disable-line
     {
       [time]: {
         foodName,
-        quantity,
+        grams,
         calories,
         protein, 
         carbs,

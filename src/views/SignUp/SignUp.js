@@ -85,7 +85,6 @@ class SignUp extends Component {
     const { username, email, password, error, validate } = this.state
     return (
       <Layout className="home">
-        Welcome to Sign Up
         <Container className="loginPage">
           <h2>Sign Up</h2>
           <Form className="form" onSubmit={e => this.submitForm(e)}>

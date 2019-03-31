@@ -1,7 +1,7 @@
 import React from 'react'
 import './navbar.css'
 import { NavLink as RRNavLink } from 'react-router-dom'
-import { FaUserCircle, FaGithub, FaSignOutAlt } from 'react-icons/fa'
+import { FaUserCircle, FaGithub, FaSignInAlt } from 'react-icons/fa'
 import {
   Collapse,
   Navbar,
@@ -16,14 +16,30 @@ import {
   DropdownItem
 } from 'reactstrap'
 import SignOutButton from '../signOutButton'
+import { withFirebase } from '../../app/firebase'
 
-export default class Navigator extends React.Component {
+
+class Navigator extends React.Component {
   constructor(props) {
     super(props)
     this.toggle = this.toggle.bind(this)
     this.state = {
-      isOpen: false
+      isOpen: false,
+      isLoggedIn: false
     }
+
+    const { firebase } = this.props
+    
+    const this_ = this
+
+    firebase.auth.onAuthStateChanged(function(user) {
+      if (user) {
+        this_.setState({isLoggedIn: true})
+      } else {
+        // No user is signed in.
+        this_.setState({isLoggedIn: false})
+      }
+    });
   }
 
   toggle() {
@@ -33,7 +49,8 @@ export default class Navigator extends React.Component {
   }
 
   render() {
-    return (
+    const { isLoggedIn } = this.state
+    return (  
       <div>
         <Navbar color="light" light expand="md">
           <NavbarBrand tag={RRNavLink} exact to="/home">Nutrition Planner</NavbarBrand>
@@ -47,9 +64,6 @@ export default class Navigator extends React.Component {
                     <FaUserCircle />
                   </span>
                 </NavLink>
-              </NavItem>
-              <NavItem>
-                <SignOutButton />
               </NavItem>
               <NavItem>
                 <NavLink href="https://gits-15.sys.kth.se/wwes/nutritionplanner">
@@ -70,6 +84,20 @@ export default class Navigator extends React.Component {
                   <DropdownItem>Reset</DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
+                {isLoggedIn ? (
+                    <NavItem>
+                        <SignOutButton />
+                    </NavItem>
+                ) : (
+                  <NavItem>
+                    <NavLink tag={RRNavLink} exact to="/home">
+                      Sign In{' '}
+                      <span>
+                        <FaSignInAlt />
+                      </span>
+                    </NavLink>
+                  </NavItem>
+                )}
             </Nav>
           </Collapse>
         </Navbar>
@@ -77,3 +105,5 @@ export default class Navigator extends React.Component {
     )
   }
 }
+
+export default withFirebase(Navigator);

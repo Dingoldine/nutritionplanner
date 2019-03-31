@@ -83,7 +83,7 @@ class CarouselComponent extends React.Component {
                     <Progress animated color="info" value={dailyCalories} />
                   </Col>
                 </Row>
-                <CarouselCaption  captionHeader={slides[0].caption}  />
+                <CarouselCaption  captionHeader={slides[0].caption} captionText="" />
               </CarouselItem>,
 
               <CarouselItem onExiting={this.onExiting} onExited={this.onExited} key={slides[1].src}>
@@ -98,7 +98,7 @@ class CarouselComponent extends React.Component {
                   </ul>
                   </Col>
                 </Row>
-                <CarouselCaption captionHeader= {slides[1].caption} />
+                <CarouselCaption captionHeader= {slides[1].caption} captionText="" />
               </CarouselItem>,
 
               <CarouselItem onExiting={this.onExiting} onExited={this.onExited} key={slides[2].src}>
@@ -106,7 +106,7 @@ class CarouselComponent extends React.Component {
                 <Row className="carousel-row">
                   
                 </Row>
-                <CarouselCaption captionHeader={slides[2].caption} />
+                <CarouselCaption captionHeader={slides[2].caption} captionText="" />
               </CarouselItem>
             ]}
             <CarouselControl direction="prev" directionText="Previous" onClickHandler={this.previous} />

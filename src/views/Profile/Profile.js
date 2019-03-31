@@ -66,7 +66,7 @@ export default class Profile extends Component {
 
       } else {
         // No user is signed in.
-        history.push('/signup')
+        history.push('/')
       }
     })
   }

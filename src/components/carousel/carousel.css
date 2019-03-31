@@ -1,0 +1,44 @@
+
+.eatenFood li img {
+    float: left;
+    margin: 10px;
+    border: 5px solid #fff;
+  
+    -webkit-transition: box-shadow 0.5s ease;
+    -moz-transition: box-shadow 0.5s ease;
+    -o-transition: box-shadow 0.5s ease;
+    -ms-transition: box-shadow 0.5s ease;
+    transition: box-shadow 0.5s ease;
+    max-width: 150px;
+    max-height: 150px;
+  }
+  
+  .eatenFood li img:hover {
+    -webkit-box-shadow: 0px 0px 7px rgba(255,255,255,0.9);
+    box-shadow: 0px 0px 7px rgba(255,255,255,0.9);
+  }
+
+
+.carousel-caption{
+    position: absolute !important;
+    top: 0 !important;
+    height: 100% !important;
+    width: 75% !important;
+    pointer-events:none;
+
+  }
+
+  .carousel-caption h3{
+    top: 0 !important;
+    margin: 25px 0 0 0;
+    font-family: 'Bitter', serif;
+    text-transform: uppercase;
+    letter-spacing: .3em;
+    color: black;
+    font-size: 25px;
+    font-style: italic;
+  }
+
+  .carousel-row {
+      margin-top: 80px
+  }

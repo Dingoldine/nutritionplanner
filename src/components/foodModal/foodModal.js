@@ -6,6 +6,7 @@ import { Container, Col, Row, ListGroup, ListGroupItem, Input, InputGroup, Input
 import './foodModal.css'
 import { FaChevronRight } from 'react-icons/fa'
 import { makeGetNutrientsRequest } from '../../utils/api'
+import FoodItem from '../foodItem/foodItem';
 
 
 class FoodModal extends React.Component { // eslint-disable-line
@@ -30,6 +31,7 @@ class FoodModal extends React.Component { // eslint-disable-line
       carbs: 0,
       sugar: 0,
       fats: 0,
+      img: "",
       dropdownOpen: false,
       splitButtonOpen: false,
     }
@@ -40,6 +42,7 @@ class FoodModal extends React.Component { // eslint-disable-line
     if (nutrients.length === 0){
       makeGetNutrientsRequest(foodName)      
       .then(res => {    
+        console.log(res)
         this.setState({
           nutrients: res.foods[0],
           servingWeightGrams: res.foods[0].serving_weight_grams,
@@ -48,7 +51,8 @@ class FoodModal extends React.Component { // eslint-disable-line
           protein: res.foods[0].nf_protein,
           carbs: res.foods[0].nf_total_carbohydrate,
           sugar: res.foods[0].nf_sugars,
-          fat: res.foods[0].nf_total_fat
+          fats: res.foods[0].nf_total_fat,
+          img: res.foods[0].photo.highres
         })
       })
       .catch(err => {
@@ -61,11 +65,11 @@ class FoodModal extends React.Component { // eslint-disable-line
   computeMacros() { // eslint-disable-line
     const { nutrients, grams, servingWeightGrams } = this.state
     this.setState({
-      calories: ((nutrients.nf_calories*grams)/servingWeightGrams).toFixed(2),
-      protein: ((nutrients.nf_protein*grams)/servingWeightGrams).toFixed(2),
-      carbs: ((nutrients.nf_total_carbohydrate*grams)/servingWeightGrams).toFixed(2),
-      sugar: ((nutrients.nf_sugars*grams)/servingWeightGrams).toFixed(2),
-      fat: ((nutrients.nf_total_fat*grams)/servingWeightGrams).toFixed(2)
+      calories: Math.round(((nutrients.nf_calories*grams)/servingWeightGrams) * 100) / 100,
+      protein: Math.round(((nutrients.nf_protein*grams)/servingWeightGrams) * 100) / 100,
+      carbs: Math.round(((nutrients.nf_total_carbohydrate*grams)/servingWeightGrams) * 100) / 100,
+      sugar: Math.round(((nutrients.nf_sugars*grams)/servingWeightGrams) * 100) / 100,
+      fats: Math.round(((nutrients.nf_total_fat*grams)/servingWeightGrams) * 100) / 100
     })
   }
 
@@ -81,8 +85,8 @@ class FoodModal extends React.Component { // eslint-disable-line
     Perfoms entry like this  
 */
   handleAddFood() { // eslint-disable-line
-    const { foodName, grams, calories, protein, carbs, sugar, fats} = this.state
-    const { firebase } = this.props
+    const { foodName, grams, calories, protein, carbs, sugar, fats, img} = this.state
+    const { firebase, triggerRenderHome } = this.props
     const currUser = firebase.auth.currentUser
 
     //  for creating a document with todays date
@@ -101,7 +105,8 @@ class FoodModal extends React.Component { // eslint-disable-line
         protein, 
         carbs,
         sugar,
-        fats
+        fats,
+        img
       }
     }
 
@@ -116,13 +121,13 @@ class FoodModal extends React.Component { // eslint-disable-line
         )
         .then(() => {
           console.log('Successfully added an item')
+          triggerRenderHome(foodObject)
         })
         .catch(err => {
           console.log(err)
           console.log('Failure to add a food item')
         }) 
     }
-
   }
 
   handleInputChanged = async event => {
@@ -185,7 +190,7 @@ class FoodModal extends React.Component { // eslint-disable-line
   }
 
   render() {
-    const { nutrients, foodName, servingSelected, quantity, splitButtonOpen, calories, protein, carbs, sugar, fat } = this.state
+    const { nutrients, foodName, servingSelected, quantity, splitButtonOpen, calories, protein, carbs, sugar, fats } = this.state
     return(
       <Popup
       trigger={<div className="openModal"><div className="icon-container"><FaChevronRight /><FaChevronRight /></div></div>}
@@ -210,7 +215,7 @@ class FoodModal extends React.Component { // eslint-disable-line
               <ListGroupItem>Protein {protein}g</ListGroupItem>
               <ListGroupItem>Carbs {carbs}g</ListGroupItem>
               <ListGroupItem>Sugar {sugar}g</ListGroupItem>
-              <ListGroupItem>Fat {fat}g</ListGroupItem>
+              <ListGroupItem>Fat {fats}g</ListGroupItem>
             </ListGroup>
           </Col>
 

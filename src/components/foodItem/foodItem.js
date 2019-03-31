@@ -5,7 +5,6 @@ import './foodItem.css'
 const FoodItem = props => {
   console.log(props.photo)
   return (
-    <Col md="6" lg="4" xl="3">
       <Card className="card">
         <CardImg top width={100} src={props.photo} alt="Card image cap" className="card-img" />
         <CardBody>
@@ -21,7 +20,6 @@ const FoodItem = props => {
           <Button>Add</Button>
         </CardBody>
       </Card>
-    </Col>
   )
 }
 export default FoodItem

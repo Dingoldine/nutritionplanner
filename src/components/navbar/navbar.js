@@ -1,7 +1,7 @@
 import React from 'react'
 import './navbar.css'
 import { NavLink as RRNavLink } from 'react-router-dom'
-import { FaUserCircle, FaGithub } from 'react-icons/fa'
+import { FaUserCircle, FaGithub, FaSignOutAlt } from 'react-icons/fa'
 import {
   Collapse,
   Navbar,
@@ -36,7 +36,7 @@ export default class Navigator extends React.Component {
     return (
       <div>
         <Navbar color="light" light expand="md">
-          <NavbarBrand href="/">Nutrition Planner</NavbarBrand>
+          <NavbarBrand tag={RRNavLink} exact to="/home">Nutrition Planner</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>

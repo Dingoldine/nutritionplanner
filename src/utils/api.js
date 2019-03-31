@@ -37,10 +37,6 @@ export function makeGetFoodRequest(value) {
 export function makeGetNutrientsRequest(value) { 
   return axios.post(`https://trackapi.nutritionix.com/v2/natural/nutrients/`, {'query':value} , postRequestConfig)
     .then(res => {
-      console.log("hej");
-      console.log(res.data);
-      
-      
       return res.data
     })
     .catch(err => {

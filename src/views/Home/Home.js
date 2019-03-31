@@ -27,6 +27,7 @@ class Home extends Component {
     this.onExited = this.onExited.bind(this)
     this.handleDropdownClick = this.handleDropdownClick.bind(this);
     this.handleOutsideDropdownClick = this.handleOutsideDropdownClick.bind(this);
+    this.triggerRenderHome = this.triggerRenderHome.bind(this);
     // this.handleModalClose = this.handleModalClose.bind(this);
   
 
@@ -40,7 +41,9 @@ class Home extends Component {
       dailyCalories: 0,
       dailyFats: 0,
       dailyProteins: 0,
-      dailySugars: 0
+      dailySugars: 0,
+      dailyCarbs:  0,
+      eatenFood: []
     }
 
     this.node = React.createRef()
@@ -71,66 +74,14 @@ class Home extends Component {
           querySnapshot.forEach((doc) => {
               // doc.data() is never undefined for query doc snapshots
               console.log(doc.id, " => ", doc.data());
-    
+
+              //  only care about food eaten today for now
               if (doc.id === today){
                 console.log("a match")
-                console.log(doc.data())
-                const objectKeys = Object.keys(doc.data());
-                console.log("objectKeys: ", objectKeys)
-    
-                let calories = 0
-                let carbs = 0
-                let fats = 0
-                let proteins = 0
-                let sugar = 0
-                Object.entries(doc.data()).forEach(([key, value]) => {
-                  console.log()
-                  console.log(`key= ${key} value = ${value}`)
-                  
-                  
-                  // eslint-disable-next-line no-restricted-syntax
-                  // eslint-disable-next-line guard-for-in
-                  // eslint-disable-next-line prefer-const
-                  for (let property in value) {
-                    console.log(`key = ${property} value = ${value[property]}`)
-                    
-                    switch(property) {
-                      case "calories":
-                        calories += parseFloat(value[property])
-                        break;
-                      // eslint-disable-next-line no-undef
-                      case "carbs":
-                        carbs += parseFloat(value[property])
-                        break;
-                      case "fats":
-                        fats += parseFloat(value[property])
-                        break;
-                      case "protein":
-                        proteins += parseFloat(value[property])
-                        break;
-                      case "sugar":
-                        sugar += parseFloat(value[property])
-                        break;
-                      default:
-                        // code block
-                    } 
-                 }
-                })
-    
-                console.log("")
-                _this.setState({
-                  dailyCalories: calories,
-                  dailyCarbs: carbs,
-                  dailyFats: fats,
-                  dailyProteins: proteins,
-                  dailySugars: sugar
-                }, () => {
-                  console.log(_this.state);
-              });
-    
+                console.log(doc.data())                
+                _this.parseFoodItems(doc.data())
               }           
           });
-          
         })
         .catch(err => {
           console.log(err)
@@ -138,7 +89,7 @@ class Home extends Component {
         }) 
       } else {
         // No user is signed in.
-        history.push('/signup')
+        history.push('/')
       }
     });
 
@@ -148,7 +99,6 @@ class Home extends Component {
   componentWillUnmount(){
     document.removeEventListener('mousedown', this.handleDropdownClick, false)
   }
-
 
 
   onExiting() {
@@ -210,6 +160,60 @@ class Home extends Component {
     //   }
   }
 
+  parseFoodItems(foodObject){
+    const {dailyCalories, dailyFats, dailyProteins, dailySugars, dailyCarbs, eatenFood} = this.state
+    const objectKeys = Object.keys(foodObject);
+    console.log("objectKeys: ", objectKeys)
+    let calories = 0
+    let carbs = 0
+    let fats = 0
+    let proteins = 0
+    let sugar = 0
+    const foodData = []
+    Object.entries(foodObject).forEach(([key, value]) => {
+      console.log()
+      console.log(`key= ${key} value = ${value}`)
+      // eslint-disable-next-line no-restricted-syntax
+      // eslint-disable-next-line guard-for-in
+      // eslint-disable-next-line prefer-const
+      foodData.push(value)
+      for (const property in value) {
+        console.log(`key = ${property} value = ${value[property]}`)
+        switch(property) {
+          case "calories":
+            calories += value[property]
+            break;
+          // eslint-disable-next-line no-undef
+          case "carbs":
+            carbs += value[property]
+            break;
+          case "fats":
+            fats += value[property]
+            break;
+          case "protein":
+            proteins += value[property]
+            break;
+          case "sugar":
+            sugar += value[property]
+            break;
+          default:
+            // code block
+        } 
+      }
+    })
+
+    this.setState({
+      dailyCalories: dailyCalories + calories,
+      dailyCarbs: dailyCarbs + carbs,
+      dailyFats: dailyFats + fats,
+      dailyProteins: dailyProteins + proteins,
+      dailySugars: dailySugars + sugar,
+      eatenFood: eatenFood.concat(foodData)
+    }, () => {
+      console.log(this.state);
+  });
+  }
+
   handleOutsideDropdownClick(e) {
     console.log("click outside")
     if (this.state.dropdownVisible){
@@ -236,13 +240,21 @@ class Home extends Component {
     this.handleOutsideDropdownClick()
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  triggerRenderHome(foodObject){
+    console.log("back in home baby")
+    console.log(foodObject)
+    this.parseFoodItems(foodObject)
+
+  }
+
   render() {
-    const { searchResult, dropdownVisible, dailyFats, dailyProteins, dailyCarbs } = this.state
+    const { searchResult, dropdownVisible, dailyFats, dailyProteins, dailyCarbs, dailyCalories, eatenFood } = this.state
     const { firebase } = this.props
     return (
       <Layout className="home" >
         <Container fluid="true" className="home">
-          <Carousel dailyFats={dailyFats} dailyCarbs={dailyCarbs} dailyProteins ={dailyProteins}/>
+          <Carousel dailyFats={dailyFats} dailyCarbs={dailyCarbs} dailyProteins ={dailyProteins} dailyCalories={dailyCalories} eatenFood={eatenFood}/>
           {/* Search field and button */}
           <Row className="search">
             <Col sm="12" md={{ size: 6, offset: 3 }}>
@@ -269,6 +281,7 @@ class Home extends Component {
                         photo={item.photo.thumb}
                         firebase={firebase}
                         key={item.food_name}
+                        triggerRenderHome = {this.triggerRenderHome}
                       />
                     ))}
                   </ul>

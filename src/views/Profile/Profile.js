@@ -43,25 +43,32 @@ export default class Profile extends Component {
       return
     }
 
-    const { firebase } = this.props
-    const currUser = firebase.auth.currentUser
+    const { firebase, history } = this.props
 
     this.setState({ loading: true })
     
-    console.log(currUser)
-    if (currUser) {
-      this.unsubscribe = firebase.user(currUser.uid).onSnapshot(snapshot => {
-        this.setState({
-          user: snapshot.data(),
-          calories: snapshot.data().settings.calories,
-          protein: snapshot.data().settings.protein,
-          carbs: snapshot.data().settings.carbs,
-          fat: snapshot.data().settings.fat,
-          loading: false
+    //  save this to use below 
+    const _this = this
+    
+    firebase.auth.onAuthStateChanged(function(user) {
+      if (user) {
+        firebase.user(user.uid)
+        .onSnapshot(snapshot => {
+          _this.setState({
+            user: snapshot.data(),
+            calories: snapshot.data().settings.calories,
+            protein: snapshot.data().settings.protein,
+            carbs: snapshot.data().settings.carbs,
+            fat: snapshot.data().settings.fat,
+            loading: false
+          })
         })
-        console.log(snapshot.data())
-      })
-    }
+
+      } else {
+        // No user is signed in.
+        history.push('/signup')
+      }
+    })
   }
 
   updateCalories = () => {

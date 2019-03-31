@@ -3,12 +3,24 @@ import logger from 'redux-logger'
 // import freeze from 'redux-freeze'
 import thunk from 'redux-thunk'
 import promise from 'redux-promise-middleware'
+
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import { reducers } from './reducers'
 
 /**
  *  This defines base configuration for setting up redux with react.
  *  All the middlewares are defined here and base store is created for provider.
  */
+
+const persistConfig = {
+ key: 'root',
+ storage: storage,
+ stateReconciler: autoMergeLevel2 // see "Merge Process" section for details.
+};
+const pReducer = persistReducer(persistConfig, reducers);
 
 const middlewares = []
 
@@ -31,7 +43,5 @@ middlewares.push(logger)
 const middleware = applyMiddleware(...middlewares)
 
 // create store
-const store = createStore(reducers, middleware)
-
-// export
-export { store }
+export const  store = createStore(pReducer, middleware)
+export const persistor = persistStore(store);

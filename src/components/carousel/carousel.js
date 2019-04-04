@@ -69,7 +69,8 @@ class CarouselComponent extends React.Component {
 
     render() {
         const { activeIndex } = this.state
-        const {dailyFats, dailyProteins, dailyCarbs, dailyCalories, eatenFood } = this.props
+        const {dailyFats, dailyProteins, dailyCarbs, dailyCalories, eatenFood, targetCalories, targetFat, targetCarbs, targetProtein } = this.props
+        console.log(targetCalories, dailyCalories)
         return(
             <Carousel activeIndex={activeIndex} next={this.next} previous={this.previous}>
             <CarouselIndicators items={slides} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
@@ -79,8 +80,16 @@ class CarouselComponent extends React.Component {
                 <Row className="carousel-row">
                   <Col sm="12" md={{ size: 6, offset: 3 }}>
                     <PieChart dailyFats={dailyFats} dailyCarbs={dailyCarbs} dailyProteins ={dailyProteins}/>
-                    <div className="text-center"><p> Daily Calories </p> 75%</div>
-                    <Progress animated color="info" value={dailyCalories} />
+                    <div className="text-center"><p> Daily Calories </p> {Math.round((dailyCalories/targetCalories) * 1000) / 10}%</div>
+                    <Progress animated color="info" value={(dailyCalories/targetCalories) * 100} />
+                  </Col>
+                  <Col sm="12" md={{ size: 3, offset: 0 }}>
+                    <div className="text-center"><p> Daily Fats </p> {Math.round((dailyFats/targetFat) * 1000) / 10}%</div>
+                    <Progress animated color="info" value={(dailyFats/targetFat)* 100} />
+                    <div className="text-center"><p> Daily Carbs </p> {Math.round((dailyCarbs/targetCarbs) * 1000) / 10}%</div>
+                    <Progress animated color="info" value={(dailyFats/targetFat)* 100} />
+                    <div className="text-center"><p> Daily Protein </p> {Math.round((dailyProteins/targetProtein) * 1000) / 10}%</div>
+                    <Progress animated color="info" value={(dailyFats/targetFat)* 100} />
                   </Col>
                 </Row>
                 <CarouselCaption  captionHeader={slides[0].caption} captionText="" />

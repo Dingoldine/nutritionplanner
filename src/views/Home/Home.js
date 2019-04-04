@@ -43,7 +43,11 @@ class Home extends Component {
       dailyProteins: 0,
       dailySugars: 0,
       dailyCarbs:  0,
-      eatenFood: []
+      targetCalories: 0,
+      targetProtein: 0,
+      targetCarbs: 0,
+      targetFat: 0,
+      eatenFood: [],  
     }
 
     this.node = React.createRef()
@@ -86,7 +90,18 @@ class Home extends Component {
         .catch(err => {
           console.log(err)
           console.log('Failure to fetch an item')
-        }) 
+        })
+        
+        firebase
+        .user(user.uid)
+        .onSnapshot(snapshot => {
+          _this.setState({
+          targetCalories: snapshot.data().settings.calories,
+          targetProtein: snapshot.data().settings.protein,
+          targetCarbs: snapshot.data().settings.carbs,
+          targetFat: snapshot.data().settings.fat,
+          })
+        })
       } else {
         // No user is signed in.
         history.push('/')
@@ -249,12 +264,21 @@ class Home extends Component {
   }
 
   render() {
-    const { searchResult, dropdownVisible, dailyFats, dailyProteins, dailyCarbs, dailyCalories, eatenFood } = this.state
+    const { searchResult, dropdownVisible, dailyFats, dailyProteins, dailyCarbs, dailyCalories, eatenFood, targetCalories, targetFat, targetCarbs, targetProtein } = this.state
     const { firebase } = this.props
     return (
       <Layout className="home" >
         <Container fluid="true" className="home">
-          <Carousel dailyFats={dailyFats} dailyCarbs={dailyCarbs} dailyProteins ={dailyProteins} dailyCalories={dailyCalories} eatenFood={eatenFood}/>
+          <Carousel 
+          dailyFats={dailyFats} 
+          dailyCarbs={dailyCarbs} 
+          dailyProteins ={dailyProteins} 
+          dailyCalories={dailyCalories}
+          targetCalories={targetCalories}
+          targetProtein={targetProtein}
+          targetFat={targetFat}
+          targetCarbs={targetCarbs} 
+          eatenFood={eatenFood}/>
           {/* Search field and button */}
           <Row className="search">
             <Col sm="12" md={{ size: 6, offset: 3 }}>

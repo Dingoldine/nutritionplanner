@@ -70,7 +70,6 @@ class CarouselComponent extends React.Component {
     render() {
         const { activeIndex } = this.state
         const {dailyFats, dailyProteins, dailyCarbs, dailyCalories, eatenFood, targetCalories, targetFat, targetCarbs, targetProtein } = this.props
-        console.log(targetCalories, dailyCalories)
         return(
             <Carousel activeIndex={activeIndex} next={this.next} previous={this.previous}>
             <CarouselIndicators items={slides} activeIndex={activeIndex} onClickHandler={this.goToIndex} />

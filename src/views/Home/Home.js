@@ -9,6 +9,7 @@ import {
   Button,
   Form
 } from 'reactstrap'
+import { FaChevronRight, FaChevronLeft, FaCalendarAlt } from 'react-icons/fa'
 import Carousel from '../../components/carousel/carousel'
 import Layout from '../../components/layout'
 import ListItem from '../../components/listItem/listItem'
@@ -28,8 +29,13 @@ class Home extends Component {
     this.handleDropdownClick = this.handleDropdownClick.bind(this);
     this.handleOutsideDropdownClick = this.handleOutsideDropdownClick.bind(this);
     this.triggerRenderHome = this.triggerRenderHome.bind(this);
+    this.displayConsumptionData = this.displayConsumptionData.bind(this)
     // this.handleModalClose = this.handleModalClose.bind(this);
-  
+    
+    //  for creating a document with todays date
+    const date = new Date();
+
+    const today = dateFormat(date, "isoDate", true);
 
     this.state = {
       searchTerm: '',
@@ -47,7 +53,9 @@ class Home extends Component {
       targetProtein: 0,
       targetCarbs: 0,
       targetFat: 0,
-      eatenFood: [],  
+      eatenFood: [],
+      date: today,
+      snapshot: ""
     }
 
     this.node = React.createRef()
@@ -60,32 +68,25 @@ class Home extends Component {
 
   componentDidMount(){
     const { firebase, history } = this.props
+    const { date } = this.state
     //  store this for later use inside db fetch
-    var _this = this;
-    //  for creating a document with todays date
-    const date = new Date();
+    const _this = this;
 
-    const today = dateFormat(date, "isoDate", true);
     
     //if user is logged in, sanity check 
     firebase.auth.onAuthStateChanged(function(user) {
       if (user) {
+        
         firebase
         .user(user.uid)
         .collection('consumption')
         .get()
         .then(function(querySnapshot) {
-          querySnapshot.forEach((doc) => {
-              // doc.data() is never undefined for query doc snapshots
-              console.log(doc.id, " => ", doc.data());
-
-              //  only care about food eaten today for now
-              if (doc.id === today){
-                console.log("a match")
-                console.log(doc.data())                
-                _this.parseFoodItems(doc.data())
-              }           
-          });
+          _this.setState({
+              snapshot: querySnapshot
+            }, () => {
+              _this.displayConsumptionData()
+            })
         })
         .catch(err => {
           console.log(err)
@@ -114,7 +115,6 @@ class Home extends Component {
   componentWillUnmount(){
     document.removeEventListener('mousedown', this.handleDropdownClick, false)
   }
-
 
   onExiting() {
     this.animating = true
@@ -175,8 +175,36 @@ class Home extends Component {
     //   }
   }
 
+  displayConsumptionData(){
+    const { snapshot, date } = this.state
+    console.log(date)
+
+    this.setState({
+      dailyCalories: 0,
+      dailyFats: 0,
+      dailyProteins: 0,
+      dailySugars: 0,
+      dailyCarbs:  0,
+      eatenFood: []
+    }, () => {
+      snapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        //console.log(doc.id, " => ", doc.data());
+  
+        //  only care about food eaten today for now
+        if (doc.id === date){
+          console.log("a match")
+          console.log(doc.data())                
+          this.parseFoodItems(doc.data())
+        }           
+      });
+    })
+}
+
+
+
   parseFoodItems(foodObject){
-    const {dailyCalories, dailyFats, dailyProteins, dailySugars, dailyCarbs, eatenFood} = this.state
+    const {dailyCalories, dailyFats, dailyProteins, dailySugars, dailyCarbs, eatenFood, date} = this.state
     const objectKeys = Object.keys(foodObject);
     console.log("objectKeys: ", objectKeys)
     let calories = 0
@@ -186,14 +214,13 @@ class Home extends Component {
     let sugar = 0
     const foodData = []
     Object.entries(foodObject).forEach(([key, value]) => {
-      console.log()
-      console.log(`key= ${key} value = ${value}`)
+      //console.log(`key= ${key} value = ${value}`)
       // eslint-disable-next-line no-restricted-syntax
       // eslint-disable-next-line guard-for-in
       // eslint-disable-next-line prefer-const
       foodData.push(value)
       for (const property in value) {
-        console.log(`key = ${property} value = ${value[property]}`)
+        //console.log(`key = ${property} value = ${value[property]}`)
         switch(property) {
           case "calories":
             calories += value[property]
@@ -257,14 +284,15 @@ class Home extends Component {
 
   // eslint-disable-next-line class-methods-use-this
   triggerRenderHome(foodObject){
-    console.log("back in home baby")
-    console.log(foodObject)
+    //console.log("back in home baby")
+    //console.log(foodObject)
     this.parseFoodItems(foodObject)
 
   }
 
   render() {
-    const { searchResult, dropdownVisible, dailyFats, dailyProteins, dailyCarbs, dailyCalories, eatenFood, targetCalories, targetFat, targetCarbs, targetProtein } = this.state
+    const { searchResult, dropdownVisible, dailyFats, 
+      dailyProteins, dailyCarbs, dailyCalories, eatenFood, targetCalories, targetFat, targetCarbs, targetProtein, date } = this.state
     const { firebase } = this.props
     return (
       <Layout className="home" >
@@ -313,6 +341,33 @@ class Home extends Component {
                 )}
               </Form>
             </Col>
+          </Row>
+          <Row className="align-self-center">   
+          <Col sm="12" md={{ size: 4, offset: 4 } } className="text-center">
+          <div className="date-picker">
+          <p><span><i><FaCalendarAlt/></i></span>{date}</p>
+          <a data-slide="prev" role="button" className="left date-control" 
+          onClick={() => {
+            var d = new Date(date);
+            d.setDate(d.getDate() - 1);
+            this.setState({
+              date: dateFormat(d, "isoDate", true)
+            }, () => {this.displayConsumptionData()})
+          }
+          }><i> <FaChevronLeft/></i></a>
+          <a data-slide="next" role="button" className="right date-control" 
+          onClick={() => {
+            var d = new Date(date);
+            d.setDate(d.getDate() + 1);
+            this.setState({
+              date: dateFormat(d, "isoDate", true)
+            }, () => {this.displayConsumptionData()})
+          }}><i><FaChevronRight/></i></a>
+          </div>
+          </Col>
+           
+
+
           </Row>
         </Container>
       </Layout>

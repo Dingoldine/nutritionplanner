@@ -87,9 +87,9 @@ class CarouselComponent extends React.Component {
                     <div className="text-center"><p> Daily Fats </p> {Math.round((dailyFats/targetFat) * 1000) / 10}%</div>
                     <Progress animated color="info" value={(dailyFats/targetFat)* 100} />
                     <div className="text-center"><p> Daily Carbs </p> {Math.round((dailyCarbs/targetCarbs) * 1000) / 10}%</div>
-                    <Progress animated color="info" value={(dailyFats/targetFat)* 100} />
+                    <Progress animated color="info" value={(dailyCarbs/targetCarbs)* 100} />
                     <div className="text-center"><p> Daily Protein </p> {Math.round((dailyProteins/targetProtein) * 1000) / 10}%</div>
-                    <Progress animated color="info" value={(dailyFats/targetFat)* 100} />
+                    <Progress animated color="info" value={(dailyProteins/targetProtein)* 100} />
                   </Col>
                 </Row>
                 <CarouselCaption  captionHeader={slides[0].caption} captionText="" />

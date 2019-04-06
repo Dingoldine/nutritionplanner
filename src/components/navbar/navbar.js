@@ -1,7 +1,7 @@
 import React from 'react'
 import './navbar.css'
 import { NavLink as RRNavLink } from 'react-router-dom'
-import { FaUserCircle, FaGithub, FaSignInAlt, FaHome } from 'react-icons/fa'
+import { FaUserCircle, FaGithub, FaSignInAlt, FaHome, FaUserPlus } from 'react-icons/fa'
 import {
   Collapse,
   Navbar,
@@ -89,7 +89,7 @@ class Navigator extends React.Component {
           </span>
           </NavLink>
         </NavItem>,
-        
+
         <NavItem className="github-nav"> 
           <NavLink href="https://gits-15.sys.kth.se/wwes/nutritionplanner">
             GitHub{' '}
@@ -100,6 +100,22 @@ class Navigator extends React.Component {
         </NavItem>
           ]
           ) : (
+            [ 
+            <div className="welcome-text">
+              <p>Welcome! </p>
+              <p>
+               Register now or sign in to get started!</p>
+            </div>,
+
+            <NavItem>
+              <NavLink tag={RRNavLink} exact to="/signup" >
+                Register{' '}
+                <span>
+                  <FaUserPlus />
+                </span>
+              </NavLink>
+            </NavItem>, 
+
             <NavItem>
               <NavLink tag={RRNavLink} exact to="/home" className="logon">
                 Sign In{' '}
@@ -107,7 +123,10 @@ class Navigator extends React.Component {
                   <FaSignInAlt />
                 </span>
               </NavLink>
-            </NavItem>
+            </NavItem> 
+
+
+            ]
           )}
         </Nav>
       </Menu>

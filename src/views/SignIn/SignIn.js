@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import './SignIn.css'
 import { FaEnvelope, FaKey } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
-import { Container, Col, Form, FormGroup, Label, Input, Button, FormFeedback } from 'reactstrap'
+import { Container, Row, Col, Form, FormGroup, Label, Input, Button, FormFeedback } from 'reactstrap'
 import Layout from '../../components/layout'
+import FakeLogo from '../../images/fake-logo.jpg'
 
 const INITIAL_STATE = {
   email: '',
@@ -64,59 +65,57 @@ export default class SignIn extends Component {
     return (
       <Layout className="home">
         <Container className="loginPage">
-          <h2>Sign In</h2>
-          <Form className="form" onSubmit={e => this.submitForm(e)}>
+          <Row>
             <Col>
-              <FormGroup>
-                <Label>
-                  <span>
-                    <FaEnvelope />
-                  </span>{' '}
-                  Email
-                </Label>
-                <Input
-                  type="email"
-                  name="email"
-                  id="exampleEmail"
-                  placeholder="myemail@email.com"
-                  value={email}
-                  valid={validate.emailState === 'has-success'}
-                  invalid={validate.emailState === 'has-danger'}
-                  onChange={e => {
-                    this.validateEmail(e)
-                    this.handleChange(e)
-                  }}
-                />
-                <FormFeedback valid>That's a tasty looking email you've got there.</FormFeedback>
-                <FormFeedback>
-                  Uh oh! Looks like there is an issue with your email. Please input a correct email.
-                </FormFeedback>
-              </FormGroup>
+            <Form className="form" onSubmit={e => this.submitForm(e)}>
+              <Col className="logo-wrapper">
+                  <img src={FakeLogo} alt=""></img>
+                  <p> Welcome to Nutrition Planner. Are you ready to get healthy?</p>
+              </Col>
+              <Col>
+                <FormGroup>
+                  <Label>
+                      <FaEnvelope />
+                  </Label>
+                  <Input
+                    type="email"
+                    name="email"
+                    id="exampleEmail"
+                    placeholder="Email"
+                    value={email}
+                    valid={validate.emailState === 'has-success'}
+                    invalid={validate.emailState === 'has-danger'}
+                    onChange={e => {
+                      this.validateEmail(e)
+                      this.handleChange(e)
+                    }}
+                  />
+                  <FormFeedback valid>That's a tasty looking email you've got there.</FormFeedback>
+                  <FormFeedback>
+                    Uh oh! Looks like there is an issue with your email. Please input a correct email.
+                  </FormFeedback>
+                </FormGroup>
+              </Col>
+              <Col>
+                <FormGroup>
+                  <Label for="signupPassword">
+                      <FaKey />
+                  </Label>
+                  <Input
+                    type="password"
+                    name="password"
+                    id="signupPassword"
+                    placeholder="Password"
+                    value={password}
+                    onChange={e => this.handleChange(e)}
+                  />
+                </FormGroup>
+              </Col>
+              <Button type="submit">Sign In</Button>
+              {error && error.message}
+            </Form>
             </Col>
-            <Col>
-              <FormGroup>
-                <Label for="signupPassword">
-                  <span>
-                    <FaKey />
-                  </span>{' '}
-                  Password
-                </Label>
-                <Input
-                  type="password"
-                  name="password"
-                  id="signupPassword"
-                  placeholder="********"
-                  value={password}
-                  onChange={e => this.handleChange(e)}
-                />
-              </FormGroup>
-            </Col>
-            <Button type="submit">Submit</Button>
-            {error && error.message}
-            <Link className="router-link" to="/signup">
-              Sign Up
-            </Link>
-          </Form>
+          </Row>
         </Container>
       </Layout>
     )

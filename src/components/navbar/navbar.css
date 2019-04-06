@@ -87,3 +87,7 @@
   .github-nav {
       margin-top: 80px;
   }
+
+  .welcome-text {
+    white-space: pre-line;
+  }

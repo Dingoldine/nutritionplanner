@@ -1,26 +1,67 @@
 .loginPage {
+  min-height: 100%;
+  overflow: hidden;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.loginPage .form {
+    padding: 1em;
     text-align: left;
     padding: 1em;
     margin: 1em;
-    border: 2px solid #d3d3d3;
-    border-radius: .5em;
     vertical-align: middle;
     margin-left: auto;
     margin-right: auto;
     width: 600px;
     margin-top: 100px;
-}
-
-.form {
-    padding: 1em;
   }
   
-  label {
+  .loginPage .label {
     display: flex;
     font-weight: 600;
+    color: #474c7c;
   }
   
-  button {
+  .loginPage .form-control {
+    border: 0;
+    outline: 0;
+    background: transparent;
+    border-bottom: 0.5px solid;
+    border-color: #ccc;
+    font-family: 'VSCO Gothic Book', Helvetica, Arial, sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    font-size: 20px;
+    font-size: 1rem;
+  }
+
+  .loginPage .form-control:focus {
+    border-color: inherit;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+
+  .loginPage  button {
     justify-content: flex-end;
+    float: right;
+    margin: 40px;
+    padding: 0;
+    color: #888;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 0.75em;;
+    text-transform: uppercase;
+    letter-spacing: 0.0625rem;
+    cursor: pointer;
+    min-width: 113px;
+    height: 48px;
+    background: #F6F6F6;
+    color: #888;
+    border: none;
   }
   
+  .logo-wrapper {
+    text-align: center;
+    margin-bottom: 50px;
+  }

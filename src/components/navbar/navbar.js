@@ -15,6 +15,7 @@ import {
   DropdownMenu,
   DropdownItem
 } from 'reactstrap'
+import { slide as Menu } from 'react-burger-menu'
 import SignOutButton from '../signOutButton'
 import { withFirebase } from '../../app/firebase'
 
@@ -42,6 +43,11 @@ class Navigator extends React.Component {
     });
   }
 
+  showSettings (event) {
+    event.preventDefault();
+    
+  }
+
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen
@@ -51,13 +57,9 @@ class Navigator extends React.Component {
   render() {
     const { isLoggedIn } = this.state
     return (  
-      <div>
-        <Navbar color="light" light expand="md">
-          <NavbarBrand tag={RRNavLink} exact to="/home">Nutrition Planner</NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="ml-auto" navbar>
-              <NavItem>
+      <Menu noOverlay disableAutoFocus id="sidebar" className="sidebar-menu">
+      <Nav vertical>
+            <NavItem>
                 <NavLink tag={RRNavLink} exact to="/profile">
                   Profile{' '}
                   <span>
@@ -66,14 +68,28 @@ class Navigator extends React.Component {
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="https://gits-15.sys.kth.se/wwes/nutritionplanner">
+            <NavLink href="https://gits-15.sys.kth.se/wwes/nutritionplanner">
                   GitHub{' '}
                   <span>
                     <FaGithub />
                   </span>
                 </NavLink>
               </NavItem>
-              <UncontrolledDropdown nav inNavbar>
+              {isLoggedIn ? (
+                    <NavItem className="logoff">
+                        <SignOutButton />
+                    </NavItem>
+                ) : (
+                  <NavItem>
+                    <NavLink tag={RRNavLink} exact to="/home" className="logon">
+                      Sign In{' '}
+                      <span>
+                        <FaSignInAlt />
+                      </span>
+                    </NavLink>
+                  </NavItem>
+                )}
+        <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
                   Options
                 </DropdownToggle>
@@ -84,24 +100,9 @@ class Navigator extends React.Component {
                   <DropdownItem>Reset</DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
-                {isLoggedIn ? (
-                    <NavItem>
-                        <SignOutButton />
-                    </NavItem>
-                ) : (
-                  <NavItem>
-                    <NavLink tag={RRNavLink} exact to="/home">
-                      Sign In{' '}
-                      <span>
-                        <FaSignInAlt />
-                      </span>
-                    </NavLink>
-                  </NavItem>
-                )}
-            </Nav>
-          </Collapse>
-        </Navbar>
-      </div>
+        </Nav>
+        <a onClick={ this.showSettings } className="menu-item--small" href="">Settings</a>
+      </Menu>
     )
   }
 }

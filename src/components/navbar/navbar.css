@@ -22,10 +22,14 @@
 .bm-overlay {
     background: rgba(0, 0, 0, 0.3);
   }
-
+/* Position and sizing of clickable cross button, ONLY IF CUSTOM */
+.bm-cross-button {
+    height: 40px;
+    width: 40px;
+  }
   /* Color/shape of close button cross */
 .bm-cross {
-    background: #bdc3c7;
+    background: #474c7c;
   }
    
   /*
@@ -39,15 +43,19 @@
    
   /* General sidebar styles */
   .bm-menu {
-    background: #373a47;
     padding: 2.5em 1.5em 0;
     font-size: 1.15em;
+    background-color: #ffffff;
+    background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23e0f0e3' fill-opacity='0.5' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
+    border-radius: 2px;
+    box-shadow: 0px 1px 10px #999;
   }
 
   /* Wrapper for item list */
 .bm-item-list {
     color: #b8b7ad;
     padding: 0.8em;
+    width: 100%;
   }
    
   /* Individual item */
@@ -61,4 +69,21 @@
     bottom: 80px;
     left: 0;    
     right: 0;
+    color: #474c7c;
+  }
+
+  .nav-item a{
+    width: 100%;
+    color: #474c7c;
+    margin-top: 10px;
+  }
+
+/* On hover effects*/
+  .nav-item:hover {
+    box-shadow: #444 0 0 0px !important;
+    border-left: 4px solid #cecece !important;
+  }
+
+  .github-nav {
+      margin-top: 80px;
   }

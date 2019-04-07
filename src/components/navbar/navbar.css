@@ -72,16 +72,30 @@
     color: #474c7c;
   }
 
+  .logoff {
+    font-size: 3.5rem;
+  }
+
+  .logoff:hover{
+    border: 0 !important;
+    transform: translate(5px, 0px);
+  }
+
   .nav-item a{
     width: 100%;
     color: #474c7c;
     margin-top: 10px;
+    font-family: Helvetica, Arial, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.0625rem;
+    font-size: 0.8em;;
   }
+
 
 /* On hover effects*/
   .nav-item:hover {
-    box-shadow: #444 0 0 0px !important;
-    border-left: 4px solid #cecece !important;
+    box-shadow: #444 0 0 0px;
+    border-left: 4px solid #cecece;
   }
 
   .github-nav {

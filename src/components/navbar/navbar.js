@@ -46,21 +46,17 @@ class Navigator extends React.Component {
     });
   }
 
-  showSettings (event) {
-    event.preventDefault();
-    
-  }
 
-  toggle() {
+  toggle(state) {
     this.setState({
       isOpen: !this.state.isOpen
     })
   }
 
   render() {
-    const { isLoggedIn, username } = this.state
+    const { isLoggedIn, username, isOpen } = this.state
     return (  
-      <Menu noOverlay disableAutoFocus id="sidebar" className="sidebar-menu" onStateChange={ this.toggle }>
+      <Menu noOverlay disableAutoFocus id="sidebar" className="sidebar-menu" onStateChange={ this.toggle } isOpen={ isOpen }>
       <Nav vertical>
         {isLoggedIn ? (
           [
@@ -107,17 +103,17 @@ class Navigator extends React.Component {
                Register now or sign in to get started!</p>
             </div>,
 
-            <NavItem>
+            <NavItem >
               <NavLink tag={RRNavLink} exact to="/signup" >
-                Register{' '}
+                Sign Up{' '}
                 <span>
                   <FaUserPlus />
                 </span>
               </NavLink>
             </NavItem>, 
 
-            <NavItem>
-              <NavLink tag={RRNavLink} exact to="/home" className="logon">
+            <NavItem className="logon">
+              <NavLink tag={RRNavLink} exact to="/home" >
                 Sign In{' '}
                 <span>
                   <FaSignInAlt />

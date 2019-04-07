@@ -41,6 +41,11 @@
     box-shadow: none;
   }
 
+  #register-text {
+    font-family: Helvetica, Arial, sans-serif;
+    margin-bottom: 3rem;
+  }
+
   .loginPage  button {
     justify-content: flex-end;
     float: right;
@@ -58,10 +63,81 @@
     height: 48px;
     background: #F6F6F6;
     color: #888;
-    border: none;
+    border: 0;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .loginPage button:hover {
+    background: #474c7c;
+  }
+
+  .loginPage .form-group {
+    margin-bottom: 2.5rem;
   }
   
   .logo-wrapper {
     text-align: center;
     margin-bottom: 50px;
+  }
+
+  .register-link {
+    justify-content: flex-end;
+    float: left;
+    margin: 40px;
+    padding: 0;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 0.75em;;
+    text-transform: uppercase;
+    letter-spacing: 0.0625rem;
+    cursor: pointer;
+    border: none;
+    color: #888;
+  }
+
+.register-link:hover {   
+  color: #474c7c;
+  }
+
+
+#welcome-text {
+  margin-top:15px;
+  font-family: Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 0.75em;;
+  letter-spacing: 0.0625rem;
+} 
+
+  @media screen and (max-width:770px) {
+    /* something */
+    .loginPage .form {
+      width: 500px
+    }
+    #login-button{
+      margin: 20px;
+    }
+    .register-link{
+      margin: 20px;
+    }
+    
+  }
+
+  @media screen and (max-width:500px) {
+    /* something */
+    .loginPage .form {
+      width: 300px;
+    }
+
+    #login-button{
+      margin: 0;
+      margin-right: 20px;
+    }
+
+    #welcome-text {
+      visibility: hidden;
+      display: none;
+    }
+    
   }

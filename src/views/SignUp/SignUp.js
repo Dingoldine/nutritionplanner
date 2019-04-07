@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Container, Col, Form, FormGroup, Label, Input, Button, FormFeedback } from 'reactstrap'
 import { FaEnvelope, FaKey, FaAddressBook } from 'react-icons/fa'
 import Layout from '../../components/layout'
+import './SignUp.css'
 
 const INITIAL_STATE = {
   username: '',
@@ -86,11 +87,13 @@ class SignUp extends Component {
     return (
       <Layout className="home">
         <Container className="loginPage">
-          <h2>Sign Up</h2>
           <Form className="form" onSubmit={e => this.submitForm(e)}>
             <Col>
+              <h2 id="register-text">Register now to start using the app!</h2>
+            </Col>
+            <Col>
               <FormGroup>
-                <Label for="signupUsername">
+                <Label for="signupUsername" className="text">
                   <span>
                     <FaAddressBook />
                   </span>{' '}
@@ -108,7 +111,7 @@ class SignUp extends Component {
             </Col>
             <Col>
               <FormGroup>
-                <Label>
+                <Label className="text">
                   <span>
                     <FaEnvelope />
                   </span>{' '}
@@ -135,7 +138,7 @@ class SignUp extends Component {
             </Col>
             <Col>
               <FormGroup>
-                <Label for="examplePassword">
+                <Label for="examplePassword" className="text">
                   <span>
                     <FaKey />
                   </span>{' '}

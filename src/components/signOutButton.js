@@ -8,10 +8,7 @@ import { withFirebase } from '../app/firebase'
 
 const SignOutButton = ({ firebase }) => (
   <NavLink onClick={firebase.doSignOut} style={{cursor: "pointer"}}>
-    Sign Out{' '}
-    <span>
-        <FaSignOutAlt />
-    </span>
+      <FaSignOutAlt />
   </NavLink>
 )
 

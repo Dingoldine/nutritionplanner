@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import './SignIn.css'
 import { FaEnvelope, FaKey } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
-import { Container, Row, Col, Form, FormGroup, Label, Input, Button, FormFeedback } from 'reactstrap'
+import { NavLink as RRNavLink } from 'react-router-dom'
+import { Container, Row, Col, Form, FormGroup, Label, Input, Button, FormFeedback, NavLink } from 'reactstrap'
 import Layout from '../../components/layout'
 import FakeLogo from '../../images/fake-logo.jpg'
 
@@ -70,7 +70,7 @@ export default class SignIn extends Component {
             <Form className="form" onSubmit={e => this.submitForm(e)}>
               <Col className="logo-wrapper">
                   <img src={FakeLogo} alt=""></img>
-                  <p> Welcome to Nutrition Planner. Are you ready to get healthy?</p>
+                  <p id="welcome-text"> Welcome to Nutrition Planner. Are you ready to get fit?</p>
               </Col>
               <Col>
                 <FormGroup>
@@ -111,8 +111,11 @@ export default class SignIn extends Component {
                   />
                 </FormGroup>
               </Col>
-              <Button type="submit">Sign In</Button>
+              <Button type="submit" id="login-button">Sign In</Button>
               {error && error.message}
+              <NavLink tag={RRNavLink} exact to="/signup" className="register-link">
+                Sign Up - start using the app{' '}
+              </NavLink>
             </Form>
             </Col>
           </Row>

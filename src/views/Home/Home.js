@@ -10,6 +10,7 @@ import {
   Form
 } from 'reactstrap'
 import { FaChevronRight, FaChevronLeft, FaCalendarAlt } from 'react-icons/fa'
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 import Carousel from '../../components/carousel/carousel'
 import Layout from '../../components/layout'
 import ListItem from '../../components/listItem/listItem'
@@ -177,7 +178,7 @@ class Home extends Component {
 
   displayConsumptionData(){
     const { snapshot, date } = this.state
-    console.log(date)
+    console.log(snapshot)
 
     this.setState({
       dailyCalories: 0,
@@ -344,33 +345,44 @@ class Home extends Component {
           </Row>
           <Row className="align-self-center">   
           <Col sm="12" md={{ size: 4, offset: 4 } } className="text-center">
-          <div className="date-picker">
-          <p><span><i><FaCalendarAlt/></i></span>{date}</p>
-          <a data-slide="prev" role="button" className="left date-control" 
-          onClick={() => {
-            var d = new Date(date);
-            d.setDate(d.getDate() - 1);
-            this.setState({
-              date: dateFormat(d, "isoDate", true)
-            }, () => {this.displayConsumptionData()})
-          }
-          }><i> <FaChevronLeft/></i></a>
-          <a data-slide="next" role="button" className="right date-control" 
-          onClick={() => {
-            var d = new Date(date);
-            d.setDate(d.getDate() + 1);
-            this.setState({
-              date: dateFormat(d, "isoDate", true)
-            }, () => {this.displayConsumptionData()})
-          }}><i><FaChevronRight/></i></a>
-          </div>
+            <TransitionGroup>
+              <CSSTransition
+                key={date}
+                timeout={1000}
+                classNames="messageout"
+                >
+                <div className="date-container">
+                  <p id="current-date-shown"><span><i><FaCalendarAlt/></i></span>{date}</p>
+                </div>
+              
+              </CSSTransition>
+            </TransitionGroup>
+            <div className="date-picker">
+
+              <a data-slide="prev" role="button" className="left date-control" 
+                onClick={() => {
+                  var d = new Date(date);
+                  d.setDate(d.getDate() - 1);
+                  this.setState({
+                    date: dateFormat(d, "isoDate", true)
+                  }, () => {this.displayConsumptionData()})
+              }
+              }><i> <FaChevronLeft/></i></a>
+
+              <a data-slide="next" role="button" className="right date-control" 
+                onClick={() => {
+                  var d = new Date(date);
+                  d.setDate(d.getDate() + 1);
+                  this.setState({
+                    date: dateFormat(d, "isoDate", true)
+                  }, () => {this.displayConsumptionData()})
+              }}><i><FaChevronRight/></i></a>
+
+          </div> 
           </Col>
-           
-
-
-          </Row>
-        </Container>
-      </Layout>
+        </Row>
+      </Container>
+    </Layout>
     )
   }
 }

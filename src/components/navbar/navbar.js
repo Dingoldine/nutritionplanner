@@ -37,7 +37,12 @@ class Navigator extends React.Component {
       if (user) {
         this_.setState({
           isLoggedIn: true,
-          username: user.username
+        })
+        firebase.user(user.uid)
+        .onSnapshot(snapshot => {
+          this_.setState({ 
+            username: snapshot.data().username
+          })
         })
       } else {
         // No user is signed in.
@@ -57,13 +62,12 @@ class Navigator extends React.Component {
     const { isLoggedIn, username, isOpen } = this.state
     return (  
       <Menu noOverlay disableAutoFocus id="sidebar" className="sidebar-menu" onStateChange={ this.toggle } isOpen={ isOpen }>
+      <div className="username-field">
+          {username}
+      </div>
       <Nav vertical>
         {isLoggedIn ? (
           [
-          <div className="username">
-          {username}
-          </div>,
-
           <NavItem className="logoff">
               <SignOutButton />
           </NavItem> ,
@@ -111,6 +115,15 @@ class Navigator extends React.Component {
                 </span>
               </NavLink>
             </NavItem>, 
+
+            <NavItem className="github-nav"> 
+              <NavLink href="https://gits-15.sys.kth.se/wwes/nutritionplanner">
+                GitHub{' '}
+                <span>
+                  <FaGithub />
+                </span>
+              </NavLink>
+          </NavItem>,
 
             <NavItem className="logon">
               <NavLink tag={RRNavLink} exact to="/home" >

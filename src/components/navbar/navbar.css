@@ -91,6 +91,10 @@
     font-size: 0.8em;;
   }
 
+  .username-field {
+      margin-left: 10px;
+      margin-bottom: 30px;
+  }
 
 /* On hover effects*/
   .nav-item:hover {

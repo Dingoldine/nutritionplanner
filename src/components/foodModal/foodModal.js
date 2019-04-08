@@ -145,7 +145,7 @@ class FoodModal extends React.Component { // eslint-disable-line
       })
     } else {
       this.setState({
-        grams: value
+        grams: value*1
       }, () => {
         this.computeMacros()
       })
@@ -168,7 +168,7 @@ class FoodModal extends React.Component { // eslint-disable-line
     } else {
       this.setState({
         servingSelected: false,
-        grams: quantity
+        grams: quantity*1
       }, () => {
         this.computeMacros()
       })

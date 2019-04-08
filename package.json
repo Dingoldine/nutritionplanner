@@ -19,6 +19,7 @@
     "react-bootstrap": "^1.0.0-beta.5",
     "react-burger-menu": "^2.6.8",
     "react-chartjs-2": "^2.7.4",
+    "react-circular-progressbar": "^1.0.0",
     "react-dom": "^16.8.4",
     "react-icons": "^3.5.0",
     "react-redux": "^5.0.6",

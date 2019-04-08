@@ -9,11 +9,13 @@ import {
   Button,
   Form
 } from 'reactstrap'
-import { FaChevronRight, FaChevronLeft, FaCalendarAlt } from 'react-icons/fa'
+import { FaChevronRight, FaChevronLeft, FaCalendarAlt, FaFileExcel } from 'react-icons/fa'
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import Carousel from '../../components/carousel/carousel'
 import Layout from '../../components/layout'
 import ListItem from '../../components/listItem/listItem'
+import FoodItem from '../../components/foodItem/foodItem'
+import CircularProgress from '../../components/circularProgress/circularProgress'
+import MacroProgressBar from '../../components/macroProgressBar/macroProgressBar'
 import { makeGetFoodRequest } from '../../utils/api'
 import './Home.css'
 import dateFormat from 'dateformat'
@@ -53,7 +55,7 @@ class Home extends Component {
       targetCalories: 0,
       targetProtein: 0,
       targetCarbs: 0,
-      targetFat: 0,
+      targetFats: 0,
       eatenFood: [],
       date: today,
       snapshot: ""
@@ -101,7 +103,7 @@ class Home extends Component {
           targetCalories: snapshot.data().settings.calories,
           targetProtein: snapshot.data().settings.protein,
           targetCarbs: snapshot.data().settings.carbs,
-          targetFat: snapshot.data().settings.fat,
+          targetFats: snapshot.data().settings.fat,
           })
         })
       } else {
@@ -293,21 +295,44 @@ class Home extends Component {
 
   render() {
     const { searchResult, dropdownVisible, dailyFats, 
-      dailyProteins, dailyCarbs, dailyCalories, eatenFood, targetCalories, targetFat, targetCarbs, targetProtein, date } = this.state
+      dailyProteins, dailyCarbs, dailyCalories, eatenFood, targetCalories, targetFats, targetCarbs, targetProtein, date } = this.state
     const { firebase } = this.props
+    console.log(eatenFood);
+    
     return (
       <Layout className="home" >
         <Container fluid="true" className="home">
-          <Carousel 
-          dailyFats={dailyFats} 
-          dailyCarbs={dailyCarbs} 
-          dailyProteins ={dailyProteins} 
-          dailyCalories={dailyCalories}
-          targetCalories={targetCalories}
-          targetProtein={targetProtein}
-          targetFat={targetFat}
-          targetCarbs={targetCarbs} 
-          eatenFood={eatenFood}/>
+          <Row className="topMainRow">
+            <Row style={{width: '100%',padding: '30px 0px 40px 0px'}}>
+              <Col sm="4" className="eatenCol">
+                <div className="eatenDiv">
+                  <span>{dailyCalories.toFixed(0)}</span>
+                  <p>kcal eaten</p>
+                </div>
+              </Col>
+              <Col sm="4" className="circleCol">
+                <p>remaining calories</p>
+                <CircularProgress dailyCalories={dailyCalories} targetCalories={targetCalories} />
+              </Col>   
+              <Col sm="4"></Col>    
+            </Row>
+            <Row style={{width: '100%', paddingLeft: '30px'}}>
+              <Col sm="3"></Col> 
+              <Col sm="6" style={{ display: 'flex', justifyContent: 'center'}}>
+                <Col sm="4" style={{ display: 'flex', justifyContent: 'center'}}>
+                  <MacroProgressBar name="carbs" daily={dailyCarbs} target={targetCarbs} />
+                </Col> 
+                <Col sm="4" style={{ display: 'flex', justifyContent: 'center'}}>
+                  <MacroProgressBar name="protein" daily={dailyProteins} target={targetProtein} />
+                </Col> 
+                <Col sm="4" style={{ display: 'flex', justifyContent: 'center'}}>
+                  <MacroProgressBar name="fats" daily={dailyFats} target={targetFats} />
+                </Col> 
+              </Col> 
+              <Col sm="3"></Col> 
+            </Row>
+          </Row>
+          
           {/* Search field and button */}
           <Row className="search">
             <Col sm="12" md={{ size: 6, offset: 3 }}>
@@ -380,6 +405,26 @@ class Home extends Component {
 
           </div> 
           </Col>
+        </Row>
+        <Row className="foodListRow">
+          <div className="foodListWrapper">
+            {eatenFood.map(item => (
+              <FoodItem
+                foodName={item.foodName}
+                calories={item.calories}
+                carbs={item.carbs}
+                protein={item.protein}
+                photo={item.img}
+                grams={item.grams}
+                key={item.foodName}
+              />
+            ))}
+        < /div>
+        </Row>
+        <Row className="emptySpace">
+        </Row>
+        <Row className="footerRow">
+          © Nutrition Planner - William Westerlund & Philip Rumman
         </Row>
       </Container>
     </Layout>

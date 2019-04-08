@@ -1,3 +1,5 @@
+
+
 /* Carousel base class */
 .carousel {
   height: 500px;
@@ -7,39 +9,58 @@
   z-index: 10; /* Since positioning the image, we need to help out the caption */
 }
 
-/* Declare heights because of positioning of img element */
-.carousel .carousel-item {
-  height: 500px;
-  background-color: #777;
-}
-.carousel-inner > .carousel-item > img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  min-width: 100%;
-  height: 500px;
+/* background: linear-gradient(130deg,#7eddb1,#00b698); */
+
+/* Circular Top Main Container */
+
+.topMainRow {
+  background: linear-gradient(130deg,#7eddb1,#00b698);
+  border-bottom-left-radius:47%;
+  border-bottom-right-radius:47%;
+  padding-bottom: 75px;
+  margin-bottom: 50px;
 }
 
-.axisLabel, .legend {
-  font-family: sans-serif;
-  font-size: 15px;
-  font-weight: 300;
-  fill: #242424;
+.circleCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.tooltip {
-  font-weight: bold;
-  fill: #333333;
+.circleCol p {
+  font-size: 38px;
+  color: white;
+  padding: 20px 0;
 }
 
-.foodItem  {
-  margin: 20px;
+.eatenCol {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  color: white;
+  flex-direction: column;
 }
 
-.cards{
-  
-    margin: 0 -15px;
-    justify-content: space-between;
+.eatenDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.eatenDiv span {
+  font-size: 26px;
+}
+
+/* FoodListRow */
+.foodListRow {
+  flex-direction: column;
+  align-items: center;
+}
+
+.foodListWrapper {
+  width: 30%;
+  border-bottom: solid #aaa 1px;
+  box-shadow: rgba(0, 0, 0, 0.45)  8px 8px 20px 0px;
 }
 
 ul {
@@ -145,4 +166,18 @@ ul {
 
 #current-date-shown { 
 
+}
+
+/* Footer */
+.footerRow {
+  background: linear-gradient(130deg,#00b698, #7eddb1);
+  border-top: solid #555 1px;
+  padding: 20px;
+  font-size: 13px;
+  color: white;
+}
+
+/* Empty Space */
+.emptySpace {
+  padding: 25px;
 }

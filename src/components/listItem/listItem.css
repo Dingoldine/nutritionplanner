@@ -15,6 +15,7 @@
 
 .listEntry {
     position: relative;
+    background-color: white;
 }
 
 .common-food-image {

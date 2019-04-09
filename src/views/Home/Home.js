@@ -154,14 +154,8 @@ class Home extends Component {
         })
         .then(() => {
           console.log('Successfully removed item')
-          const array = eatenFood; // make a separate copy of the array
-          array.splice(index, 1);
-          this.setState({
-            eatenFood: array
-          }, () => {
-            console.log("Deleted")
-          })
-          
+          this.fetchAndDisplay()
+        
         })
         .catch(err => {
           console.log(err)
@@ -427,7 +421,7 @@ class Home extends Component {
                   d.setDate(d.getDate() - 1);
                   this.setState({
                     date: dateFormat(d, "isoDate", true)
-                  }, () => {this.displayConsumptionData()})
+                  }, () => {this.fetchAndDisplay()})
               }
               }><i> <FaChevronLeft/></i></a>
 
@@ -437,7 +431,7 @@ class Home extends Component {
                   d.setDate(d.getDate() + 1);
                   this.setState({
                     date: dateFormat(d, "isoDate", true)
-                  }, () => {this.displayConsumptionData()})
+                  }, () => {this.fetchAndDisplay()})
               }}><i><FaChevronRight/></i></a>
 
           </div> 

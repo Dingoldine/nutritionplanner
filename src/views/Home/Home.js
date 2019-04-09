@@ -138,12 +138,12 @@ class Home extends Component {
     //   }
   }
 
-  handleDeleteFoodItem(foodObject) {
+  handleDeleteFoodItem(foodObject, index) {
     const { firebase } = this.props
     const currUser = firebase.auth.currentUser
-    const { date } = this.state
+    const { date, eatenFood } = this.state
     const { time } = foodObject
-    
+
     if (currUser) {
       firebase
         .user(currUser.uid)
@@ -154,7 +154,14 @@ class Home extends Component {
         })
         .then(() => {
           console.log('Successfully removed item')
-          this.displayConsumptionData()
+          const array = eatenFood; // make a separate copy of the array
+          array.splice(index, 1);
+          this.setState({
+            eatenFood: array
+          }, () => {
+            console.log("Deleted")
+          })
+          
         })
         .catch(err => {
           console.log(err)
@@ -236,6 +243,7 @@ class Home extends Component {
   parseFoodItems(foodObject){
     const {dailyCalories, dailyFats, dailyProteins, dailySugars, dailyCarbs, eatenFood, date} = this.state
     const objectKeys = Object.keys(foodObject);
+    console.log("HELOOOOO")
     console.log("objectKeys: ", objectKeys)
     let calories = 0
     let carbs = 0
@@ -437,10 +445,10 @@ class Home extends Component {
         </Row>
         <Row className="foodListRow">
           <div className="foodListWrapper">
-            {eatenFood.map(foodObject => (
+            {eatenFood.map((foodObject,index) => (
               <FoodItem
                 foodObject={foodObject}
-                onClick={() => this.handleDeleteFoodItem(foodObject)}
+                onClick={() => this.handleDeleteFoodItem(foodObject, index)}
               />
             ))}
         </div>

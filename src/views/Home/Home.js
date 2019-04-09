@@ -59,7 +59,7 @@ class Home extends Component {
       targetFats: 0,
       eatenFood: [],
       date: today,
-      snapshot: ""
+      snapshot: []
     }
 
     this.node = React.createRef()

@@ -32,6 +32,7 @@ class Home extends Component {
     this.handleDropdownClick = this.handleDropdownClick.bind(this);
     this.handleOutsideDropdownClick = this.handleOutsideDropdownClick.bind(this);
     this.triggerRenderHome = this.triggerRenderHome.bind(this);
+    this.handleDeleteFoodItem = this.handleDeleteFoodItem.bind(this);
     this.displayConsumptionData = this.displayConsumptionData.bind(this)
     // this.handleModalClose = this.handleModalClose.bind(this);
     
@@ -70,48 +71,7 @@ class Home extends Component {
   }
 
   componentDidMount(){
-    const { firebase, history } = this.props
-    const { date } = this.state
-    //  store this for later use inside db fetch
-    const _this = this;
-
-    
-    //if user is logged in, sanity check 
-    firebase.auth.onAuthStateChanged(function(user) {
-      if (user) {
-        
-        firebase
-        .user(user.uid)
-        .collection('consumption')
-        .get()
-        .then(function(querySnapshot) {
-          _this.setState({
-              snapshot: querySnapshot
-            }, () => {
-              _this.displayConsumptionData()
-            })
-        })
-        .catch(err => {
-          console.log(err)
-          console.log('Failure to fetch an item')
-        })
-        
-        firebase
-        .user(user.uid)
-        .onSnapshot(snapshot => {
-          _this.setState({
-          targetCalories: snapshot.data().settings.calories,
-          targetProtein: snapshot.data().settings.protein,
-          targetCarbs: snapshot.data().settings.carbs,
-          targetFats: snapshot.data().settings.fat,
-          })
-        })
-      } else {
-        // No user is signed in.
-        history.push('/')
-      }
-    });
-
+    this.fetchAndDisplay()
   }
 
 
@@ -176,6 +136,73 @@ class Home extends Component {
     //       dropdownVisible: false
     //     })
     //   }
+  }
+
+  handleDeleteFoodItem(foodObject) {
+    const { firebase } = this.props
+    const currUser = firebase.auth.currentUser
+    const { date } = this.state
+    const { time } = foodObject
+    
+    if (currUser) {
+      firebase
+        .user(currUser.uid)
+        .collection('consumption')
+        .doc(date)
+        .update({
+          [time]: firebase.fieldValue.delete()
+        })
+        .then(() => {
+          console.log('Successfully removed item')
+          this.displayConsumptionData()
+        })
+        .catch(err => {
+          console.log(err)
+          console.log('Failure to add a food item')
+        }) 
+    }
+  }
+
+  fetchAndDisplay() {
+    const { firebase, history } = this.props
+    const { date } = this.state
+    //  store this for later use inside db fetch
+    const _this = this;
+    // if user is logged in, sanity check 
+    firebase.auth.onAuthStateChanged(function(user) {
+      if (user) {
+        
+        firebase
+        .user(user.uid)
+        .collection('consumption')
+        .get()
+        .then(function(querySnapshot) {
+          _this.setState({
+              snapshot: querySnapshot
+            }, () => {
+              _this.displayConsumptionData()
+            })
+        })
+        .catch(err => {
+          console.log(err)
+          console.log('Failure to fetch an item')
+        })
+        
+        firebase
+        .user(user.uid)
+        .onSnapshot(snapshot => {
+          _this.setState({
+          targetCalories: snapshot.data().settings.calories,
+          targetProtein: snapshot.data().settings.protein,
+          targetCarbs: snapshot.data().settings.carbs,
+          targetFats: snapshot.data().settings.fat,
+          })
+        })
+      } else {
+        // No user is signed in.
+        history.push('/')
+      }
+    })
   }
 
   displayConsumptionData(){
@@ -297,6 +324,8 @@ class Home extends Component {
     const { searchResult, dropdownVisible, dailyFats, 
       dailyProteins, dailyCarbs, dailyCalories, eatenFood, targetCalories, targetFats, targetCarbs, targetProtein, date } = this.state
     const { firebase } = this.props
+    console.log(date);
+    
     console.log(eatenFood);
     
     return (
@@ -408,18 +437,13 @@ class Home extends Component {
         </Row>
         <Row className="foodListRow">
           <div className="foodListWrapper">
-            {eatenFood.map(item => (
+            {eatenFood.map(foodObject => (
               <FoodItem
-                foodName={item.foodName}
-                calories={item.calories}
-                carbs={item.carbs}
-                protein={item.protein}
-                photo={item.img}
-                grams={item.grams}
-                key={item.foodName}
+                foodObject={foodObject}
+                onClick={() => this.handleDeleteFoodItem(foodObject)}
               />
             ))}
-        < /div>
+        </div>
         </Row>
         <Row className="emptySpace">
         </Row>

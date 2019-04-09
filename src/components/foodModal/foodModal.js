@@ -6,7 +6,6 @@ import { Container, Col, Row, ListGroup, ListGroupItem, Input, InputGroup, Input
 import './foodModal.css'
 import { FaChevronRight } from 'react-icons/fa'
 import { makeGetNutrientsRequest } from '../../utils/api'
-import FoodItem from '../foodItem/foodItem';
 
 
 class FoodModal extends React.Component { // eslint-disable-line
@@ -106,7 +105,8 @@ class FoodModal extends React.Component { // eslint-disable-line
         carbs,
         sugar,
         fats,
-        img
+        img,
+        time
       }
     }
 

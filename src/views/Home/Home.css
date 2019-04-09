@@ -59,7 +59,7 @@
 
 .foodListWrapper {
   width: 30%;
-  border-bottom: solid #aaa 1px;
+
   box-shadow: rgba(0, 0, 0, 0.45)  8px 8px 20px 0px;
 }
 
@@ -179,5 +179,5 @@ ul {
 
 /* Empty Space */
 .emptySpace {
-  padding: 25px;
+  padding: 50px;
 }

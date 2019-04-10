@@ -208,8 +208,8 @@ class FoodModal extends React.Component { // eslint-disable-line
         <div className="modalContent">
         <div className="row justify-content-md-center">
           {' '}
-          <Col sm="4">
-            <ListGroup>
+          <Col sm="6" align="center">
+            <ListGroup className="list-group-modal">
               <ListGroupItem>{servingSelected ? <p>{quantity} Serving ({nutrients.serving_unit})({nutrients.serving_weight_grams}g)</p> : <p>{quantity}g</p>}</ListGroupItem>
               <ListGroupItem>Calories {calories}g</ListGroupItem>
               <ListGroupItem>Protein {protein}g</ListGroupItem>
@@ -219,13 +219,13 @@ class FoodModal extends React.Component { // eslint-disable-line
             </ListGroup>
           </Col>
 
-          <Col sm="4">
-            <InputGroup>
-              <Input value={quantity} onChange={e => { this.handleInputChanged(e) }}/>
+          <Col sm="6" align="center">
+            <InputGroup id="inputGroupModal">
+              <Input id="inputQuantity" value={quantity} onChange={e => { this.handleInputChanged(e) }}/>
               <InputGroupButtonDropdown addonType="prepend" isOpen={splitButtonOpen} toggle={this.toggleSplit}>
                 <Button outline>{servingSelected ? <p>Serving ({nutrients.serving_weight_grams}g)</p> : <p>g</p>}</Button>
                 <DropdownToggle split outline />
-                <DropdownMenu>
+                <DropdownMenu id="dropdownModal">
                   <DropdownItem onClick={() => this.handleDropdownSelected('serving')}>Serving {nutrients.serving_weight_grams}g</DropdownItem>
                   <DropdownItem divider />
                   <DropdownItem onClick={() => this.handleDropdownSelected('gram')}>Gram (1g)</DropdownItem>

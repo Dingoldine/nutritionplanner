@@ -1,0 +1,84 @@
+.topProfileContainer { 
+    padding-top: 100px; 
+    padding-bottom: 100px; 
+    background-image: url('../../images/fit.jpg');
+    background-position: center; 
+    background-repeat: no-repeat;
+    border-bottom-left-radius:47%;
+    border-bottom-right-radius:47%;
+    box-shadow: rgba(0, 0, 0, 0.65)  8px 8px 20px 0px;
+}
+
+.profilePictureCol {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.profilePictureContainer  {
+    -webkit-filter: drop-shadow(12px 12px 25px rgba(0,0,0,0.8));
+    -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=12, OffY=12, Color='#444')";
+    filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=12, OffY=12, Color='#444')";
+    width: 280px;
+}
+
+.profileInfoContainer {
+    box-shadow: rgba(0, 0, 0, 0.65)  8px 8px 20px 0px;
+    width: 350px;
+}
+
+.profileIcon {
+    margin-right: 8px; 
+    margin-bottom: 5px; 
+    font-size: 22px;
+}
+
+.profileInfoNumbers {
+    font-weight: 300;
+    margin-left: 8px;
+}
+
+.bottomProfileContainer {
+    background: linear-gradient(130deg,#7eddb1,#00b698);
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding: 30px;
+    color: white;
+    box-shadow: rgba(0, 0, 0, 0.65)  8px 8px 20px 0px;
+    width: 360px;
+    min-width: 360px;
+}
+
+.saveButton {
+    background-color: #3f51b5;
+    padding: 10px;
+}
+
+.saveButton:hover {
+    background-color: #6375da;
+    border-color: #6375da;
+}
+
+/* Footer */
+.footerRow {
+    background: linear-gradient(130deg,#00b698, #7eddb1);
+    border-top: solid #555 1px;
+    padding: 20px;
+    font-size: 13px;
+    color: white;
+  }
+
+@media only screen and (max-width: 784px) {
+    .profilePictureCol {
+        justify-content: center;
+        padding-bottom: 30px;
+    }
+    .profileInfoCol {
+        display: flex;
+        justify-content: center;
+        padding-bottom: 30px;
+    }
+    .topProfileContainer { 
+        border-bottom-left-radius:0%;
+        border-bottom-right-radius:0%;
+    }
+}

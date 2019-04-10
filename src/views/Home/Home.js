@@ -9,7 +9,7 @@ import {
   Button,
   Form
 } from 'reactstrap'
-import { FaChevronRight, FaChevronLeft, FaCalendarAlt, FaFileExcel } from 'react-icons/fa'
+import { FaChevronRight, FaChevronLeft, FaCalendarAlt } from 'react-icons/fa'
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import Layout from '../../components/layout'
 import ListItem from '../../components/listItem/listItem'

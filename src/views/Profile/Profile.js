@@ -1,8 +1,9 @@
-import React, { Component, useRef } from 'react'
+import React, { Component } from 'react'
 import { Container, Col, Row, ListGroup, ListGroupItem, Button, FormFeedback } from 'reactstrap'
 import Slider from '../../components/slider.js'
 import './Profile.css'
 import Layout from '../../components/layout'
+import { FaUser, FaEnvelope } from 'react-icons/fa'
 import Actions from './actions'
 
 const styles = {
@@ -129,32 +130,35 @@ export default class Profile extends Component {
     
     return (
       <Layout className="profile">
-        <Row className="justify-content-center" style={{ marginTop: 100, marginBottom: 50 }}>
-          <Col sm="2">
-            <img src={require('../../images/face.png')} className="img-fluid" alt="" />
+        <Row className="justify-content-center topProfileContainer">
+          <Col md="6" className="profilePictureCol">
+            <img src={require('../../images/face.png')} className="img-fluid profilePictureContainer" alt="" />
           </Col>
-          <Col sm="3">
-            <ListGroup>
-              <ListGroupItem>Username: {user.username}</ListGroupItem>
-              <ListGroupItem>Email: {user.email}</ListGroupItem>
-              <ListGroupItem>Total calories: {user.settings.calories}</ListGroupItem>
-              <ListGroupItem>Protein: {user.settings.protein}</ListGroupItem>
-              <ListGroupItem>Carbs: {user.settings.carbs}</ListGroupItem>
-              <ListGroupItem>Fat: {user.settings.fat}</ListGroupItem>
+          <Col md="6" className="profileInfoCol">
+            <ListGroup className="profileInfoContainer">
+              <ListGroupItem><FaUser className="profileIcon"/> {user.username}</ListGroupItem>
+              <ListGroupItem><FaEnvelope className="profileIcon"/> {user.email}</ListGroupItem>
+              <ListGroupItem>Total calories: <span className="profileInfoNumbers">{user.settings.calories}</span></ListGroupItem>
+              <ListGroupItem>Protein: <span className="profileInfoNumbers">{user.settings.protein}</span></ListGroupItem>
+              <ListGroupItem>Carbs: <span className="profileInfoNumbers">{user.settings.carbs}</span></ListGroupItem>
+              <ListGroupItem>Fat: <span className="profileInfoNumbers">{user.settings.fat}</span></ListGroupItem>
             </ListGroup>
           </Col>
         </Row>
         <Row className="justify-content-center">
-          <Col sm="3" style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 25 }}>Change your settings</div>
-            <div style={{ fontSize: 18, marginBottom: 20 }}>Calories: {calories}</div>
+          <Col sm="3" style={{ textAlign: 'center' }} className="bottomProfileContainer">
+            <div style={{ fontSize: 25, marginBottom: 20, fontWeight: 500, borderBottom: 'solid 1px white'}}>Change your settings</div>
+            <div style={{ fontSize: 20, marginBottom: 20 }}>Calories: {calories}</div>
             <Slider onChange={this.handleChangeProtein} label="Protein" value={protein} min={0} max={300} kcal={4} />
             <Slider onChange={this.handleChangeCarbs} label="Carbs" value={carbs} min={0} max={600} kcal={4} />
             <Slider onChange={this.handleChangeFat} label="Fat" value={fat} min={0} max={200} kcal={9} />
-            <Button color="primary" onClick={() => this.onBtnSave()}>
+            <Button className="saveButton" onClick={() => this.onBtnSave()}>
               Save
             </Button>
           </Col>
+        </Row>
+        <Row className="footerRow">
+          © Nutrition Planner - William Westerlund & Philip Rumman
         </Row>
       </Layout>
     )

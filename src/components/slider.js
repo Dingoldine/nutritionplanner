@@ -9,13 +9,17 @@ const styles = {
   },
   slider: {
     padding: '22px 0px'
+  },
+  boldText: {
+    fontWeight: '500',
+    fontSize: '15px'
   }
 }
 
 export const MacroSlider = ({ classes, label, onChange, value, min, max, kcal }) => {
   return (
     <div className={classes.root} style={{ fontSize: 14 }}>
-      {label} {parseFloat(value).toFixed(0)}g &nbsp; {parseFloat(value).toFixed(0) * kcal} kcal
+      <span className={classes.boldText}>{label} {parseFloat(value).toFixed(0)}g</span> &nbsp; {parseFloat(value).toFixed(0) * kcal} kcal
       <Slider
         classes={{ container: classes.slider }}
         value={value}

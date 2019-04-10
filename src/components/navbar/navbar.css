@@ -14,7 +14,7 @@
 
 /* Color/shape of burger icon bars on hover*/
 .bm-burger-bars-hover {
-    background: #a90000;
+    background: #007bff;
   }
    
 
@@ -53,7 +53,7 @@
 
   /* Wrapper for item list */
 .bm-item-list {
-    color: #b8b7ad;
+    color: #333;
     padding: 0.8em;
     width: 100%;
   }
@@ -69,7 +69,7 @@
     bottom: 80px;
     left: 0;    
     right: 0;
-    color: #474c7c;
+    color: #37c7a3;
   }
 
   .logoff {
@@ -83,7 +83,7 @@
 
   .nav-item a{
     width: 100%;
-    color: #474c7c;
+    color: #37c7a3;
     margin-top: 10px;
     font-family: Helvetica, Arial, sans-serif;
     text-transform: uppercase;

@@ -58,8 +58,6 @@
 }
 
 .foodListWrapper {
-  width: 30%;
-
   box-shadow: rgba(0, 0, 0, 0.45)  8px 8px 20px 0px;
 }
 
@@ -162,6 +160,9 @@ ul {
   opacity: 0;
   transform: scale(4);
   transition: all 1000ms ease-in-out;
+  position: absolute;
+  right: 47px;
+  top: -1px;
 }
 
 #current-date-shown { 
@@ -180,4 +181,10 @@ ul {
 /* Empty Space */
 .emptySpace {
   padding: 50px;
+}
+
+@media only screen and (min-width: 770px) {
+  .foodListWrapper {
+    width: 450px;
+  }
 }

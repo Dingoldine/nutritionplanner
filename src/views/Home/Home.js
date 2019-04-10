@@ -401,18 +401,7 @@ class Home extends Component {
           </Row>
           <Row className="align-self-center">   
           <Col sm="12" md={{ size: 4, offset: 4 } } className="text-center">
-            <TransitionGroup>
-              <CSSTransition
-                key={date}
-                timeout={1000}
-                classNames="messageout"
-                >
-                <div className="date-container">
-                  <p id="current-date-shown"><span><i><FaCalendarAlt/></i></span>{date}</p>
-                </div>
-              
-              </CSSTransition>
-            </TransitionGroup>
+            
             <div className="date-picker">
 
               <a data-slide="prev" role="button" className="left date-control" 
@@ -425,6 +414,19 @@ class Home extends Component {
               }
               }><i> <FaChevronLeft/></i></a>
 
+              <TransitionGroup style={{position: "relative", display: "inline-block", width: "200px"}}>
+                <CSSTransition
+                  key={date}
+                  timeout={1000}
+                  classNames="messageout"
+                  >
+                  <div className="date-container">
+                    <p id="current-date-shown"><span><i><FaCalendarAlt/></i></span>{date}</p>
+                  </div>
+                
+                </CSSTransition>
+              </TransitionGroup>
+
               <a data-slide="next" role="button" className="right date-control" 
                 onClick={() => {
                   var d = new Date(date);
@@ -434,7 +436,7 @@ class Home extends Component {
                   }, () => {this.fetchAndDisplay()})
               }}><i><FaChevronRight/></i></a>
 
-          </div> 
+            </div> 
           </Col>
         </Row>
         <Row className="foodListRow">

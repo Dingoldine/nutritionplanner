@@ -11,6 +11,7 @@ import {
 } from 'reactstrap'
 import { FaChevronRight, FaChevronLeft, FaCalendarAlt } from 'react-icons/fa'
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+import dateFormat from 'dateformat'
 import Layout from '../../components/layout'
 import ListItem from '../../components/listItem/listItem'
 import FoodItem from '../../components/foodItem/foodItem'
@@ -18,7 +19,7 @@ import CircularProgress from '../../components/circularProgress/circularProgress
 import MacroProgressBar from '../../components/macroProgressBar/macroProgressBar'
 import { makeGetFoodRequest } from '../../utils/api'
 import './Home.css'
-import dateFormat from 'dateformat'
+
 
 class Home extends Component {
   // eslint-disable-line
@@ -47,7 +48,6 @@ class Home extends Component {
       isLoading: false,
       hasErrored: false,
       dropdownVisible: false,
-      detailedNutritentInfo: [],
       dailyCalories: 0,
       dailyFats: 0,
       dailyProteins: 0,
@@ -89,12 +89,13 @@ class Home extends Component {
 
   onSearch(e) { //eslint-disable-line
     e.preventDefault()
+    const { searchTerm } = this.state
 
     this.setState({
       dropdownVisible: true
     })
 
-    makeGetFoodRequest(this.state.searchTerm)      
+    makeGetFoodRequest(searchTerm)      
     .then(res => {
         this.setState({
           searchResult: res.common
@@ -138,6 +139,37 @@ class Home extends Component {
     //   }
   }
 
+  async parseEatenFood() {
+    const { eatenFood } = this.state
+    console.log("In parse eaten food", eatenFood)
+
+
+    let calories = 0
+    let carbs = 0
+    let fats = 0
+    let proteins = 0
+    let sugar = 0
+
+    await eatenFood.forEach((foodItem) =>{
+      console.log(foodItem.calories, foodItem.carbs, foodItem.fats, foodItem.protein, foodItem.sugar)
+      calories += foodItem.calories
+      carbs += foodItem.carbs
+      fats += foodItem.fats
+      proteins += foodItem.protein
+      sugar += foodItem.sugar
+    })
+
+    this.setState({
+      dailyCalories: calories,
+      dailyCarbs: carbs,
+      dailyFats: fats,
+      dailyProteins: proteins,
+      dailySugars: sugar,
+    }, () => {
+      console.log(this.state)
+    })
+  }
+
   handleDeleteFoodItem(foodObject, index) {
     const { firebase } = this.props
     const currUser = firebase.auth.currentUser
@@ -154,7 +186,14 @@ class Home extends Component {
         })
         .then(() => {
           console.log('Successfully removed item')
-          this.fetchAndDisplay()
+          //this.fetchAndDisplay()
+          const array = eatenFood
+          array.splice(index, 1)
+          this.setState({
+            eatenFood: array
+          }, () => {
+            this.parseEatenFood()
+          })
         
         })
         .catch(err => {
@@ -166,50 +205,10 @@ class Home extends Component {
 
   fetchAndDisplay() {
     const { firebase, history } = this.props
-    const { date } = this.state
     //  store this for later use inside db fetch
     const _this = this;
-    // if user is logged in, sanity check 
-    firebase.auth.onAuthStateChanged(function(user) {
-      if (user) {
-        
-        firebase
-        .user(user.uid)
-        .collection('consumption')
-        .get()
-        .then(function(querySnapshot) {
-          _this.setState({
-              snapshot: querySnapshot
-            }, () => {
-              _this.displayConsumptionData()
-            })
-        })
-        .catch(err => {
-          console.log(err)
-          console.log('Failure to fetch an item')
-        })
-        
-        firebase
-        .user(user.uid)
-        .onSnapshot(snapshot => {
-          _this.setState({
-          targetCalories: snapshot.data().settings.calories,
-          targetProtein: snapshot.data().settings.protein,
-          targetCarbs: snapshot.data().settings.carbs,
-          targetFats: snapshot.data().settings.fat,
-          })
-        })
-      } else {
-        // No user is signed in.
-        history.push('/')
-      }
-    })
-  }
 
-  displayConsumptionData(){
-    const { snapshot, date } = this.state
-    console.log(snapshot)
-
+    //  reset then fetch
     this.setState({
       dailyCalories: 0,
       dailyFats: 0,
@@ -218,91 +217,88 @@ class Home extends Component {
       dailyCarbs:  0,
       eatenFood: []
     }, () => {
-      snapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        //console.log(doc.id, " => ", doc.data());
-  
-        //  only care about food eaten today for now
-        if (doc.id === date){
-          console.log("a match")
-          console.log(doc.data())                
-          this.parseFoodItems(doc.data())
-        }           
-      });
+
+      // if user is logged in, sanity check 
+      firebase.auth.onAuthStateChanged(function(user) {
+        if (user) {
+          
+          firebase
+          .user(user.uid)
+          .collection('consumption')
+          .get()
+          .then(function(querySnapshot) {
+            _this.setState({
+                snapshot: querySnapshot
+              }, () => {
+                _this.displayConsumptionData()
+              })
+          })
+          .catch(err => {
+            console.log(err)
+            console.log('Failure to fetch an item')
+          })
+          
+          firebase
+          .user(user.uid)
+          .onSnapshot(snapshot => {
+            _this.setState({
+            targetCalories: snapshot.data().settings.calories,
+            targetProtein: snapshot.data().settings.protein,
+            targetCarbs: snapshot.data().settings.carbs,
+            targetFats: snapshot.data().settings.fat,
+            })
+          })
+        } else {
+          // No user is signed in.
+          history.push('/')
+        }
+      })
     })
+
+}
+
+  displayConsumptionData(){
+    const { snapshot, date, eatenFood } = this.state
+
+    console.log("IN DISPLAY CONSUPMTION DATA", eatenFood)
+    snapshot.forEach((doc) => {
+      //  only care about food eaten today for now
+      if (doc.id === date){
+        console.log("a match")
+
+        //  add to eatenFood
+        const foodList = []
+        Object.entries(doc.data()).forEach(([key, foodItem]) => {
+          foodList.push(foodItem)
+        })               
+        this.setState({
+          eatenFood: eatenFood.concat(foodList)
+        }, () => {
+          this.parseEatenFood()
+        });
+      }           
+    });
+
 }
 
 
 
-  parseFoodItems(foodObject){
-    const {dailyCalories, dailyFats, dailyProteins, dailySugars, dailyCarbs, eatenFood, date} = this.state
-    const objectKeys = Object.keys(foodObject);
-    console.log("HELOOOOO")
-    console.log("objectKeys: ", objectKeys)
-    let calories = 0
-    let carbs = 0
-    let fats = 0
-    let proteins = 0
-    let sugar = 0
-    const foodData = []
-    Object.entries(foodObject).forEach(([key, value]) => {
-      //console.log(`key= ${key} value = ${value}`)
-      // eslint-disable-next-line no-restricted-syntax
-      // eslint-disable-next-line guard-for-in
-      // eslint-disable-next-line prefer-const
-      foodData.push(value)
-      for (const property in value) {
-        //console.log(`key = ${property} value = ${value[property]}`)
-        switch(property) {
-          case "calories":
-            calories += value[property]
-            break;
-          // eslint-disable-next-line no-undef
-          case "carbs":
-            carbs += value[property]
-            break;
-          case "fats":
-            fats += value[property]
-            break;
-          case "protein":
-            proteins += value[property]
-            break;
-          case "sugar":
-            sugar += value[property]
-            break;
-          default:
-            // code block
-        } 
-      }
-    })
-
-    this.setState({
-      dailyCalories: dailyCalories + calories,
-      dailyCarbs: dailyCarbs + carbs,
-      dailyFats: dailyFats + fats,
-      dailyProteins: dailyProteins + proteins,
-      dailySugars: dailySugars + sugar,
-      eatenFood: eatenFood.concat(foodData)
-    }, () => {
-      console.log(this.state);
-  });
-  }
-
   handleOutsideDropdownClick(e) {
+    const { dropdownVisible } = this.state
     console.log("click outside")
-    if (this.state.dropdownVisible){
+    if (dropdownVisible){
       this.setState({
         dropdownVisible: false,
-        detailedNutritentInfo: []
       })
     }
 
   }
 
   handleDropdownClick(e) {
+    const { dropdownVisible } = this.state
     // click is inside dropdown container, do nothing
     e.stopPropagation();
-    if(this.state.dropdownVisible){
+    if(dropdownVisible){
       if (this.node.current.contains(e.target)) {
         // if(this.state.modalVisible) {
         //   console.log("clicked outside while modal was open")
@@ -316,20 +312,25 @@ class Home extends Component {
 
   // eslint-disable-next-line class-methods-use-this
   triggerRenderHome(foodObject){
-    //console.log("back in home baby")
-    //console.log(foodObject)
-    this.parseFoodItems(foodObject)
-
+    const { eatenFood } = this.state
+    const item = []
+    Object.entries(foodObject).forEach(([key, foodItem]) => {
+      item.push(foodItem)
+    })               
+    this.setState({
+      eatenFood:  eatenFood.concat(item)
+    }, () => {
+      this.parseEatenFood()
+    })
+  
+   
   }
 
   render() {
     const { searchResult, dropdownVisible, dailyFats, 
       dailyProteins, dailyCarbs, dailyCalories, eatenFood, targetCalories, targetFats, targetCarbs, targetProtein, date } = this.state
     const { firebase } = this.props
-    console.log(date);
-    
-    console.log(eatenFood);
-    
+
     return (
       <Layout className="home" >
         <Container fluid="true" className="home">

@@ -132,36 +132,36 @@ export default class Profile extends Component {
     return (
       <Layout className="profile">
         <Container fluid="true">
-        <Row className="justify-content-center topProfileContainer">
-          <Col md="6" className="chartCol">
-          <PieChart dailyCarbs = {parseFloat(carbs) * 4} dailyFats ={parseFloat(fat)*9} dailyProteins = {parseFloat(protein)*4}/>
-          </Col>
-          <Col md="6" className="profileInfoCol">
-            <ListGroup className="profileInfoContainer">
-              <ListGroupItem className="smallFont"><FaUser className="profileIcon"/> {user.username}</ListGroupItem>
-              <ListGroupItem className="smallFont"><FaEnvelope className="profileIcon"/> {user.email}</ListGroupItem>
-              <ListGroupItem className="smallFont">Total calories: <span className="profileInfoNumbers">{user.settings.calories}</span></ListGroupItem>
-              <ListGroupItem className="smallFont">Protein: <span className="profileInfoNumbers">{user.settings.protein}</span></ListGroupItem>
-              <ListGroupItem className="smallFont">Carbs: <span className="profileInfoNumbers">{user.settings.carbs}</span></ListGroupItem>
-              <ListGroupItem className="smallFont">Fat: <span className="profileInfoNumbers">{user.settings.fat}</span></ListGroupItem>
-            </ListGroup>
-          </Col>
-        </Row>
-        <Row className="justify-content-center">
-          <Col sm="3" style={{ textAlign: 'center' }} className="bottomProfileContainer">
-            <div className="changeSettingsDiv largeFont">Change your settings</div>
-            <div className="changeCaloriesDiv mediumFont">Calories: {calories}</div>
-            <Slider onChange={this.handleChangeProtein} label="Protein" value={protein} min={0} max={300} kcal={4} />
-            <Slider onChange={this.handleChangeCarbs} label="Carbs" value={carbs} min={0} max={600} kcal={4} />
-            <Slider onChange={this.handleChangeFat} label="Fat" value={fat} min={0} max={200} kcal={9} />
-            <Button className="saveButton smallFont" onClick={() => this.onBtnSave()}>
-              Save
-            </Button>
-          </Col>
-        </Row>
-        <Row className="footerRow extraSmallFont">
-          © Nutrition Planner - William Westerlund & Philip Rumman
-        </Row>
+          <Row className="justify-content-center topProfileContainer">
+            <Col md={{size:3 , offset: 3}} className="chartCol">
+            <PieChart dailyCarbs = {parseFloat(carbs) * 4} dailyFats ={parseFloat(fat)*9} dailyProteins = {parseFloat(protein)*4}/>
+            </Col>
+            <Col md="6" className="profileInfoCol">
+              <ListGroup className="profileInfoContainer">
+                <ListGroupItem className="smallFont"><FaUser className="profileIcon"/> {user.username}</ListGroupItem>
+                <ListGroupItem className="smallFont"><FaEnvelope className="profileIcon"/> {user.email}</ListGroupItem>
+                <ListGroupItem className="smallFont">Total calories: <span className="profileInfoNumbers">{user.settings.calories}</span></ListGroupItem>
+                <ListGroupItem className="smallFont">Protein: <span className="profileInfoNumbers">{user.settings.protein}</span></ListGroupItem>
+                <ListGroupItem className="smallFont">Carbs: <span className="profileInfoNumbers">{user.settings.carbs}</span></ListGroupItem>
+                <ListGroupItem className="smallFont">Fat: <span className="profileInfoNumbers">{user.settings.fat}</span></ListGroupItem>
+              </ListGroup>
+            </Col>
+          </Row>
+          <Row className="justify-content-center">
+            <Col sm="3" style={{ textAlign: 'center' }} className="bottomProfileContainer">
+              <div className="changeSettingsDiv largeFont">Change your settings</div>
+              <div className="changeCaloriesDiv mediumFont">Calories: {calories}</div>
+              <Slider onChange={this.handleChangeProtein} label="Protein" value={protein} min={0} max={300} kcal={4} />
+              <Slider onChange={this.handleChangeCarbs} label="Carbs" value={carbs} min={0} max={600} kcal={4} />
+              <Slider onChange={this.handleChangeFat} label="Fat" value={fat} min={0} max={200} kcal={9} />
+              <Button className="saveButton smallFont" onClick={() => this.onBtnSave()}>
+                Save
+              </Button>
+            </Col>
+          </Row>
+          <Row className="footerRow extraSmallFont">
+            © Nutrition Planner - William Westerlund & Philip Rumman
+          </Row>
         </Container>
       </Layout>
     )

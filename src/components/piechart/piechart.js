@@ -1,25 +1,29 @@
 import React from 'react'
 import { Pie } from 'react-chartjs-2'
-
-const data = {
-  labels: ['Fat', 'Protein', 'Carbs'],
-  datasets: [
-    {
-      data: [300, 50, 100],
-      backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-      hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
-    }
-  ]
-}
+import 'chartjs-plugin-datalabels';
+import './piechart.css'
 
 // eslint-disable-next-line react/prefer-stateless-function
-export default class PieChart extends React.Component {
+class PieChart extends React.Component {
   constructor(props) {
-    super(props)
+    super(props)  
   }
 
   render() {
     const {dailyFats, dailyProteins, dailyCarbs } = this.props
+    const total = parseFloat(dailyFats) + parseFloat(dailyCarbs) + parseFloat(dailyProteins)
+
+    const data = {
+      labels: ['Fat', 'Protein', 'Carbs'],
+      datasets: [
+        {
+          data: [dailyFats, dailyProteins, dailyCarbs],
+          backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+          hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+        }
+      ]
+    }
+
     const options = {
       annotation: {
         annotations: [
@@ -43,18 +47,21 @@ export default class PieChart extends React.Component {
         labels: {
           boxWidth: 10
         }
-      }
-    }
-    const data = {
-      labels: ['Fat', 'Protein', 'Carbs'],
-      datasets: [
-        {
-          data: [dailyFats, dailyProteins, dailyCarbs],
-          backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-          hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+      },
+
+      plugins: {
+        datalabels: {
+          formatter: function(value, context) {
+
+            return Math.round((value/total)*100) + '%';
+           },
+          color: 'white'
         }
-      ]
+     }
+
+      
     }
+
 
     return (
       <div>
@@ -63,3 +70,5 @@ export default class PieChart extends React.Component {
     )
   }
 }
+
+export default PieChart;

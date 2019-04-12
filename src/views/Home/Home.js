@@ -337,12 +337,12 @@ class Home extends Component {
             <Row style={{width: '100%',padding: '30px 0px 40px 0px'}}>
               <Col sm="4" className="eatenCol">
                 <div className="eatenDiv">
-                  <span>{dailyCalories.toFixed(0)}</span>
-                  <p>kcal eaten</p>
+                  <span className="mediumFont">{dailyCalories.toFixed(0)}</span>
+                  <p className="smallFont">kcal eaten</p>
                 </div>
               </Col>
               <Col sm="4" className="circleCol">
-                <p>remaining calories</p>
+                <p className="largeFont">remaining calories</p>
                 <CircularProgress dailyCalories={dailyCalories} targetCalories={targetCalories} />
               </Col>   
               <Col sm="4"></Col>    
@@ -451,7 +451,7 @@ class Home extends Component {
         </Row>
         <Row className="emptySpace">
         </Row>
-        <Row className="footerRow">
+        <Row className="footerRow extraSmallFont">
           © Nutrition Planner - William Westerlund & Philip Rumman
         </Row>
       </Container>

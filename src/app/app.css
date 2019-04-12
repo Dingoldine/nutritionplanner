@@ -16,6 +16,22 @@ body {
   background-color: #f4f3f0;
 }
 
- #root, .main {
+#root, .main {
   height: 100%;
+}
+
+.largeFont {
+  font-size: 38px;
+}
+
+.mediumFont {
+  font-size: 24px;
+}
+
+.smallFont {
+  font-size: 17px;
+}
+
+.extraSmallFont {
+  font-size: 13px;
 }

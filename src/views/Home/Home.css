@@ -47,10 +47,6 @@
   align-items: center;
 }
 
-.eatenDiv span {
-  font-size: 26px;
-}
-
 /* FoodListRow */
 .foodListRow {
   flex-direction: column;
@@ -174,7 +170,6 @@ ul {
   background: linear-gradient(130deg,#00b698, #7eddb1);
   border-top: solid #555 1px;
   padding: 20px;
-  font-size: 13px;
   color: white;
 }
 

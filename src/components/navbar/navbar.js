@@ -61,7 +61,7 @@ class Navigator extends React.Component {
   render() {
     const { isLoggedIn, username, isOpen } = this.state
     return (  
-      <Menu noOverlay disableAutoFocus id="sidebar" className="sidebar-menu" onStateChange={ this.toggle } isOpen={ isOpen }>
+      <Menu noOverlay disableAutoFocus id="sidebar" className="sidebar-menu mediumFont" onStateChange={ this.toggle } isOpen={ isOpen }>
       <div className="username-field">
           {username}
       </div>
@@ -101,7 +101,7 @@ class Navigator extends React.Component {
           ]
           ) : (
             [ 
-            <div className="welcome-text">
+            <div className="welcome-text smallFont">
               <p>Welcome! </p>
               <p>
                Register now or sign in to get started!</p>

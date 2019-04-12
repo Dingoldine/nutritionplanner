@@ -1,13 +1,11 @@
 .SignUp {
   margin: 20px;
-  font-size: 5rem;
 }
 
 #register-text {
   font-family: Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   font-weight: 500;
-  font-size: 0.75em;;
   letter-spacing: 0.0625rem;
 }
 
@@ -15,7 +13,6 @@
   font-family: Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   font-weight: 500;
-  font-size: 0.75em;;
   letter-spacing: 0.0625rem;
   color: #888;
 } 

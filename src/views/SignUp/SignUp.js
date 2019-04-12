@@ -89,17 +89,18 @@ class SignUp extends Component {
         <Container className="loginPage">
           <Form className="form" onSubmit={e => this.submitForm(e)}>
             <Col>
-              <h2 id="register-text">Register now to start using the app!</h2>
+              <h2 id="register-text" className="smallFont">Register now to start using the app!</h2>
             </Col>
             <Col>
               <FormGroup>
-                <Label for="signupUsername" className="text">
+                <Label for="signupUsername" className="text smallFont">
                   <span>
                     <FaAddressBook />
                   </span>{' '}
                   Username
                 </Label>
                 <Input
+                  className="smallFont"
                   type="text"
                   name="username"
                   id="signupUsername"
@@ -111,13 +112,14 @@ class SignUp extends Component {
             </Col>
             <Col>
               <FormGroup>
-                <Label className="text">
+                <Label className="text smallFont">
                   <span>
                     <FaEnvelope />
                   </span>{' '}
                   Email
                 </Label>
                 <Input
+                  className="smallFont"
                   type="email"
                   name="email"
                   id="exampleEmail"
@@ -138,13 +140,14 @@ class SignUp extends Component {
             </Col>
             <Col>
               <FormGroup>
-                <Label for="examplePassword" className="text">
+                <Label for="examplePassword" className="text smallFont">
                   <span>
                     <FaKey />
                   </span>{' '}
                   Password
                 </Label>
                 <Input
+                  className="smallFont"
                   type="password"
                   name="password"
                   id="examplePassword"
@@ -154,7 +157,7 @@ class SignUp extends Component {
                 />
               </FormGroup>
             </Col>
-            <Button type="submit">Submit</Button>
+            <Button type="submit" className="smallFont">Submit</Button>
             {error && error.message}
           </Form>
         </Container>

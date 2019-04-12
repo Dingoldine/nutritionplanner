@@ -37,7 +37,6 @@ class SignUp extends Component {
     await this.setState({
       [name]: value
     })
-    console.log(value)
   }
 
   validateEmail(e) {
@@ -56,7 +55,6 @@ class SignUp extends Component {
     const { firebase, history } = this.props
     const isInvalid = password === '' || email === '' || username === ''
     if (!isInvalid) {
-      console.log('Submitting')
       firebase
         .doCreateUserWithEmailAndPassword(email, password)
         .then(authUser => {

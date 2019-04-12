@@ -2,7 +2,7 @@
 import React from 'react'
 import Popup from 'reactjs-popup'
 import dateFormat from "dateformat"
-import { Container, Col, Row, ListGroup, ListGroupItem, Input, InputGroup, InputGroupButtonDropdown, DropdownToggle, DropdownItem, DropdownMenu, Button } from 'reactstrap'
+import {Col, ListGroup, ListGroupItem, Input, InputGroup, InputGroupButtonDropdown, DropdownToggle, DropdownItem, DropdownMenu, Button } from 'reactstrap'
 import './foodModal.css'
 import { FaChevronRight } from 'react-icons/fa'
 import { makeGetNutrientsRequest } from '../../utils/api'

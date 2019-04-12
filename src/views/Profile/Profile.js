@@ -1,20 +1,12 @@
 import React, { Component } from 'react'
-import { Container, Col, Row, ListGroup, ListGroupItem, Button, FormFeedback } from 'reactstrap'
+import { Container, Col, Row, ListGroup, ListGroupItem, Button} from 'reactstrap'
+import { FaUser, FaEnvelope } from 'react-icons/fa'
 import Slider from '../../components/slider/slider'
 import './Profile.css'
 import Layout from '../../components/layout'
 import PieChart from  '../../components/piechart/piechart'
-import { FaUser, FaEnvelope } from 'react-icons/fa'
-import Actions from './actions'
 
-const styles = {
-  root: {
-    width: 300
-  },
-  slider: {
-    padding: '22px 0px'
-  }
-}
+
 
 //  makes sure first render dont fail when trying to access user.settings
 const initialUserState = {

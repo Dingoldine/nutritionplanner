@@ -3,17 +3,9 @@ import './navbar.css'
 import { NavLink as RRNavLink } from 'react-router-dom'
 import { FaUserCircle, FaGithub, FaSignInAlt, FaHome, FaUserPlus } from 'react-icons/fa'
 import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
   Nav,
   NavItem,
   NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem
 } from 'reactstrap'
 import { slide as Menu } from 'react-burger-menu'
 import SignOutButton from '../signOutButton'

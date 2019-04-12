@@ -25,7 +25,6 @@ class PieChart extends React.Component {
     }
 
     const options = {
-  
       annotation: {
         annotations: [
           {
@@ -40,7 +39,6 @@ class PieChart extends React.Component {
           }
         ]
       },
-
       maintainAspectRatio: false,
       responsive: false,
       legend: {
@@ -51,9 +49,7 @@ class PieChart extends React.Component {
           fontColor: 'rgb(255,255,255)'
         },
       },
-
       tooltips: false,
-
       plugins: {
         datalabels: {
           formatter: function(value, context) {
@@ -62,8 +58,6 @@ class PieChart extends React.Component {
           color: 'white'
         }
      }
-
-      
     }
 
 

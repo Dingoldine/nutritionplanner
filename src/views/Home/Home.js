@@ -17,6 +17,7 @@ import ListItem from '../../components/listItem/listItem'
 import FoodItem from '../../components/foodItem/foodItem'
 import CircularProgress from '../../components/circularProgress/circularProgress'
 import MacroProgressBar from '../../components/macroProgressBar/macroProgressBar'
+import BarChart from '../../components/barchart/barchart'
 import { makeGetFoodRequest } from '../../utils/api'
 import './Home.css'
 
@@ -436,9 +437,11 @@ class Home extends Component {
                     date: dateFormat(d, "isoDate", true)
                   }, () => {this.fetchAndDisplay()})
               }}><i><FaChevronRight/></i></a>
-
             </div> 
           </Col>
+        </Row>
+        <Row className="align-self-center">
+            <BarChart/>
         </Row>
         <Row className="foodListRow">
           <div className="foodListWrapper">

@@ -29,7 +29,7 @@
   }
   /* Color/shape of close button cross */
 .bm-cross {
-    background: #474c7c;
+    background: #3f51b5;
   }
    
   /*
@@ -68,7 +68,7 @@
     bottom: 80px;
     left: 0;    
     right: 0;
-    color: #37c7a3;
+    color: #3f51b5;
   }
 
   .logoff {
@@ -82,7 +82,7 @@
 
   .nav-item a{
     width: 100%;
-    color: #37c7a3;
+    color: #3f51b5;
     margin-top: 10px;
     font-family: Helvetica, Arial, sans-serif;
     letter-spacing: 0.0625rem;

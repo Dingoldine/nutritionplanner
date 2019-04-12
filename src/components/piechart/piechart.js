@@ -18,13 +18,14 @@ class PieChart extends React.Component {
       datasets: [
         {
           data: [dailyFats, dailyProteins, dailyCarbs],
-          backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-          hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+          backgroundColor: ['#3f51b5', '#7eddb1', '#c53255'],
+          hoverBackgroundColor: ['#3f51b5', '#7eddb1', '#c53255']
         }
       ]
     }
 
     const options = {
+  
       annotation: {
         annotations: [
           {
@@ -45,14 +46,17 @@ class PieChart extends React.Component {
       legend: {
         position: 'left',
         labels: {
-          boxWidth: 10
-        }
+          boxWidth: 13,
+          fontSize: 17,
+          fontColor: 'rgb(255,255,255)'
+        },
       },
+
+      tooltips: false,
 
       plugins: {
         datalabels: {
           formatter: function(value, context) {
-
             return Math.round((value/total)*100) + '%';
            },
           color: 'white'
@@ -64,8 +68,8 @@ class PieChart extends React.Component {
 
 
     return (
-      <div>
-        <Pie data={data} options={options} width={300} height={300} />
+      <div className="piechart">
+        <Pie data={data} options={options} width={300} height={300}/>
       </div>
     )
   }

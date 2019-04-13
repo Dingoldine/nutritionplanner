@@ -4,7 +4,7 @@ import { FaEnvelope, FaKey } from 'react-icons/fa'
 import { NavLink as RRNavLink } from 'react-router-dom'
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button, FormFeedback, NavLink } from 'reactstrap'
 import Layout from '../../components/layout'
-import FakeLogo from '../../images/fake-logo.jpg'
+import FakeLogo from '../../images/fake-logo.png'
 
 const INITIAL_STATE = {
   email: '',

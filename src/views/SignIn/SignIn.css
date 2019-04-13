@@ -3,6 +3,9 @@
   overflow: hidden;
   font-family: Helvetica, Arial, sans-serif;
 }
+.logo-wrapper img{
+  width: 200px;
+}
 
 .loginPage .form {
     padding: 1em;

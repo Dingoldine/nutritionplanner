@@ -90,7 +90,6 @@ export default class Profile extends Component {
   }
 
   onBtnSave = () => {
-    console.log(this.props)
     const { firebase } = this.props
     const { protein, carbs, fat, calories } = this.state
     const currUser = firebase.auth.currentUser

@@ -41,7 +41,6 @@ class FoodModal extends React.Component { // eslint-disable-line
     if (nutrients.length === 0){
       makeGetNutrientsRequest(foodName)      
       .then(res => {    
-        console.log(res)
         this.setState({
           nutrients: res.foods[0],
           servingWeightGrams: res.foods[0].serving_weight_grams,

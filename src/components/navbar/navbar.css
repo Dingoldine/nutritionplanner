@@ -10,11 +10,12 @@
   /* Color/shape of burger icon bars */
 .bm-burger-bars {
     background: #373a47;
+    opacity: 1;
   }
 
 /* Color/shape of burger icon bars on hover*/
 .bm-burger-bars-hover {
-    background: #007bff;
+    background: #3f51b5;
   }
    
 

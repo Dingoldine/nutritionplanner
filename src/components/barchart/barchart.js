@@ -12,7 +12,7 @@ function newDate(offset) {
     const date = new Date();
     //var d = new Date(date);
     date.setDate(date.getDate() + offset);
-    console.log(dateFormat(date, "isoDate", true));
+    // console.log(dateFormat(date, "isoDate", true));
     return dateFormat(date, "isoDate", true)
 }
 
@@ -102,64 +102,77 @@ const options ={
     }
 }
 
- const data ={ 
-    labels: [
-        newDate(-10),
-        newDate(-9),
-        newDate(-8),
-        newDate(-7),
-        newDate(-6),
-        newDate(-5),
-        newDate(-4),
-        newDate(-3),
-        newDate(-2),
-        newDate(-1),
-        newDate(0),
-    ],
-    datasets:[
-        // trendline
-        {
-            label: 'Line Dataset',
-            data: [40,20,30,40,20,30,40,20,30,40,20],
-
-            // Changes this dataset to become a line
-            type: 'line',
-            //  No Fill color
-            fill: false
-        },
-        //  barcharts
-        {   
-            label: 'protein',
-            data: [40,20,30,40,20,30,40,20,30,40,20],
-            backgroundColor: '#7eddb1',
-            borderColor: "#F29220",
-        },
-        {   
-
-            label: 'fats',
-            data: [40,20,30,40,20,30,40,20,30,40,20],
-            backgroundColor: '#3f51b5',
-            borderColor: "#F29220",
-        },
-        {   
-
-            label: 'carbs',
-            data: [40,20,30,40,20,30,40,20,30,40,20],
-            backgroundColor: '#c53255',
-            borderColor: "#F29220",
-        }
-       ],
- }
 
 
+// eslint-disable-next-line react/prefer-stateless-function
 class BarChart extends React.Component {
     constructor(props) {
-      super(props)  
+      super(props)
     }
     
 
-     
      render(){
+        const {timelineOverviewData, dailyCarbs, dailyFats, dailyProteins, date} = this.props
+        console.log(timelineOverviewData)
+        console.log(date)
+        console.log(dailyCarbs)
+        console.log(dailyFats)
+        console.log(dailyProteins)
+
+        const xAxisLabels = []
+        const carbsData = []
+        const proteinData = []
+        const fatsData = []
+        function extractMapElements(nutrients, dateString, map) {
+            console.log(dateString);
+            xAxisLabels.push(dateString)
+            carbsData.push(nutrients.carbs)
+            proteinData.push(nutrients.protein)
+            fatsData.push(nutrients.fats)
+        }
+
+        timelineOverviewData.forEach(extractMapElements)
+        //  xAxisLabels.push(date)
+        console.log(xAxisLabels)
+
+        const data ={ 
+            labels: xAxisLabels,
+            datasets:[
+                // trendline
+                {
+                    label: 'Line Dataset',
+                    data: [40,20,30,40,20,30,40,20,30,40,20],
+        
+                    // Changes this dataset to become a line
+                    type: 'line',
+                    //  No Fill color
+                    fill: false
+                },
+                //  barcharts
+                {   
+                    label: 'protein',
+                    data: proteinData,
+                    backgroundColor: '#7eddb1',
+                    borderColor: "#F29220",
+                },
+                {   
+        
+                    label: 'fats',
+                    data: fatsData,
+                    backgroundColor: '#3f51b5',
+                    borderColor: "#F29220",
+                },
+                {   
+        
+                    label: 'carbs',
+                    data: carbsData,
+                    backgroundColor: '#c53255',
+                    borderColor: "#F29220",
+                }
+               ],
+         }
+
+
        return  (
        <div className="barchart-container">
         <Bar  data={data} options={options} />

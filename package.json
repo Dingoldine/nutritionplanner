@@ -40,7 +40,8 @@
     "redux-persist": "^5.10.0",
     "redux-promise-middleware": "^5.0.0",
     "redux-thunk": "^2.2.0",
-    "reselect": "^4.0.0"
+    "reselect": "^4.0.0",
+    "tar": "^4.4.8"
   },
   "scripts": {
     "start": "react-scripts start",

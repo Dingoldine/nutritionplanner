@@ -84,15 +84,13 @@ class FoodModal extends React.Component { // eslint-disable-line
 */
   handleAddFood() { // eslint-disable-line
     const { foodName, grams, calories, protein, carbs, sugar, fats, img} = this.state
-    const { firebase, triggerRenderHome } = this.props
+    const { firebase, date, triggerRenderHome } = this.props
     const currUser = firebase.auth.currentUser
 
-    //  for creating a document with todays date
-    const date = new Date();
-
+    const now = Date.now()
     const today = dateFormat(date, "isoDate", true);
     
-    const time = dateFormat(date, "longTime", true); // -> "10:46:21 PM UTC etc"
+    const time = dateFormat(now, "longTime", true); // -> "10:46:21 PM UTC etc"
     
     const foodObject = 
     {

@@ -20,7 +20,7 @@ import MacroProgressBar from '../../components/macroProgressBar/macroProgressBar
 import BarChart from '../../components/barchart/barchart'
 import { makeGetFoodRequest } from '../../utils/api'
 import './Home.css'
-
+import { func } from 'prop-types';
 
 class Home extends Component {
   // eslint-disable-line
@@ -60,7 +60,8 @@ class Home extends Component {
       targetFats: 0,
       eatenFood: [],
       date: today,
-      snapshot: []
+      snapshot: [],
+      timelineOverviewData: new Map()
     }
 
     this.node = React.createRef()
@@ -140,34 +141,42 @@ class Home extends Component {
     //   }
   }
 
-  async parseEatenFood() {
-    const { eatenFood } = this.state
-    console.log("In parse eaten food", eatenFood)
+  parseEatenFood() {
+    const _this = this;
+    return  new Promise(function(resolve, reject) {
+      const { eatenFood, timelineOverviewData, date } = _this.state
+      console.log(timelineOverviewData)
 
+      let calories = 0
+      let carbs = 0
+      let fats = 0
+      let proteins = 0
+      let sugar = 0
+    
+      eatenFood.forEach((foodItem) => {
+        calories += foodItem.calories
+        carbs += foodItem.carbs
+        fats += foodItem.fats
+        proteins += foodItem.protein
+        sugar += foodItem.sugar
+      })
 
-    let calories = 0
-    let carbs = 0
-    let fats = 0
-    let proteins = 0
-    let sugar = 0
+      const map = timelineOverviewData
 
-    await eatenFood.forEach((foodItem) =>{
-      console.log(foodItem.calories, foodItem.carbs, foodItem.fats, foodItem.protein, foodItem.sugar)
-      calories += foodItem.calories
-      carbs += foodItem.carbs
-      fats += foodItem.fats
-      proteins += foodItem.protein
-      sugar += foodItem.sugar
-    })
+      console.log("say whaat", map)
 
-    this.setState({
-      dailyCalories: calories,
-      dailyCarbs: carbs,
-      dailyFats: fats,
-      dailyProteins: proteins,
-      dailySugars: sugar,
-    }, () => {
-      console.log(this.state)
+      _this.setState({
+        dailyCalories: calories,
+        dailyCarbs: carbs,
+        dailyFats: fats,
+        dailyProteins: proteins,
+        dailySugars: sugar,
+        timelineOverviewData: map.set(date, {"carbs": carbs, "fats": fats, "protein": proteins})
+      }, () => {
+        console.log(_this.state)
+        console.log("resolving PROMIsEEEE")
+        resolve()
+      })
     })
   }
 
@@ -187,7 +196,6 @@ class Home extends Component {
         })
         .then(() => {
           console.log('Successfully removed item')
-          //this.fetchAndDisplay()
           const array = eatenFood
           array.splice(index, 1)
           this.setState({
@@ -216,6 +224,7 @@ class Home extends Component {
       dailyProteins: 0,
       dailySugars: 0,
       dailyCarbs:  0,
+      snapshot: [],
       eatenFood: []
     }, () => {
 
@@ -258,28 +267,66 @@ class Home extends Component {
 
 }
 
-  displayConsumptionData(){
+
+
+  async displayConsumptionData(){
     const { snapshot, date, eatenFood } = this.state
+    console.log("HELOOOOOOOOOOOOOOO")
+    //  datamap is used in used to be supplied timeline overview 
+    const dataMap = new Map()
 
-    console.log("IN DISPLAY CONSUPMTION DATA", eatenFood)
-    snapshot.forEach((doc) => {
-      //  only care about food eaten today for now
-      if (doc.id === date){
-        console.log("a match")
+    const promises = []
+    snapshot.forEach(async (doc) => {
+      //  add days to timelimeDataLabels
+      //  only care about food eaten today
+      const promise = new Promise((resolve, reject) => {
+        if (doc.id === date){
+          console.log("a match")
 
-        //  add to eatenFood
-        const foodList = []
-        Object.entries(doc.data()).forEach(([key, foodItem]) => {
-          foodList.push(foodItem)
-        })               
-        this.setState({
-          eatenFood: eatenFood.concat(foodList)
-        }, () => {
-          this.parseEatenFood()
-        });
-      }           
-    });
+          //  add to eatenFood
+          const foodList = [] 
+          Object.entries(doc.data()).forEach(([timeOfDay, foodItem]) => {
+            foodList.push(foodItem)
+          }) 
+        
+         this.setState({
+            eatenFood: eatenFood.concat(foodList)
+          }, async function() {
+            await this.parseEatenFood()
+            const {dailyCarbs, dailyFats, dailyProteins} = this.state;
+            await dataMap.set(doc.id, {"carbs": dailyCarbs, "fats": dailyFats, "protein": dailyProteins})
+            resolve()
+          })
+        } else {  
+            // extract info for timeline
+            const foodList = [] 
+            Object.entries(doc.data()).forEach(([timeOfDay, foodItem]) => {
+                foodList.push(foodItem)
+            })
+            console.log(doc.id ,foodList)
+            let carbs = 0
+            let protein = 0
+            let fats = 0  
 
+            foodList.forEach((item) => {
+              carbs += item.carbs
+              fats += item.fats
+              protein += item.protein
+            })
+            dataMap.set(doc.id, {"carbs": carbs, "fats": fats, "protein": protein})
+            resolve()
+        };
+      })
+      promises.push(promise)
+    })
+
+    Promise.all(promises).then( async () => {
+      const mapAsc = await new Map([...dataMap.entries()].sort());
+      this.setState({
+        timelineOverviewData: mapAsc
+      })
+
+    })
 }
 
 
@@ -292,7 +339,6 @@ class Home extends Component {
         dropdownVisible: false,
       })
     }
-
   }
 
   handleDropdownClick(e) {
@@ -315,7 +361,7 @@ class Home extends Component {
   triggerRenderHome(foodObject){
     const { eatenFood } = this.state
     const item = []
-    Object.entries(foodObject).forEach(([key, foodItem]) => {
+    Object.entries(foodObject).forEach(([timeOfDay, foodItem]) => {
       item.push(foodItem)
     })               
     this.setState({
@@ -329,7 +375,7 @@ class Home extends Component {
 
   render() {
     const { searchResult, dropdownVisible, dailyFats, 
-      dailyProteins, dailyCarbs, dailyCalories, eatenFood, targetCalories, targetFats, targetCarbs, targetProtein, date } = this.state
+      dailyProteins, dailyCarbs, dailyCalories, eatenFood, targetCalories, targetFats, targetCarbs, targetProtein, date, timelineOverviewData } = this.state
     const { firebase } = this.props
 
     return (
@@ -392,6 +438,7 @@ class Home extends Component {
                         photo={item.photo.thumb}
                         firebase={firebase}
                         key={item.food_name}
+                        date={date}
                         triggerRenderHome = {this.triggerRenderHome}
                       />
                     ))}
@@ -428,7 +475,6 @@ class Home extends Component {
                 
                 </CSSTransition>
               </TransitionGroup>
-
               <a data-slide="next" role="button" className="right date-control" 
                 onClick={() => {
                   var d = new Date(date);
@@ -441,7 +487,7 @@ class Home extends Component {
           </Col>
         </Row>
         <Row className="align-self-center">
-            <BarChart/>
+            <BarChart timelineOverviewData={timelineOverviewData} date={date} dailyCarbs={dailyCarbs} dailyFats={dailyFats} dailyProteins={dailyProteins} />
         </Row>
         <Row className="foodListRow">
           <div className="foodListWrapper">

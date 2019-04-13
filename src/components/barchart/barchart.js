@@ -132,21 +132,21 @@ const options ={
             label: 'protein',
             data: [40,20,30,40,20,30,40,20,30,40,20],
             backgroundColor: '#7eddb1',
-            borderColor: "#F29220",
+            borderColor: "#7eddb1",
         },
         {   
 
             label: 'fats',
             data: [40,20,30,40,20,30,40,20,30,40,20],
             backgroundColor: '#3f51b5',
-            borderColor: "#F29220",
+            borderColor: "#3f51b5",
         },
         {   
 
             label: 'carbs',
             data: [40,20,30,40,20,30,40,20,30,40,20],
             backgroundColor: '#c53255',
-            borderColor: "#F29220",
+            borderColor: "#c53255",
         }
        ],
  }

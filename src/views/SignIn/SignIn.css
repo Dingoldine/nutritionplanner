@@ -68,7 +68,7 @@
   }
 
   .loginPage button:hover {
-    background: #474c7c;
+    background: #3f51b5;
   }
 
   .loginPage .form-group {
@@ -96,9 +96,8 @@
   }
 
 .register-link:hover {   
-  color: #474c7c;
+  color: #3f51b5;
   }
-
 
 #welcome-text {
   margin-top:15px;

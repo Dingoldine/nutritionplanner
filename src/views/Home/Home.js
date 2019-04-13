@@ -376,9 +376,10 @@ class Home extends Component {
                     onChange={e => { this.handleChange(e)}}
                     name="searchTerm"
                     autoComplete="off"
+                    className="smallFont"
                   />
                   <InputGroupAddon addonType="prepend">
-                    <Button type="submit">Search</Button>
+                    <Button className="searchButton smallFont" type="submit">Search</Button>
                   </InputGroupAddon>
                 </InputGroup>
                 {dropdownVisible && (
@@ -404,7 +405,7 @@ class Home extends Component {
           <Row className="align-self-center">   
           <Col sm="12" md={{ size: 4, offset: 4 } } className="text-center">
             
-            <div className="date-picker">
+            <div className="date-picker smallFont">
 
               <a data-slide="prev" role="button" className="left date-control" 
                 onClick={() => {
@@ -423,7 +424,7 @@ class Home extends Component {
                   classNames="messageout"
                   >
                   <div className="date-container">
-                    <p id="current-date-shown"><span><i><FaCalendarAlt/></i></span>{date}</p>
+                    <p id="current-date-shown"><span><i className="calendar"><FaCalendarAlt/></i></span>{date}</p>
                   </div>
                 
                 </CSSTransition>

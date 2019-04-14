@@ -386,32 +386,32 @@ class Home extends Component {
         <Container fluid="true" className="home">
           <Row className="topMainRow">
             <Row style={{width: '100%',padding: '30px 0px 40px 0px'}}>
-              <Col sm="4" className="eatenCol">
+              <Col md="4" className="eatenCol">
                 <div className="eatenDiv">
                   <span className="mediumFont">{dailyCalories.toFixed(0)}</span>
                   <p className="smallFont">kcal eaten</p>
                 </div>
               </Col>
-              <Col sm="4" className="circleCol">
+              <Col md="4" className="circleCol">
                 <p className="largeFont">remaining calories</p>
                 <CircularProgress dailyCalories={dailyCalories} targetCalories={targetCalories} />
               </Col>   
-              <Col sm="4"></Col>    
+              <Col md="4"></Col>    
             </Row>
-            <Row style={{width: '100%', paddingLeft: '30px'}}>
-              <Col sm="3"></Col> 
-              <Col sm="6" style={{ display: 'flex', justifyContent: 'center'}}>
-                <Col sm="4" style={{ display: 'flex', justifyContent: 'center'}}>
+            <Row style={{width: '100%'}}>
+              <Col md="3"></Col> 
+              <Col md="6" style={{ display: 'flex', justifyContent: 'center'}}>
+                <Col md="4" style={{ display: 'flex', justifyContent: 'center'}}>
                   <MacroProgressBar name="carbs" daily={dailyCarbs} target={targetCarbs} />
                 </Col> 
-                <Col sm="4" style={{ display: 'flex', justifyContent: 'center'}}>
+                <Col md="4" style={{ display: 'flex', justifyContent: 'center'}}>
                   <MacroProgressBar name="protein" daily={dailyProteins} target={targetProtein} />
                 </Col> 
-                <Col sm="4" style={{ display: 'flex', justifyContent: 'center'}}>
+                <Col md="4" style={{ display: 'flex', justifyContent: 'center'}}>
                   <MacroProgressBar name="fats" daily={dailyFats} target={targetFats} />
                 </Col> 
               </Col> 
-              <Col sm="3"></Col> 
+              <Col md="3"></Col> 
             </Row>
           </Row>
           

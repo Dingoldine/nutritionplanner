@@ -4,6 +4,8 @@ html {
   font-size: 62.5%;
   box-sizing: border-box;
   height: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -14,6 +16,8 @@ body {
   height: 100% !important;
   min-height: 100% !important;
   background-color: #f4f3f0;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 #root, .main {

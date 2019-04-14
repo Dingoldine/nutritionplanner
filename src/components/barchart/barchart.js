@@ -3,18 +3,7 @@ import { Bar } from "react-chartjs-2";
 import 'chartjs-plugin-datalabels';
 import 'chartjs-plugin-zoom'
 import './barchart.css'
-import dateFormat from 'dateformat'
 import Hammer from 'hammerjs';
-
-
-
-function newDate(offset) {
-    const date = new Date();
-    //var d = new Date(date);
-    date.setDate(date.getDate() + offset);
-    // console.log(dateFormat(date, "isoDate", true));
-    return dateFormat(date, "isoDate", true)
-}
 
 const options ={
     type: "bar",
@@ -22,8 +11,16 @@ const options ={
     legend: {
         position: 'bottom',
     },
+    tooltips: {
+        callbacks: {
+           label: function(t, d) {
+              var xLabel = d.datasets[t.datasetIndex].label;
+              var yLabel = t.yLabel;
 
-
+              return xLabel + ":  " + yLabel.toFixed(0) +  " kCal";
+           }
+        }
+     },
     title: {
         display: true,
         text: 'Timeline Overview'
@@ -32,8 +29,7 @@ const options ={
         xAxes: [{
             stacked: true,
             gridLines: {
-                display: true,
-                
+                display: true,   
             },
             //  barPercentage: 0.3,
             barPercentage: 1,
@@ -70,7 +66,7 @@ const options ={
             gridLines: {
                 display:true
             }
-        }]
+            }]
     },
     plugins: {
         zoom: {
@@ -102,86 +98,91 @@ const options ={
     }
 }
 
+const chartColors = {
+    red: 	'rgba(197, 50, 85, 0.5)',
+    orange: 'rgba(255, 159, 64, 0.5)',
+    yellow: 'rgba(255, 205, 86, 0.5)',
+    green: 	'rgba(126, 221, 177, 0.5)',
+    blue: 	'rgba(63, 81, 181, 0.5)',
+    purple: 'rgba(153, 102, 255, 0.5)',
+    grey: 	'rgba(231, 233, 237, 0.5)'
+};
 
+const calsPerGramFat = 9
+const calsPerGramProtein = 4
+const calsPerGramCarbs = 4
 
 // eslint-disable-next-line react/prefer-stateless-function
 class BarChart extends React.Component {
     constructor(props) {
       super(props)
     }
-    
 
      render(){
-        const {timelineOverviewData, dailyCarbs, dailyFats, dailyProteins, date} = this.props
-        console.log(timelineOverviewData)
-        console.log(date)
-        console.log(dailyCarbs)
-        console.log(dailyFats)
-        console.log(dailyProteins)
+        const {timelineOverviewData} = this.props
 
         const xAxisLabels = []
         const carbsData = []
         const proteinData = []
         const fatsData = []
+        const lineChartData = []
         function extractMapElements(nutrients, dateString, map) {
-            console.log(dateString);
             xAxisLabels.push(dateString)
-            carbsData.push(nutrients.carbs)
-            proteinData.push(nutrients.protein)
-            fatsData.push(nutrients.fats)
+            const carbCalories = nutrients.carbs * calsPerGramCarbs
+            const proteinCalories = nutrients.protein * calsPerGramProtein
+            const fatsCalories = nutrients.fats * calsPerGramFat
+            carbsData.push(carbCalories)
+            proteinData.push(proteinCalories)
+            fatsData.push(fatsCalories)
+            lineChartData.push(nutrients.calories)
         }
 
         timelineOverviewData.forEach(extractMapElements)
-        //  xAxisLabels.push(date)
-        console.log(xAxisLabels)
 
         const data ={ 
             labels: xAxisLabels,
             datasets:[
                 // trendline
-                {
-                    label: 'Line Dataset',
-                    data: [40,20,30,40,20,30,40,20,30,40,20],
-        
-                    // Changes this dataset to become a line
-                    type: 'line',
-                    //  No Fill color
-                    fill: false
-                },
+                // {   
+                //     type: 'line',
+                //     label: 'Calories',
+                //     data: lineChartData,
+                //     backgroundColor: chartColors.gray,
+                //     borderColor: chartColors.gray,  
+                //     fill: true              
+                // },
                 //  barcharts
                 {   
+                    tyoe: 'bar',
                     label: 'protein',
                     data: proteinData,
-                    backgroundColor: '#7eddb1',
-                    borderColor: "#F29220",
+                    backgroundColor: chartColors.green,
+                    borderColor: chartColors.green,
                 },
                 {   
-        
+                    tyoe: 'bar',
                     label: 'fats',
                     data: fatsData,
-                    backgroundColor: '#3f51b5',
-                    borderColor: "#F29220",
+                    backgroundColor: chartColors.red,
+                    borderColor: chartColors.red,
                 },
                 {   
-        
+                    tyoe: 'bar',
                     label: 'carbs',
                     data: carbsData,
-                    backgroundColor: '#c53255',
-                    borderColor: "#F29220",
+                    backgroundColor: chartColors.blue,
+                    borderColor: chartColors.blue,
                 }
                ],
          }
 
 
-       return  (
-       <div className="barchart-container">
-        <Bar  data={data} options={options} />
-       </div>
-        
-        )
+        return  (
+        <div className="barchart-container">
+            <Bar  data={data} options={options} />
+        </div>
+            )
      }
-
-
 }
 
 export default BarChart;

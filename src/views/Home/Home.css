@@ -55,6 +55,7 @@
 
 .foodListWrapper {
   box-shadow: rgba(0, 0, 0, 0.45)  8px 8px 20px 0px;
+  margin-top: 40px;
 }
 
 ul {
@@ -84,8 +85,9 @@ ul {
 /* DATE PICKER  */
 
 .date-picker {
-  margin-bottom: 60px;
   position: relative;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 /* Control buttons  */

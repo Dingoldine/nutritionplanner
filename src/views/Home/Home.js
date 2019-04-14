@@ -20,7 +20,6 @@ import MacroProgressBar from '../../components/macroProgressBar/macroProgressBar
 import BarChart from '../../components/barchart/barchart'
 import { makeGetFoodRequest } from '../../utils/api'
 import './Home.css'
-import { func } from 'prop-types';
 
 class Home extends Component {
   // eslint-disable-line
@@ -171,10 +170,9 @@ class Home extends Component {
         dailyFats: fats,
         dailyProteins: proteins,
         dailySugars: sugar,
-        timelineOverviewData: map.set(date, {"carbs": carbs, "fats": fats, "protein": proteins})
+        timelineOverviewData: map.set(date, {"carbs": carbs, "fats": fats, "protein": proteins, "calories": calories})
       }, () => {
         console.log(_this.state)
-        console.log("resolving PROMIsEEEE")
         resolve()
       })
     })
@@ -293,8 +291,8 @@ class Home extends Component {
             eatenFood: eatenFood.concat(foodList)
           }, async function() {
             await this.parseEatenFood()
-            const {dailyCarbs, dailyFats, dailyProteins} = this.state;
-            await dataMap.set(doc.id, {"carbs": dailyCarbs, "fats": dailyFats, "protein": dailyProteins})
+            const {dailyCarbs, dailyFats, dailyProteins, dailyCalories} = this.state;
+            await dataMap.set(doc.id, {"carbs": dailyCarbs, "fats": dailyFats, "protein": dailyProteins, "calories": dailyCalories})
             resolve()
           })
         } else {  
@@ -303,17 +301,22 @@ class Home extends Component {
             Object.entries(doc.data()).forEach(([timeOfDay, foodItem]) => {
                 foodList.push(foodItem)
             })
-            console.log(doc.id ,foodList)
-            let carbs = 0
-            let protein = 0
-            let fats = 0  
+            if (foodList.length !== 0) {
+              let carbs = 0
+              let protein = 0
+              let fats = 0  
+              let calories = 0
 
-            foodList.forEach((item) => {
-              carbs += item.carbs
-              fats += item.fats
-              protein += item.protein
-            })
-            dataMap.set(doc.id, {"carbs": carbs, "fats": fats, "protein": protein})
+              foodList.forEach((item) => {
+                  carbs += item.carbs
+                  fats += item.fats
+                  protein += item.protein
+                  calories += item.calories
+              })
+              dataMap.set(doc.id, {"carbs": carbs, "fats": fats, "protein": protein, "calories": calories})
+              resolve()
+            }
+
             resolve()
         };
       })

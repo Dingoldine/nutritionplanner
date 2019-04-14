@@ -19,12 +19,14 @@
   border-bottom-right-radius:47%;
   padding-bottom: 75px;
   margin-bottom: 50px;
+  justify-content: center;
 }
 
 .circleCol {
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
 }
 
 .circleCol p {
@@ -201,8 +203,25 @@ ul {
   background-color: #3f51b5
 }
 
+@media only screen and (max-width: 770px) {
+  .topMainRow {
+    border-bottom-left-radius:0%;
+    border-bottom-right-radius:0%;
+  }
+}
+
 @media only screen and (min-width: 770px) {
   .foodListWrapper {
     width: 450px;
+  }
+
+  .eatenDiv {
+    margin-right: 40px;
+  }
+}
+
+@media only screen and (min-width: 1080px) {
+  .eatenDiv {
+    margin-right: 0px;
   }
 }

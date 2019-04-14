@@ -481,8 +481,7 @@ class Home extends Component {
               </TransitionGroup>
               <a data-slide="next" role="button" className="right date-control" 
                 onClick={() => {
-                  var d = new Date(date);
-                  d.setDate(d.getDate() + 1);
+                  const d = new Date(date).getTime() + 86400000;
                   this.setState({
                     date: dateFormat(d, "isoDate", true)
                   }, () => {this.fetchAndDisplay()})

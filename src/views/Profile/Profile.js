@@ -6,8 +6,6 @@ import './Profile.css'
 import Layout from '../../components/layout'
 import PieChart from  '../../components/piechart/piechart'
 
-
-
 //  makes sure first render dont fail when trying to access user.settings
 const initialUserState = {
   username: "",

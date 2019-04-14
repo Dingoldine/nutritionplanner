@@ -186,6 +186,17 @@ class FoodModal extends React.Component { // eslint-disable-line
     });
   }
 
+  handleKeyPress(key){
+    // if enter is clicked do add
+    return new Promise((resolve, reject) => {
+      if(key.keyCode===13){
+        this.handleAddFood() 
+        resolve(true)  
+      } 
+      resolve(false)
+    })
+  }
+
   render() {
     const { nutrients, foodName, servingSelected, quantity, splitButtonOpen, calories, protein, carbs, sugar, fats } = this.state
     return(
@@ -197,7 +208,7 @@ class FoodModal extends React.Component { // eslint-disable-line
       {close => (
       // Now we can make an api call from Home.js
       this.onClick(),
-      <div className="reactjs-modal">
+      <div className="reactjs-modal"  tabIndex="0" onKeyDown={(e)=> this.handleKeyPress(e).then((shouldClose) => {if(shouldClose){ close()} })} >
         <a className="modalClose" onClick={close}> 
           &times;
         </a>
@@ -218,7 +229,7 @@ class FoodModal extends React.Component { // eslint-disable-line
 
           <Col sm="6" align="center">
             <InputGroup id="inputGroupModal">
-              <Input id="inputQuantity" value={quantity} onChange={e => { this.handleInputChanged(e) }}/>
+              <Input type="number" id="inputQuantity" autoFocus="true" value={quantity} onChange={e => { this.handleInputChanged(e) }}/>
               <InputGroupButtonDropdown addonType="prepend" isOpen={splitButtonOpen} toggle={this.toggleSplit}>
                 <Button outline>{servingSelected ? <p>Serving ({nutrients.serving_weight_grams}g)</p> : <p>g</p>}</Button>
                 <DropdownToggle split outline />

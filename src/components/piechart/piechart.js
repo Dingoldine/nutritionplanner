@@ -1,6 +1,7 @@
 import React from 'react'
 import { Pie } from 'react-chartjs-2'
 import 'chartjs-plugin-datalabels';
+import { chartColors } from '../../app/constants'
 import './piechart.css'
 
 // eslint-disable-next-line react/prefer-stateless-function
@@ -18,8 +19,8 @@ class PieChart extends React.Component {
       datasets: [
         {
           data: [dailyFats, dailyProteins, dailyCarbs],
-          backgroundColor: ['#3f51b5', '#7eddb1', '#c53255'],
-          hoverBackgroundColor: ['#3f51b5', '#7eddb1', '#c53255']
+          backgroundColor: [chartColors.red, chartColors.green, chartColors.blue],
+          hoverBackgroundColor: [chartColors.red, chartColors.green, chartColors.blue]
         }
       ]
     }

@@ -11,6 +11,8 @@ import {
 } from 'reactstrap'
 import { FaChevronRight, FaChevronLeft, FaCalendarAlt } from 'react-icons/fa'
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 import dateFormat from 'dateformat'
 import Layout from '../../components/layout'
 import ListItem from '../../components/listItem/listItem'
@@ -35,6 +37,9 @@ class Home extends Component {
     this.triggerRenderHome = this.triggerRenderHome.bind(this);
     this.handleDeleteFoodItem = this.handleDeleteFoodItem.bind(this);
     this.displayConsumptionData = this.displayConsumptionData.bind(this)
+    this.toggleCalendar = this.toggleCalendar.bind(this)
+    this.handleDatepickerChange = this.handleDatepickerChange.bind(this)
+    this.handleCalendarClickOutside = this.handleCalendarClickOutside.bind(this)
     // this.handleModalClose = this.handleModalClose.bind(this);
     
     //  for creating a document with todays date
@@ -60,7 +65,8 @@ class Home extends Component {
       eatenFood: [],
       date: today,
       snapshot: [],
-      timelineOverviewData: new Map()
+      timelineOverviewData: new Map(),
+      datepickerIsOpen: false
     }
 
     this.node = React.createRef()
@@ -336,7 +342,6 @@ class Home extends Component {
 
   handleOutsideDropdownClick(e) {
     const { dropdownVisible } = this.state
-    console.log("click outside")
     if (dropdownVisible){
       this.setState({
         dropdownVisible: false,
@@ -372,13 +377,29 @@ class Home extends Component {
     }, () => {
       this.parseEatenFood()
     })
-  
-   
+  }
+
+  handleDatepickerChange (d) {
+    this.setState({date: dateFormat(d, "isoDate", true)})
+    this.toggleCalendar()
+  }
+
+  toggleCalendar (e) {
+    const {datepickerIsOpen} = this.state
+    e && e.preventDefault()
+    this.setState({datepickerIsOpen: !datepickerIsOpen})
+  }
+
+  handleCalendarClickOutside(){
+    const {datepickerIsOpen} = this.state
+    this.setState({datepickerIsOpen: !datepickerIsOpen})
   }
 
   render() {
     const { searchResult, dropdownVisible, dailyFats, 
-      dailyProteins, dailyCarbs, dailyCalories, eatenFood, targetCalories, targetFats, targetCarbs, targetProtein, date, timelineOverviewData } = this.state
+      dailyProteins, dailyCarbs, dailyCalories, eatenFood, 
+      targetCalories, targetFats, targetCarbs, targetProtein,
+      datepickerIsOpen, date, timelineOverviewData } = this.state
     const { firebase } = this.props
 
     return (
@@ -389,25 +410,25 @@ class Home extends Component {
               <Col sm="4" className="eatenCol">
                 <div className="eatenDiv">
                   <span className="mediumFont">{dailyCalories.toFixed(0)}</span>
-                  <p className="smallFont">kcal eaten</p>
+                  <p className="smallFont capitalize">kcal eaten</p>
                 </div>
               </Col>
               <Col sm="4" className="circleCol">
-                <p className="largeFont">remaining calories</p>
+                <p className="largeFont uppercase">remaining calories</p>
                 <CircularProgress dailyCalories={dailyCalories} targetCalories={targetCalories} />
               </Col>   
               <Col sm="4"></Col>    
             </Row>
             <Row style={{width: '100%', paddingLeft: '30px'}}>
               <Col sm="3"></Col> 
-              <Col sm="6" style={{ display: 'flex', justifyContent: 'center'}}>
-                <Col sm="4" style={{ display: 'flex', justifyContent: 'center'}}>
+              <Col sm="6" className="uppercase" style={{ display: 'flex', justifyContent: 'center'}}>
+                <Col sm="4" className="uppercase" style={{ display: 'flex', justifyContent: 'center'}}>
                   <MacroProgressBar name="carbs" daily={dailyCarbs} target={targetCarbs} />
                 </Col> 
-                <Col sm="4" style={{ display: 'flex', justifyContent: 'center'}}>
+                <Col sm="4" className="uppercase" style={{ display: 'flex', justifyContent: 'center'}}>
                   <MacroProgressBar name="protein" daily={dailyProteins} target={targetProtein} />
                 </Col> 
-                <Col sm="4" style={{ display: 'flex', justifyContent: 'center'}}>
+                <Col sm="4" className="uppercase" style={{ display: 'flex', justifyContent: 'center'}}>
                   <MacroProgressBar name="fats" daily={dailyFats} target={targetFats} />
                 </Col> 
               </Col> 
@@ -452,11 +473,9 @@ class Home extends Component {
               </Form>
             </Col>
           </Row>
-          <Row className="align-self-center">   
-          <Col sm="12" md={{ size: 4, offset: 4 } } className="text-center">
-            
+          <Row className="align-self-center" className="datetimeRow">   
+          <Col sm="12" md={{ size: 4, offset: 4 } } className="text-center">  
             <div className="date-picker smallFont">
-
               <a data-slide="prev" role="button" className="left date-control" 
                 onClick={() => {
                   var d = new Date(date);
@@ -464,9 +483,10 @@ class Home extends Component {
                   this.setState({
                     date: dateFormat(d, "isoDate", true)
                   }, () => {this.fetchAndDisplay()})
-              }
-              }><i> <FaChevronLeft/></i></a>
-
+                }
+              }>
+                <i><FaChevronLeft/></i>
+              </a>        
               <TransitionGroup style={{position: "relative", display: "inline-block", width: "200px"}}>
                 <CSSTransition
                   key={date}
@@ -474,7 +494,7 @@ class Home extends Component {
                   classNames="messageout"
                   >
                   <div className="date-container">
-                    <p id="current-date-shown"><span><i className="calendar"><FaCalendarAlt/></i></span>{date}</p>
+                    <p id="current-date-shown">{date}</p>
                   </div>
                 
                 </CSSTransition>
@@ -486,7 +506,22 @@ class Home extends Component {
                     date: dateFormat(d, "isoDate", true)
                   }, () => {this.fetchAndDisplay()})
               }}><i><FaChevronRight/></i></a>
-            </div> 
+              </div>
+              <div>
+                <button type="button" className="btn openCalendarButton" onClick={this.toggleCalendar}>  
+                    <i className="fas calendar"><FaCalendarAlt/></i>
+                </button> 
+                {
+                  datepickerIsOpen && (
+                      <DatePicker
+                          selected={new Date(date)}
+                          onChange={this.handleDatepickerChange}
+                          onClickOutside={this.handleCalendarClickOutside}
+                          withPortal
+                          inline />
+                  )
+                }
+            </div>
           </Col>
         </Row>
         <Row className="align-self-center">

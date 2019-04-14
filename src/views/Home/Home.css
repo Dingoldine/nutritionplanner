@@ -71,6 +71,8 @@ ul {
   padding: 0;
   margin: 0;
   border: 1px solid #ced4da;
+  border-radius: 2px;
+  box-shadow: 0px 2px 9px #999;
 }
 
 
@@ -84,10 +86,16 @@ ul {
 
 /* DATE PICKER  */
 
+.openCalendarButton:hover {
+  transform: scale(1.2)
+}
+
+.datetimeRow {
+  margin-bottom: 20px;
+}
 .date-picker {
   position: relative;
   margin-top: 20px;
-  margin-bottom: 20px;
 }
 
 /* Control buttons  */

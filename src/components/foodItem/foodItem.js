@@ -11,7 +11,7 @@ export default ({foodObject, onClick }) => {
         <p> {foodObject.foodName} </p>
         <div className="kcalDiv" style={{display: 'flex'}}>
           <p style={{paddingRight: '10px'}}>kcal: {foodObject.calories.toFixed(0)} ({foodObject.grams.toFixed(0)}g)</p>
-          <FaTrash size={20} color="#c53255" onClick={() => onClick()}/>
+          <i className="deleteFoodIcon"><FaTrash size={20} color="#c53255" onClick={() => onClick()}/></i>
         </div>
       </div>
     )

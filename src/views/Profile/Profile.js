@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Container, Col, Row, ListGroup, ListGroupItem, Button} from 'reactstrap'
+import { Container, Col, Row, ListGroup, ListGroupItem, Button, Fade} from 'reactstrap'
 import { FaUser, FaEnvelope } from 'react-icons/fa'
 import Slider from '../../components/slider/slider'
 import './Profile.css'
@@ -23,10 +23,12 @@ export default class Profile extends Component {
       calories: 0,
       protein: 0,
       carbs: 0,
-      fat: 0
+      fat: 0,
+      fadeIn: false,
     }
 
     this.onBtnSave = this.onBtnSave.bind(this)
+    this.toggleFade = this.toggleFade.bind(this)
   }
 
   componentDidMount() {
@@ -66,7 +68,7 @@ export default class Profile extends Component {
   updateCalories = () => {
     const { protein, carbs, fat } = this.state
     const calories = (protein * 4 + carbs * 4 + fat * 9).toFixed(0)
-    this.setState({ calories })
+    this.setState({ calories, fadeIn: false })
   }
 
   handleChangeProtein = (event, Protein) => {
@@ -107,6 +109,7 @@ export default class Profile extends Component {
         )
         .then(() => {
           console.log('Success')
+          this.toggleFade()
         })
         .catch(err => {
           console.log(err)
@@ -115,8 +118,15 @@ export default class Profile extends Component {
     }
   }
 
+  toggleFade() {
+    const { fadeIn } = this.state
+    this.setState({
+        fadeIn: !fadeIn
+    });
+  }
+
   render() {
-    const { user, calories, carbs, protein, fat } = this.state
+    const { user, calories, carbs, protein, fat, fadeIn } = this.state
     
     return (
       <Layout className="profile">
@@ -146,6 +156,9 @@ export default class Profile extends Component {
               <Button className="saveButton smallFont" onClick={() => this.onBtnSave()}>
                 Save
               </Button>
+              <Fade in={fadeIn} tag="h5" className="extraSmallFont savedMessage" >
+                    Your settings have been saved!
+              </Fade>
             </Col>
           </Row>
           <Row className="footerRow extraSmallFont">

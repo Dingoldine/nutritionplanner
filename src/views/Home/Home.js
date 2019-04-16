@@ -11,6 +11,7 @@ import {
 } from 'reactstrap'
 import { FaChevronRight, FaChevronLeft, FaCalendarAlt } from 'react-icons/fa'
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+import ReactTooltip from 'react-tooltip'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import dateFormat from 'dateformat'
@@ -504,9 +505,12 @@ class Home extends Component {
               }}><i><FaChevronRight/></i></a>
               </div>
               <div>
-                <button type="button" className="btn openCalendarButton" onClick={this.toggleCalendar}>  
+                <button type="button" className="btn openCalendarButton" onClick={this.toggleCalendar} data-tip data-for='calendar-icon-tip'>  
                     <i className="fas calendar"><FaCalendarAlt/></i>
                 </button> 
+                <ReactTooltip id='calendar-icon-tip'  type='info' effect='solid'>
+                  <span>Select date</span>
+                </ReactTooltip>
                 {
                   datepickerIsOpen && (
                       <DatePicker

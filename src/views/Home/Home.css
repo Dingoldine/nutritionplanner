@@ -163,7 +163,7 @@ ul {
 
   opacity: 1;
   transform: scale(1.01);
-   transform: translate(5px, 0px);
+  transform: translate(-8.5px, 2px);
 }
 
 /* ending EXIT animation */
@@ -178,7 +178,9 @@ ul {
 }
 
 #current-date-shown { 
-
+  backface-visibility: hidden;
+  -webkit-font-smoothing: subpixel-antialiased;
+  transform: perspective(1px) translateZ(0);
 }
 
 

@@ -528,23 +528,23 @@ class Home extends Component {
             <BarChart timelineOverviewData={timelineOverviewData} date={date} dailyCarbs={dailyCarbs} dailyFats={dailyFats} dailyProteins={dailyProteins} />
         </Row>
         <Row className="foodListRow">
-        <Col sm="6" style={{ textAlign: 'center' }} className="eatenFoodListCol">
-          <div className="changeSettingsDiv  mediumFont">Meals {date}</div>
-            {
-              eatenFood.length !== 0 ? (
-                <div className="foodListWrapper smallFont">
-                  { eatenFood.map((foodObject,index) => (
-                    <FoodItem
-                      foodObject={foodObject}
-                      onClick={() => this.handleDeleteFoodItem(foodObject, index)}
-                    />
-                  ))}
-                </div>
-                ) : (
-                  <div className="smallFont">nothing to show here</div>
-                  )
-              }
-        </Col>
+          <Col sm="6" style={{ textAlign: 'center' }} className="eatenFoodListCol">
+            <div className="changeSettingsDiv  mediumFont">Meals {date}</div>
+              {
+                eatenFood.length !== 0 ? (
+                  <div className="foodListWrapper smallFont">
+                    { eatenFood.map((foodObject,index) => (
+                      <FoodItem
+                        foodObject={foodObject}
+                        onClick={() => this.handleDeleteFoodItem(foodObject, index)}
+                      />
+                    ))}
+                  </div>
+                  ) : (
+                    <div className="smallFont">nothing to show here</div>
+                    )
+                }
+          </Col>
         </Row>
         <Row className="emptySpace">
         </Row>

@@ -86,7 +86,7 @@ const options ={
                 },
                 rangeMax: {
                     // Format of max zoom range depends on scale type
-                    x: null,
+                    x: "2016-01-01",
                     y: null
                 }
              }
@@ -112,7 +112,7 @@ class BarChart extends React.Component {
 
      render(){
         const {timelineOverviewData} = this.props
-
+        
         const xAxisLabels = []
         const carbsData = []
         const proteinData = []

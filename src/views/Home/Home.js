@@ -404,17 +404,16 @@ class Home extends Component {
         <Container fluid="true" className="home">
           <Row className="topMainRow">
             <Row style={{width: '100%',padding: '30px 0px 40px 0px'}}>
-              <Col md="4" className="eatenCol">
+              <Col md={{ size: 2, offset: 2 } } className="eatenCol">
                 <div className="eatenDiv">
                   <span className="mediumFont">{dailyCalories.toFixed(0)}</span>
                   <p className="smallFont capitalize">kcal eaten</p>
                 </div>
               </Col>
-              <Col md="4" className="circleCol">
+              <Col md={{ size: 4 } }  className="circleCol">
                 <p className="largeFont">remaining calories</p>
                 <CircularProgress dailyCalories={dailyCalories} targetCalories={targetCalories} />
               </Col>   
-              <Col md="4"></Col>    
             </Row>
             <Row style={{width: '100%'}}>
               <Col md="3"></Col> 

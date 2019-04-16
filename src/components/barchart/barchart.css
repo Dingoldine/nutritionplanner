@@ -5,6 +5,23 @@
     align-content: center;
     align-self: center;
     margin: auto;
+    filter: grayscale(100%);
+    -webkit-filter: grayscale(100%);
+    -webkit-transition: all 1s ease;
+    -webkit-font-smoothing: antialiased;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+}
+
+.barchart-container:hover {
+    filter: grayscale(0%);
+    filter: gray;
+    -webkit-filter: grayscale(0%);
+    filter: none;
+    transition: 1s ease;
+    transform: perspective(1px) scale(1.03)
+
+
 }
 
 @media only screen and (max-width: 770px) {

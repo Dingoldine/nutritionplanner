@@ -92,6 +92,7 @@
   .username-field {
       margin-left: 10px;
       margin-bottom: 30px;
+      word-wrap: break-word
   }
 
 /* On hover effects*/

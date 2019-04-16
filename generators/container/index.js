@@ -18,7 +18,7 @@ module.exports = (componentName, routeName) => {
 
   nameList.pascalCasedName = pascalcase(nameList.name);
 
-  const dir = `./src/views/${  nameList.name}`;
+  const dir = `./src/containers/${  nameList.name}`;
   fs.mkdirSync(dir);
 
   const templateList = [
@@ -70,7 +70,7 @@ module.exports = (componentName, routeName) => {
     {
       files: './src/app/reducers.js',
       from: /(import.*\n(?!.*import.*))/,
-      to: `$1import ${nameList.name}Reducer from '../views/${nameList.name}/reducer'\n`,
+      to: `$1import ${nameList.name}Reducer from '../containers/${nameList.name}/reducer'\n`,
     },
     {
       files: './src/app/reducers.js',
@@ -80,7 +80,7 @@ module.exports = (componentName, routeName) => {
     {
       files: './src/app/routes.js',
       from: /(import.*\n(?!.*import.*))/,
-      to: `$1import ${nameList.pascalCasedName} from '../views/${nameList.name}'\n`,
+      to: `$1import ${nameList.pascalCasedName} from '../containers/${nameList.name}'\n`,
     },
     {
       files: './src/app/routes.js',

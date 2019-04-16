@@ -1,10 +1,10 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
-import NotFound from '../views/notfound'
-import SignIn from '../views/SignIn'
-import SignUp from '../views/SignUp'
-import Home from '../views/Home'
-import Profile from '../views/Profile'
+import NotFound from '../containers/NotFound/NotFound'
+import SignIn from '../containers/SignIn'
+import SignUp from '../containers/SignUp'
+import Home from '../containers/Home'
+import Profile from '../containers/Profile'
 
 /**
  * Defines components to routes mapping.

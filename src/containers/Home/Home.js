@@ -15,20 +15,18 @@ import ReactTooltip from 'react-tooltip'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import dateFormat from 'dateformat'
-import Layout from '../../components/layout'
-import ListItem from '../../components/listItem/listItem'
-import FoodItem from '../../components/foodItem/foodItem'
-import CircularProgress from '../../components/circularProgress/circularProgress'
-import MacroProgressBar from '../../components/macroProgressBar/macroProgressBar'
-import BarChart from '../../components/barchart/barchart'
+import Layout from '../../components/Layout/Layout'
+import ListItem from '../../components/ListItem/ListItem'
+import FoodItem from '../../components/FoodItem/FoodItem'
+import CircularProgress from '../../components/CircularProgress/CircularProgress'
+import MacroProgressBar from '../../components/MacroProgressBar/MacroProgressBar'
+import BarChart from '../../components/Barchart/Barchart'
 import { makeGetFoodRequest } from '../../utils/api'
 import './Home.css'
 
 class Home extends Component {
-  // eslint-disable-line
 
   constructor(props) {
-    // eslint-disable-line
     super(props)
 
     this.onExiting = this.onExiting.bind(this)
@@ -41,8 +39,7 @@ class Home extends Component {
     this.toggleCalendar = this.toggleCalendar.bind(this)
     this.handleDatepickerChange = this.handleDatepickerChange.bind(this)
     this.handleCalendarClickOutside = this.handleCalendarClickOutside.bind(this)
-    // this.handleModalClose = this.handleModalClose.bind(this);
-    
+
     //  for creating a document with todays date
     const date = new Date();
 
@@ -51,13 +48,10 @@ class Home extends Component {
     this.state = {
       searchTerm: '',
       searchResult: [],
-      isLoading: false,
-      hasErrored: false,
       dropdownVisible: false,
       dailyCalories: 0,
       dailyFats: 0,
       dailyProteins: 0,
-      dailySugars: 0,
       dailyCarbs:  0,
       targetCalories: 0,
       targetProtein: 0,
@@ -146,7 +140,7 @@ class Home extends Component {
 
   parseEatenFood() {
     const _this = this;
-    return  new Promise(function(resolve, reject) {
+    return  new Promise((resolve) => {
       const { eatenFood, timelineOverviewData, date } = _this.state
       console.log(timelineOverviewData)
 
@@ -224,7 +218,6 @@ class Home extends Component {
       dailyCalories: 0,
       dailyFats: 0,
       dailyProteins: 0,
-      dailySugars: 0,
       dailyCarbs:  0,
       snapshot: [],
       eatenFood: []
@@ -273,7 +266,6 @@ class Home extends Component {
 
   async displayConsumptionData(){
     const { snapshot, date, eatenFood } = this.state
-    console.log("HELOOOOOOOOOOOOOOO")
     //  datamap is used in used to be supplied timeline overview 
     const dataMap = new Map()
 
@@ -281,13 +273,14 @@ class Home extends Component {
     snapshot.forEach(async (doc) => {
       //  add days to timelimeDataLabels
       //  only care about food eaten today
-      const promise = new Promise((resolve, reject) => {
+      const promise = new Promise((resolve) => {
         if (doc.id === date){
           console.log("a match")
 
           //  add to eatenFood
           const foodList = [] 
-          Object.entries(doc.data()).forEach(([timeOfDay, foodItem]) => {
+          // eslint-disable-next-line no-unused-vars
+          Object.entries(doc.data()).forEach(([_, foodItem]) => {
             foodList.push(foodItem)
           }) 
         
@@ -302,7 +295,8 @@ class Home extends Component {
         } else {  
             // extract info for timeline
             const foodList = [] 
-            Object.entries(doc.data()).forEach(([timeOfDay, foodItem]) => {
+            // eslint-disable-next-line no-unused-vars
+            Object.entries(doc.data()).forEach(([_, foodItem]) => {
                 foodList.push(foodItem)
             })
             if (foodList.length !== 0) {
@@ -338,7 +332,7 @@ class Home extends Component {
 
 
 
-  handleOutsideDropdownClick(e) {
+  handleOutsideDropdownClick() {
     const { dropdownVisible } = this.state
     if (dropdownVisible){
       this.setState({
@@ -367,7 +361,8 @@ class Home extends Component {
   triggerRenderHome(foodObject){
     const { eatenFood } = this.state
     const item = []
-    Object.entries(foodObject).forEach(([timeOfDay, foodItem]) => {
+    // eslint-disable-next-line no-unused-vars
+    Object.entries(foodObject).forEach(([_, foodItem]) => {
       item.push(foodItem)
     })               
     this.setState({
@@ -384,7 +379,7 @@ class Home extends Component {
 
   toggleCalendar (e) {
     const {datepickerIsOpen} = this.state
-    e && e.preventDefault()
+    e && e.preventDefault() // eslint-disable-line
     this.setState({datepickerIsOpen: !datepickerIsOpen})
   }
 
@@ -408,7 +403,7 @@ class Home extends Component {
               <Col md={{ size: 2, offset: 2 } } className="eatenCol">
                 <div className="eatenDiv">
                   <span className="mediumFont">{dailyCalories.toFixed(0)}</span>
-                  <p className="smallFont capitalize">kcal eaten</p>
+                  <p className="smallFont">kcal eaten</p>
                 </div>
               </Col>
               <Col md={{ size: 4 } }  className="circleCol">
@@ -470,12 +465,12 @@ class Home extends Component {
               </Form>
             </Col>
           </Row>
-          <Row className="align-self-center" className="datetimeRow">   
+          <Row className="align-self-center datetimeRow">   
           <Col sm="12" md={{ size: 4, offset: 4 } } className="text-center">  
             <div className="date-picker smallFont">
               <a data-slide="prev" role="button" className="left date-control" 
                 onClick={() => {
-                  var d = new Date(date);
+                  const d = new Date(date);
                   d.setDate(d.getDate() - 1);
                   this.setState({
                     date: dateFormat(d, "isoDate", true)
@@ -524,9 +519,6 @@ class Home extends Component {
             </div>
           </Col>
         </Row>
-        <Row className="align-self-center">
-            <BarChart timelineOverviewData={timelineOverviewData} date={date} dailyCarbs={dailyCarbs} dailyFats={dailyFats} dailyProteins={dailyProteins} />
-        </Row>
         <Row className="foodListRow">
         <Col sm="6" style={{ textAlign: 'center' }} className="eatenFoodListCol">
           <div className="changeSettingsDiv  mediumFont">Meals {date}</div>
@@ -546,10 +538,10 @@ class Home extends Component {
               }
         </Col>
         </Row>
-        <Row className="emptySpace">
+        <Row className="align-self-center">
+            <BarChart timelineOverviewData={timelineOverviewData} date={date} dailyCarbs={dailyCarbs} dailyFats={dailyFats} dailyProteins={dailyProteins} />
         </Row>
-        <Row className="footerRow extraSmallFont">
-          © Nutrition Planner - William Westerlund & Philip Rumman
+        <Row className="emptySpace">
         </Row>
       </Container>
     </Layout>

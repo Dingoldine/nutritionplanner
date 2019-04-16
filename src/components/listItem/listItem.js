@@ -1,6 +1,6 @@
 import React from 'react'
 import './listItem.css'
-import FoodModal from '../foodModal/foodModal'
+import FoodModal from '../FoodModal/FoodModal'
 
 
 

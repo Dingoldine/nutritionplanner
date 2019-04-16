@@ -192,13 +192,6 @@ ul {
   width: 360px;
   min-width: 360px;
 }
-/* Footer */
-.footerRow {
-  background: linear-gradient(130deg,#00b698, #7eddb1);
-  border-top: solid #555 1px;
-  padding: 20px;
-  color: white;
-}
 
 /* Empty Space */
 .emptySpace {

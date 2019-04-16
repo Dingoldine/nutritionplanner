@@ -7,7 +7,6 @@ import './foodModal.css'
 import { FaChevronRight } from 'react-icons/fa'
 import { makeGetNutrientsRequest } from '../../utils/api'
 
-
 class FoodModal extends React.Component { // eslint-disable-line
 
   constructor(props) {
@@ -188,7 +187,7 @@ class FoodModal extends React.Component { // eslint-disable-line
 
   handleKeyPress(key){
     // if enter is clicked do add
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       if(key.keyCode===13){
         this.handleAddFood() 
         resolve(true)  
@@ -208,7 +207,7 @@ class FoodModal extends React.Component { // eslint-disable-line
       {close => (
       // Now we can make an api call from Home.js
       this.onClick(),
-      <div className="reactjs-modal"  tabIndex="0" onKeyDown={(e)=> this.handleKeyPress(e).then((shouldClose) => {if(shouldClose){ close()} })} >
+      <div className="reactjs-modal"  tabIndex="0" onKeyDown={(e)=> this.handleKeyPress(e).then((shouldClose) => {if(shouldClose){ close()} })} > 
         <a className="modalClose" onClick={close}> 
           &times;
         </a>

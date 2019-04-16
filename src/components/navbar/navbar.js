@@ -8,8 +8,8 @@ import {
   NavLink,
 } from 'reactstrap'
 import { slide as Menu } from 'react-burger-menu'
-import SignOutButton from '../signOutButton'
-import { withFirebase } from '../../app/firebase'
+import SignOutButton from '../SignOutButton/SignOutButton'
+import { withFirebase } from '../../App/firebase'
 
 class Navigator extends React.Component {
   constructor(props) {
@@ -44,9 +44,10 @@ class Navigator extends React.Component {
   }
 
 
-  toggle(state) {
+  toggle() {
+    const { isOpen } = this.state
     this.setState({
-      isOpen: !this.state.isOpen
+      isOpen: !isOpen
     })
   }
 
@@ -115,7 +116,7 @@ class Navigator extends React.Component {
                   <FaGithub />
                 </span>
               </NavLink>
-          </NavItem>,
+            </NavItem>,
 
             <NavItem className="logon">
               <NavLink tag={RRNavLink} exact to="/home" >
@@ -125,8 +126,6 @@ class Navigator extends React.Component {
                 </span>
               </NavLink>
             </NavItem> 
-
-
             ]
           )}
         </Nav>

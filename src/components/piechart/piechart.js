@@ -1,14 +1,10 @@
 import React from 'react'
 import { Pie } from 'react-chartjs-2'
 import 'chartjs-plugin-datalabels';
-import { chartColors } from '../../app/constants'
-import './piechart.css'
+import { chartColors } from '../../App/constants'
 
 // eslint-disable-next-line react/prefer-stateless-function
 class PieChart extends React.Component {
-  constructor(props) {
-    super(props)  
-  }
 
   render() {
     const {dailyFats, dailyProteins, dailyCarbs } = this.props
@@ -53,8 +49,8 @@ class PieChart extends React.Component {
       tooltips: false,
       plugins: {
         datalabels: {
-          formatter: function(value, context) {
-            return Math.round((value/total)*100) + '%';
+          formatter: (value) => {
+            return `${Math.round((value/total)*100)} %`
            },
           color: 'white'
         }

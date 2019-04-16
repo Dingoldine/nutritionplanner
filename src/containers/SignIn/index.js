@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import SignIn from './SignIn'
-import { withFirebase } from '../../app/firebase'
+import { withFirebase } from '../../App/firebase'
 
 function mapStateToProps(state) {
   return {

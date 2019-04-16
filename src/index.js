@@ -2,10 +2,10 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
-import { store } from './app/store.js'
-import App from './app'
+import { store } from './App/store.js'
+import App from './App'
 import registerServiceWorker from './registerServiceWorker'
-import Firebase, { FirebaseContext } from './app/firebase'
+import Firebase, { FirebaseContext } from './App/firebase'
 
 /**
  * Entry point into the application.

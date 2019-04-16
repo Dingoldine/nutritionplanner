@@ -3,7 +3,7 @@ import {FaSignOutAlt } from 'react-icons/fa'
 import {
   NavLink
   } from 'reactstrap'  
-import { withFirebase } from '../app/firebase'
+import { withFirebase } from '../../App/firebase'
 
 
 const SignOutButton = ({ firebase }) => (

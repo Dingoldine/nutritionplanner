@@ -3,8 +3,7 @@ import { Bar } from "react-chartjs-2";
 import 'chartjs-plugin-datalabels';
 import 'chartjs-plugin-zoom'
 import './barchart.css'
-import Hammer from 'hammerjs';
-import { chartColors } from '../../app/constants'
+import { chartColors } from '../../App/constants'
 
 const options ={
     type: "bar",
@@ -14,11 +13,11 @@ const options ={
     },
     tooltips: {
         callbacks: {
-           label: function(t, d) {
-              var xLabel = d.datasets[t.datasetIndex].label;
-              var yLabel = t.yLabel;
+           label: (t, d) => {
+              const xLabel = d.datasets[t.datasetIndex].label;
+              const { yLabel } = t;
 
-              return xLabel + ":  " + yLabel.toFixed(0) +  " kCal";
+              return `${xLabel}:  ${yLabel.toFixed(0)} kCal`
            }
         }
      },
@@ -92,7 +91,7 @@ const options ={
              }
         },
         datalabels: {
-            display: function(context) {
+            display: () => {
                return null
             }
          }
@@ -106,9 +105,6 @@ const calsPerGramCarbs = 4
 
 // eslint-disable-next-line react/prefer-stateless-function
 class BarChart extends React.Component {
-    constructor(props) {
-      super(props)
-    }
 
      render(){
         const { timelineOverviewData } = this.props
@@ -118,7 +114,7 @@ class BarChart extends React.Component {
         const proteinData = []
         const fatsData = []
         const lineChartData = []
-        function extractMapElements(nutrients, dateString, map) {
+        function extractMapElements(nutrients, dateString) {
             xAxisLabels.push(dateString)
             const carbCalories = nutrients.carbs * calsPerGramCarbs
             const proteinCalories = nutrients.protein * calsPerGramProtein

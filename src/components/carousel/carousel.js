@@ -13,8 +13,7 @@ import './carousel.css'
 import asianChick from '../../images/stockphoto1.jpg'
 import zenGirl from '../../images/stockphoto2.jpg'
 import board from '../../images/stockphoto3.jpg'
-import PieChart from '../chart'
-import FoodItem from '../foodItem/foodItem';
+import PieChart from '../PieChart/PieChart'
 
 const slides = [
     {

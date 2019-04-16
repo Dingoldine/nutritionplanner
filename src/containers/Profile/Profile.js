@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import { Container, Col, Row, ListGroup, ListGroupItem, Button, Fade, ListGroupItemHeading} from 'reactstrap'
+import { Container, Col, Row, ListGroup, ListGroupItem, Button, Fade } from 'reactstrap'
 import { FaUser, FaEnvelope } from 'react-icons/fa'
-import Slider from '../../components/slider/slider'
+import Slider from '../../components/Slider/Slider'
 import './Profile.css'
-import Layout from '../../components/layout'
-import PieChart from  '../../components/piechart/piechart'
-import ReactTooltip from 'react-tooltip'
+import Layout from '../../components/Layout/Layout'
+import PieChart from  '../../components/PieChart/PieChart'
+
 
 //  makes sure first render dont fail when trying to access user.settings
 const initialUserState = {
@@ -19,7 +19,6 @@ export default class Profile extends Component {
     super(props)
 
     this.state = {
-      loading: false,
       user: initialUserState,
       calories: 0,
       protein: 0,
@@ -39,15 +38,13 @@ export default class Profile extends Component {
     }
 
     const { firebase, history } = this.props
-
-    this.setState({ loading: true })
     
     //  save this to use below 
     const _this = this
     
-    firebase.auth.onAuthStateChanged(function(user) {
-      if (user) {
-        firebase.user(user.uid)
+    firebase.auth.onAuthStateChanged((user_) => {
+      if (user_) {
+        firebase.user(user_.uid)
         .onSnapshot(snapshot => {
           _this.setState({
             user: snapshot.data(),
@@ -58,7 +55,6 @@ export default class Profile extends Component {
             loading: false
           })
         })
-
       } else {
         // No user is signed in.
         history.push('/')
@@ -163,9 +159,6 @@ export default class Profile extends Component {
                     Your settings have been saved!
               </Fade>
             </Col>
-          </Row>
-          <Row className="footerRow extraSmallFont">
-            © Nutrition Planner - William Westerlund & Philip Rumman
           </Row>
         </Container>
       </Layout>

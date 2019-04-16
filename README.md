@@ -53,7 +53,7 @@ Application
 
     /utils      axios instance settings
 
-    /views      Containers, smart components
+    /containers      Containers, smart components
 
     index.js    application entry point
 

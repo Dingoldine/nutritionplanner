@@ -1,7 +1,8 @@
+/* eslint-disable react/no-unescaped-entities */
 import React, { Component } from 'react'
 import { Container, Col, Form, FormGroup, Label, Input, Button, FormFeedback } from 'reactstrap'
 import { FaEnvelope, FaKey, FaAddressBook } from 'react-icons/fa'
-import Layout from '../../components/layout'
+import Layout from '../../components/Layout/Layout'
 import './SignUp.css'
 
 const INITIAL_STATE = {

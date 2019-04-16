@@ -111,7 +111,7 @@ class BarChart extends React.Component {
     }
 
      render(){
-        const {timelineOverviewData} = this.props
+        const { timelineOverviewData } = this.props
         
         const xAxisLabels = []
         const carbsData = []

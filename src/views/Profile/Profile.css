@@ -26,6 +26,10 @@
     width: 350px;
     margin-top: 30px;
 }
+.profileInfoContainer li {
+    background-color: rgba(63, 81, 181, 0.4);
+    color: white;
+}
 
 .profileIcon {
     margin-right: 8px; 
@@ -80,6 +84,16 @@
     padding: 20px;
     color: white;
   }
+
+.userInfoHeading{
+    text-align: center;
+    line-height: 2;
+    height: 50px;
+    background-color:rgba(63, 81, 181, 0.6);;
+    color: white;
+    text-shadow: 0px 0px 0px white;
+    text-transform: uppercase;
+}
 
 @media only screen and (min-width: 784px) {
     .piechart {

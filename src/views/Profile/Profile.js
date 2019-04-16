@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { Container, Col, Row, ListGroup, ListGroupItem, Button, Fade} from 'reactstrap'
+import { Container, Col, Row, ListGroup, ListGroupItem, Button, Fade, ListGroupItemHeading} from 'reactstrap'
 import { FaUser, FaEnvelope } from 'react-icons/fa'
 import Slider from '../../components/slider/slider'
 import './Profile.css'
 import Layout from '../../components/layout'
 import PieChart from  '../../components/piechart/piechart'
+import ReactTooltip from 'react-tooltip'
 
 //  makes sure first render dont fail when trying to access user.settings
 const initialUserState = {
@@ -132,17 +133,19 @@ export default class Profile extends Component {
       <Layout className="profile">
         <Container fluid="true">
           <Row className="justify-content-center topProfileContainer">
+            
             <Col md={{size:4 , offset: 2}} className="chartCol">
-            <PieChart dailyCarbs = {parseFloat(carbs) * 4} dailyFats ={parseFloat(fat)*9} dailyProteins = {parseFloat(protein)*4}/>
+              <PieChart dailyCarbs = {parseFloat(carbs) * 4} dailyFats ={parseFloat(fat)*9} dailyProteins = {parseFloat(protein)*4}/>
             </Col>
             <Col md="6" className="profileInfoCol">
               <ListGroup className="profileInfoContainer">
+                <p className="mediumFont userInfoHeading">Profile Info</p>
                 <ListGroupItem className="smallFont"><FaUser className="profileIcon"/> {user.username}</ListGroupItem>
                 <ListGroupItem className="smallFont"><FaEnvelope className="profileIcon"/> {user.email}</ListGroupItem>
-                <ListGroupItem className="smallFont">Total calories: <span className="profileInfoNumbers">{user.settings.calories}</span></ListGroupItem>
-                <ListGroupItem className="smallFont">Protein: <span className="profileInfoNumbers">{user.settings.protein}</span></ListGroupItem>
-                <ListGroupItem className="smallFont">Carbs: <span className="profileInfoNumbers">{user.settings.carbs}</span></ListGroupItem>
-                <ListGroupItem className="smallFont">Fat: <span className="profileInfoNumbers">{user.settings.fat}</span></ListGroupItem>
+                <ListGroupItem className="smallFont">Daily calories: <span className="profileInfoNumbers">{user.settings.calories} kcal</span></ListGroupItem>
+                <ListGroupItem className="smallFont">Daily protein: <span className="profileInfoNumbers">{user.settings.protein}g</span></ListGroupItem>
+                <ListGroupItem className="smallFont">Daily carbs: <span className="profileInfoNumbers">{user.settings.carbs}g</span></ListGroupItem>
+                <ListGroupItem className="smallFont">Daily fat: <span className="profileInfoNumbers">{user.settings.fat}g</span></ListGroupItem>
               </ListGroup>
             </Col>
           </Row>

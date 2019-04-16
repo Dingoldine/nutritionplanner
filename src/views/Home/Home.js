@@ -98,14 +98,11 @@ class Home extends Component {
     e.preventDefault()
     const { searchTerm } = this.state
 
-    this.setState({
-      dropdownVisible: true
-    })
-
     makeGetFoodRequest(searchTerm)      
     .then(res => {
         this.setState({
-          searchResult: res.common
+          searchResult: res.common,
+          dropdownVisible: true
         })
       })
       .catch(err => {
@@ -528,14 +525,23 @@ class Home extends Component {
             <BarChart timelineOverviewData={timelineOverviewData} date={date} dailyCarbs={dailyCarbs} dailyFats={dailyFats} dailyProteins={dailyProteins} />
         </Row>
         <Row className="foodListRow">
-          <div className="foodListWrapper">
-            {eatenFood.map((foodObject,index) => (
-              <FoodItem
-                foodObject={foodObject}
-                onClick={() => this.handleDeleteFoodItem(foodObject, index)}
-              />
-            ))}
-        </div>
+        <Col sm="6" style={{ textAlign: 'center' }} className="eatenFoodListCol">
+          <div className="changeSettingsDiv  mediumFont">Meals {date}</div>
+            {
+              eatenFood.length !== 0 ? (
+                <div className="foodListWrapper smallFont">
+                  { eatenFood.map((foodObject,index) => (
+                    <FoodItem
+                      foodObject={foodObject}
+                      onClick={() => this.handleDeleteFoodItem(foodObject, index)}
+                    />
+                  ))}
+                </div>
+                ) : (
+                  <div className="smallFont">nothing to show here</div>
+                  )
+              }
+        </Col>
         </Row>
         <Row className="emptySpace">
         </Row>

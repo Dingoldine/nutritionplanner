@@ -403,11 +403,11 @@ class Home extends Component {
               <Col md={{ size: 2, offset: 2 } } className="eatenCol">
                 <div className="eatenDiv">
                   <span className="mediumFont">{dailyCalories.toFixed(0)}</span>
-                  <p className="smallFont">kcal eaten</p>
+                  <p className="smallFont uppercase">kcal eaten</p>
                 </div>
               </Col>
               <Col md={{ size: 4 } }  className="circleCol">
-                <p className="largeFont">remaining calories</p>
+                <p className="largeFont uppercase">remaining calories</p>
                 <CircularProgress dailyCalories={dailyCalories} targetCalories={targetCalories} />
               </Col>   
             </Row>
@@ -520,23 +520,23 @@ class Home extends Component {
           </Col>
         </Row>
         <Row className="foodListRow">
-        <Col sm="6" style={{ textAlign: 'center' }} className="eatenFoodListCol">
-          <div className="changeSettingsDiv  mediumFont">Meals {date}</div>
-            {
-              eatenFood.length !== 0 ? (
-                <div className="foodListWrapper smallFont">
-                  { eatenFood.map((foodObject,index) => (
-                    <FoodItem
-                      foodObject={foodObject}
-                      onClick={() => this.handleDeleteFoodItem(foodObject, index)}
-                    />
-                  ))}
-                </div>
-                ) : (
-                  <div className="smallFont">nothing to show here</div>
-                  )
-              }
-        </Col>
+          <Col sm="6" style={{ textAlign: 'center' }} className="eatenFoodListCol">
+            <div className="changeSettingsDiv  mediumFont">Meals {date}</div>
+              {
+                eatenFood.length !== 0 ? (
+                  <div className="foodListWrapper smallFont">
+                    { eatenFood.map((foodObject,index) => (
+                      <FoodItem
+                        foodObject={foodObject}
+                        onClick={() => this.handleDeleteFoodItem(foodObject, index)}
+                      />
+                    ))}
+                  </div>
+                  ) : (
+                    <div className="smallFont">nothing to show here</div>
+                    )
+                }
+          </Col>
         </Row>
         <Row className="align-self-center">
             <BarChart timelineOverviewData={timelineOverviewData} date={date} dailyCarbs={dailyCarbs} dailyFats={dailyFats} dailyProteins={dailyProteins} />

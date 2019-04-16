@@ -135,7 +135,7 @@ export default class Profile extends Component {
             </Col>
             <Col md="6" className="profileInfoCol">
               <ListGroup className="profileInfoContainer">
-                <p className="mediumFont userInfoHeading">Profile Info</p>
+                <p className="mediumFont userInfoHeading uppercase">Profile Info</p>
                 <ListGroupItem className="smallFont"><FaUser className="profileIcon"/> {user.username}</ListGroupItem>
                 <ListGroupItem className="smallFont"><FaEnvelope className="profileIcon"/> {user.email}</ListGroupItem>
                 <ListGroupItem className="smallFont">Daily calories: <span className="profileInfoNumbers">{user.settings.calories} kcal</span></ListGroupItem>
@@ -147,8 +147,8 @@ export default class Profile extends Component {
           </Row>
           <Row className="justify-content-center">
             <Col sm="3" style={{ textAlign: 'center' }} className="bottomProfileContainer">
-              <div className="changeSettingsDiv largeFont">Change your settings</div>
-              <div className="changeCaloriesDiv mediumFont">Calories: {calories}</div>
+              <div className="changeSettingsDiv mediumFont uppercase">Change your settings</div>
+              <div className="changeCaloriesDiv mediumFont">Total: {calories} kcal</div>
               <Slider onChange={this.handleChangeProtein} label="Protein" value={protein} min={0} max={300} kcal={4} />
               <Slider onChange={this.handleChangeCarbs} label="Carbs" value={carbs} min={0} max={600} kcal={4} />
               <Slider onChange={this.handleChangeFat} label="Fat" value={fat} min={0} max={200} kcal={9} />

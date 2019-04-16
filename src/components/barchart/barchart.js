@@ -45,7 +45,7 @@ const options ={
             },
             type: "time",
             time: {
-                //  min: '2',
+                min: '1471174953000',
                 displayFormats: {
                     day: 'MMM DD'
                 },

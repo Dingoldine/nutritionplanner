@@ -273,7 +273,6 @@ class Home extends Component {
 
   async displayConsumptionData(){
     const { snapshot, date, eatenFood } = this.state
-    console.log("HELOOOOOOOOOOOOOOO")
     //  datamap is used in used to be supplied timeline overview 
     const dataMap = new Map()
 
@@ -408,11 +407,11 @@ class Home extends Component {
               <Col md={{ size: 2, offset: 2 } } className="eatenCol">
                 <div className="eatenDiv">
                   <span className="mediumFont">{dailyCalories.toFixed(0)}</span>
-                  <p className="smallFont capitalize">kcal eaten</p>
+                  <p className="smallFont uppercase">kcal eaten</p>
                 </div>
               </Col>
               <Col md={{ size: 4 } }  className="circleCol">
-                <p className="largeFont">remaining calories</p>
+                <p className="largeFont uppercase">remaining calories</p>
                 <CircularProgress dailyCalories={dailyCalories} targetCalories={targetCalories} />
               </Col>   
             </Row>

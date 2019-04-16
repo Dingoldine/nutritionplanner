@@ -11,7 +11,7 @@
 
 .chartCol {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
 }
 
 .chartContainer  {
@@ -93,6 +93,9 @@
 }
 
 @media only screen and (max-width: 784px) {
+    .chartCol {
+        justify-content: center;
+    }
     .profilePictureCol {
         justify-content: center;
         padding-bottom: 30px;

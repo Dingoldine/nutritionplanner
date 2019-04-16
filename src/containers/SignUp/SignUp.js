@@ -88,11 +88,11 @@ class SignUp extends Component {
         <Container className="loginPage">
           <Form className="form" onSubmit={e => this.submitForm(e)}>
             <Col>
-              <h2 id="register-text" className="smallFont">Register now to start using the app!</h2>
+              <h2 id="register-text" className="smallFont uppercase">Register now to start using the app!</h2>
             </Col>
             <Col>
               <FormGroup>
-                <Label for="signupUsername" className="text smallFont">
+                <Label for="signupUsername" className="text smallFont uppercase">
                   <span>
                     <FaAddressBook />
                   </span>{' '}
@@ -111,7 +111,7 @@ class SignUp extends Component {
             </Col>
             <Col>
               <FormGroup>
-                <Label className="text smallFont">
+                <Label className="text smallFont uppercase">
                   <span>
                     <FaEnvelope />
                   </span>{' '}
@@ -139,7 +139,7 @@ class SignUp extends Component {
             </Col>
             <Col>
               <FormGroup>
-                <Label for="examplePassword" className="text smallFont">
+                <Label for="examplePassword" className="text smallFont uppercase">
                   <span>
                     <FaKey />
                   </span>{' '}
@@ -156,7 +156,7 @@ class SignUp extends Component {
                 />
               </FormGroup>
             </Col>
-            <Button type="submit" className="smallFont">Submit</Button>
+            <Button type="submit" className="smallFont uppercase">Submit</Button>
             {error && error.message}
           </Form>
         </Container>

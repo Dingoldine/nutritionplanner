@@ -130,10 +130,10 @@ export default class Profile extends Component {
         <Container fluid="true">
           <Row className="justify-content-center topProfileContainer">
             
-            <Col md={{size:4 , offset: 2}} className="chartCol">
+            <Col md={{size:5 , offset: -1}} className="chartCol">
               <PieChart dailyCarbs = {parseFloat(carbs) * 4} dailyFats ={parseFloat(fat)*9} dailyProteins = {parseFloat(protein)*4}/>
             </Col>
-            <Col md="6" className="profileInfoCol">
+            <Col md={{size:5 , offset: 1}} className="profileInfoCol">
               <ListGroup className="profileInfoContainer">
                 <p className="mediumFont userInfoHeading uppercase">Profile Info</p>
                 <ListGroupItem className="smallFont"><FaUser className="profileIcon"/> {user.username}</ListGroupItem>

@@ -17,6 +17,15 @@
   text-shadow: 1px 1px 1px white;
 }
 
+.insideCircleText{
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  color: white;
+  top: 69%;
+  font-weight: bold;
+}
+
 .topMainRow {
   background: linear-gradient(130deg,#7eddb1,#00b698);
   border-bottom-left-radius:47%;
@@ -51,9 +60,19 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
 }
 
+
+
 /* FoodListRow */
+.foodListDiv {
+  margin-bottom: 20px;
+  border-bottom: solid 1px white;
+  color: white
+}
+
+
 .foodListRow {
   flex-direction: column;
   align-items: center;
@@ -97,11 +116,42 @@ ul {
 }
 
 .datetimeRow {
-  margin-bottom: 20px;
+  margin-bottom: 0px;
 }
 .date-picker {
   position: relative;
   margin-top: 20px;
+}
+
+.react-datepicker {
+  font-size: 1em;
+}
+.react-datepicker__header {
+  padding-top: 0.8em;
+}
+.react-datepicker__month {
+  margin: 0.4em 1em;
+}
+.react-datepicker__day-name, .react-datepicker__day {
+  width: 1.9em;
+  line-height: 1.9em;
+  margin: 0.166em;
+}
+.react-datepicker__current-month {
+  font-size: 1em;
+}
+.react-datepicker__navigation {
+  top: 1em;
+  line-height: 1.7em;
+  border: 0.45em solid transparent;
+}
+.react-datepicker__navigation--previous {
+  border-right-color: #ccc;
+  left: 1em;
+}
+.react-datepicker__navigation--next {
+  border-left-color: #ccc;
+  right: 1em;
 }
 
 /* Control buttons  */

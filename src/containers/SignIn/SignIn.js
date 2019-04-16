@@ -71,7 +71,7 @@ export default class SignIn extends Component {
             <Form className="form" onSubmit={e => this.submitForm(e)}>
               <Col className="logo-wrapper">
                   <img src={FakeLogo} alt=""></img>
-                  <p id="welcome-text" className="smallFont"> Welcome to Nutrition Planner. Are you ready to get fit?</p>
+                  <p id="welcome-text" className="smallFont uppercase"> Welcome to Nutrition Planner. Are you ready to get fit?</p>
               </Col>
               <Col>
                 <FormGroup>
@@ -114,9 +114,9 @@ export default class SignIn extends Component {
                   />
                 </FormGroup>
               </Col>
-              <Button type="submit" id="login-button" className="smallFont">Sign In</Button>
+              <Button type="submit" id="login-button" className="smallFont uppercase">Sign In</Button>
               {error && error.message}
-              <NavLink tag={RRNavLink} exact to="/signup" className="register-link smallFont">
+              <NavLink tag={RRNavLink} exact to="/signup" className="register-link smallFont uppercase">
                 Sign Up - start using the app{' '}
               </NavLink>
             </Form>

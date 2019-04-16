@@ -407,8 +407,9 @@ class Home extends Component {
                 </div>
               </Col>
               <Col md={{ size: 4 } }  className="circleCol">
-                <p className="largeFont uppercase">remaining calories</p>
+                <p className="largeFont uppercase">Nutrition Planner</p>
                 <CircularProgress dailyCalories={dailyCalories} targetCalories={targetCalories} />
+                <div className="insideCircleText smallFont uppercase">kcal remaining</div>​
               </Col>   
             </Row>
             <Row style={{width: '100%'}}>
@@ -521,7 +522,7 @@ class Home extends Component {
         </Row>
         <Row className="foodListRow">
           <Col sm="6" style={{ textAlign: 'center' }} className="eatenFoodListCol">
-            <div className="changeSettingsDiv  mediumFont">Meals {date}</div>
+            <div className="foodListDiv  mediumFont uppercase">Meals {date}</div>
               {
                 eatenFood.length !== 0 ? (
                   <div className="foodListWrapper smallFont">

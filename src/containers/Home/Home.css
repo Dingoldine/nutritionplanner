@@ -200,7 +200,7 @@ ul {
 
 /* ending ENTER animation */
 .messageout-enter-active {
- 
+  top: 1px;
   opacity: 1;
   transform: translateY(0%) scale(1);
   transition: all 1000ms ease-in-out;
@@ -208,15 +208,13 @@ ul {
 
 /* starting EXIT animation */
 .messageout-exit {
-
-  opacity: 1;
+  opacity: 1; 
   transform: scale(1.01);
-  transform: translate(-8.5px, 2px);
 }
 
 /* ending EXIT animation */
 .messageout-exit-active {
-
+  
   opacity: 0;
   transform: scale(4);
   transition: all 1000ms ease-in-out;

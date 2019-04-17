@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { Component } from 'react'
 import {
   Container,
@@ -41,9 +42,8 @@ class Home extends Component {
     this.handleDatepickerChange = this.handleDatepickerChange.bind(this)
     this.handleCalendarClickOutside = this.handleCalendarClickOutside.bind(this)
 
-    //  for creating a document with todays date
+    //  for initializing with todays date
     const date = new Date();
-
     const today = dateFormat(date, "isoDate", true);
 
     this.state = {
@@ -478,7 +478,7 @@ class Home extends Component {
                   classNames="messageout"
                   >
                   <div className="date-container">
-                    <p id="current-date-shown">{date}</p>
+                    <p id="current-date-shown">{dateFormat(new Date(date), "longDate")}</p>
                   </div>
                 
                 </CSSTransition>
@@ -513,8 +513,8 @@ class Home extends Component {
         </Row>
         <Row className="foodListRow">
           <Col sm="6" style={{ textAlign: 'center' }} className="eatenFoodListCol">
-            <div className="foodListDiv  mediumFont uppercase">Meals {date}</div>
-              {/* If loading show spinner, If no food eaten display "Nothing to show..". Else render results*/}
+            <div className="foodListDiv  mediumFont uppercase">Meals</div>
+              {/*If loading show spinner, If no food eaten display "Nothing to show..". Else render results*/  }
             {!isLoading ? (
                 eatenFood.length !== 0 ? (
                   <div className="foodListWrapper smallFont">
@@ -522,6 +522,7 @@ class Home extends Component {
                       <FoodItem
                         foodObject={foodObject}
                         onClick={() => this.handleDeleteFoodItem(foodObject, index)}
+                        // eslint-disable-next-line react/no-array-index-key
                         key={index}
                       />
                     ))}

@@ -7,9 +7,10 @@ import {
   Input,
   InputGroupAddon,
   Button,
-  Form
+  Form,
+  Spinner
 } from 'reactstrap'
-import { FaChevronRight, FaChevronLeft, FaCalendarAlt } from 'react-icons/fa'
+import { FaChevronRight, FaChevronLeft, FaCalendarAlt, FaSadTear } from 'react-icons/fa'
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import ReactTooltip from 'react-tooltip'
 import DatePicker from 'react-datepicker'
@@ -61,7 +62,8 @@ class Home extends Component {
       date: today,
       snapshot: [],
       timelineOverviewData: new Map(),
-      datepickerIsOpen: false
+      datepickerIsOpen: false,
+      isLoading: false
     }
 
     this.node = React.createRef()
@@ -92,18 +94,18 @@ class Home extends Component {
   onSearch(e) { //eslint-disable-line
     e.preventDefault()
     const { searchTerm } = this.state
-
-    makeGetFoodRequest(searchTerm)      
-    .then(res => {
-        this.setState({
-          searchResult: res.common,
-          dropdownVisible: true
+    if (searchTerm !== "") {
+      makeGetFoodRequest(searchTerm)      
+      .then(res => {
+          this.setState({
+            searchResult: res.common,
+            dropdownVisible: true
+          })
         })
-      })
-      .catch(err => {
-        console.log(err)
-        console.log('Error in onSearch')
-      })
+        .catch(err => {
+          console.log("'Error in onSearch'", err)
+        })
+    }
   }
 
   handleChange = async event => {
@@ -142,8 +144,6 @@ class Home extends Component {
     const _this = this;
     return  new Promise((resolve) => {
       const { eatenFood, timelineOverviewData, date } = _this.state
-      console.log(timelineOverviewData)
-
       let calories = 0
       let carbs = 0
       let fats = 0
@@ -160,8 +160,6 @@ class Home extends Component {
 
       const map = timelineOverviewData
 
-      console.log("say whaat", map)
-
       _this.setState({
         dailyCalories: calories,
         dailyCarbs: carbs,
@@ -170,7 +168,6 @@ class Home extends Component {
         dailySugars: sugar,
         timelineOverviewData: map.set(date, {"carbs": carbs, "fats": fats, "protein": proteins, "calories": calories})
       }, () => {
-        console.log(_this.state)
         resolve()
       })
     })
@@ -191,7 +188,7 @@ class Home extends Component {
           [time]: firebase.fieldValue.delete()
         })
         .then(() => {
-          console.log('Successfully removed item')
+          //  console.log('Successfully removed item')
           const array = eatenFood
           array.splice(index, 1)
           this.setState({
@@ -202,13 +199,13 @@ class Home extends Component {
         
         })
         .catch(err => {
-          console.log(err)
-          console.log('Failure to add a food item')
+          console.log('Failure to add a food item', err)
         }) 
     }
   }
 
   fetchAndDisplay() {
+    this.setState({isLoading: true})
     const { firebase, history } = this.props
     //  store this for later use inside db fetch
     const _this = this;
@@ -239,8 +236,7 @@ class Home extends Component {
               })
           })
           .catch(err => {
-            console.log(err)
-            console.log('Failure to fetch an item')
+            console.log('Failure to fetch an item', err)
           })
           
           firebase
@@ -262,8 +258,6 @@ class Home extends Component {
 
 }
 
-
-
   async displayConsumptionData(){
     const { snapshot, date, eatenFood } = this.state
     //  datamap is used in used to be supplied timeline overview 
@@ -275,8 +269,6 @@ class Home extends Component {
       //  only care about food eaten today
       const promise = new Promise((resolve) => {
         if (doc.id === date){
-          console.log("a match")
-
           //  add to eatenFood
           const foodList = [] 
           // eslint-disable-next-line no-unused-vars
@@ -324,13 +316,12 @@ class Home extends Component {
     Promise.all(promises).then( async () => {
       const mapAsc = await new Map([...dataMap.entries()].sort());
       this.setState({
-        timelineOverviewData: mapAsc
+        timelineOverviewData: mapAsc,
+        isLoading: false
       })
 
     })
 }
-
-
 
   handleOutsideDropdownClick() {
     const { dropdownVisible } = this.state
@@ -392,17 +383,17 @@ class Home extends Component {
     const { searchResult, dropdownVisible, dailyFats, 
       dailyProteins, dailyCarbs, dailyCalories, eatenFood, 
       targetCalories, targetFats, targetCarbs, targetProtein,
-      datepickerIsOpen, date, timelineOverviewData } = this.state
+      datepickerIsOpen, date, timelineOverviewData, isLoading } = this.state
     const { firebase } = this.props
 
     return (
       <Layout className="home" >
-        <Container fluid="true" className="home">
+        <Container fluid className="home">
           <Row className="topMainRow">
             <Row style={{width: '100%',padding: '30px 0px 40px 0px'}}>
               <Col md={{ size: 2, offset: 2 } } className="eatenCol">
                 <div className="eatenDiv">
-                  <span className="mediumFont">{dailyCalories.toFixed(0)}</span>
+                  <span className="mediumFont">{Math.round(dailyCalories)}</span>
                   <p className="smallFont uppercase">kcal eaten</p>
                 </div>
               </Col>
@@ -523,24 +514,29 @@ class Home extends Component {
         <Row className="foodListRow">
           <Col sm="6" style={{ textAlign: 'center' }} className="eatenFoodListCol">
             <div className="foodListDiv  mediumFont uppercase">Meals {date}</div>
-              {
+              {/* If loading show spinner, If no food eaten display "Nothing to show..". Else render results*/}
+            {!isLoading ? (
                 eatenFood.length !== 0 ? (
                   <div className="foodListWrapper smallFont">
                     { eatenFood.map((foodObject,index) => (
                       <FoodItem
                         foodObject={foodObject}
                         onClick={() => this.handleDeleteFoodItem(foodObject, index)}
+                        key={index}
                       />
                     ))}
                   </div>
                   ) : (
-                    <div className="smallFont">nothing to show here</div>
+                    <div className="smallFont noFoodAddedText">Nothing to show here <span><i><FaSadTear/></i></span></div>
                     )
-                }
+            ) : (
+              <Spinner />
+            )
+            }
           </Col>
         </Row>
         <Row className="align-self-center">
-            <BarChart timelineOverviewData={timelineOverviewData} date={date} dailyCarbs={dailyCarbs} dailyFats={dailyFats} dailyProteins={dailyProteins} />
+            <BarChart timelineOverviewData={timelineOverviewData} date={date}/>
         </Row>
         <Row className="emptySpace">
         </Row>

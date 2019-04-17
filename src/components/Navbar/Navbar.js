@@ -61,11 +61,11 @@ class Navigator extends React.Component {
       <Nav vertical>
         {isLoggedIn ? (
           [
-          <NavItem className="logoff">
+          <NavItem className="logoff" key="logoff">
               <SignOutButton />
           </NavItem> ,
 
-          <NavItem>
+          <NavItem key="profile">
           <NavLink tag={RRNavLink} exact to="/profile">
             Profile{' '}
             <span>
@@ -74,7 +74,7 @@ class Navigator extends React.Component {
           </NavLink>
         </NavItem>,
 
-        <NavItem>
+        <NavItem key="home">
           <NavLink tag={RRNavLink} exact to="/home">
           Home{' '}
           <span>
@@ -83,7 +83,7 @@ class Navigator extends React.Component {
           </NavLink>
         </NavItem>,
 
-        <NavItem className="github-nav"> 
+        <NavItem className="github-nav" key="github"> 
           <NavLink href="https://gits-15.sys.kth.se/wwes/nutritionplanner">
             GitHub{' '}
             <span>
@@ -94,13 +94,13 @@ class Navigator extends React.Component {
           ]
           ) : (
             [ 
-            <div className="welcome-text smallFont">
+            <div className="welcome-text smallFont" key="welcome">
               <p>Welcome! </p>
               <p>
                Register now or sign in to get started!</p>
             </div>,
 
-            <NavItem >
+            <NavItem key="signup">
               <NavLink tag={RRNavLink} exact to="/signup" >
                 Sign Up{' '}
                 <span>
@@ -109,7 +109,7 @@ class Navigator extends React.Component {
               </NavLink>
             </NavItem>, 
 
-            <NavItem className="github-nav"> 
+            <NavItem className="github-nav" key="github"> 
               <NavLink href="https://gits-15.sys.kth.se/wwes/nutritionplanner">
                 GitHub{' '}
                 <span>
@@ -118,7 +118,7 @@ class Navigator extends React.Component {
               </NavLink>
             </NavItem>,
 
-            <NavItem className="logon">
+            <NavItem className="logon" key="signin">
               <NavLink tag={RRNavLink} exact to="/home" >
                 Sign In{' '}
                 <span>

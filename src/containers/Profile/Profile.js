@@ -64,24 +64,24 @@ export default class Profile extends Component {
 
   updateCalories = () => {
     const { protein, carbs, fat } = this.state
-    const calories = (protein * 4 + carbs * 4 + fat * 9).toFixed(0)
+    const calories = Math.round((protein * 4 + carbs * 4 + fat * 9))
     this.setState({ calories, fadeIn: false })
   }
 
   handleChangeProtein = (event, Protein) => {
-    const protein = Protein.toFixed(0)
+    const protein = Math.round(Protein)
     this.setState({ protein })
     this.updateCalories()
   }
 
   handleChangeCarbs = (event, Carbs) => {
-    const carbs = Carbs.toFixed(0)
+    const carbs = Math.round(Carbs)
     this.setState({ carbs })
     this.updateCalories()
   }
 
   handleChangeFat = (event, Fat) => {
-    const fat = Fat.toFixed(0)
+    const fat = Math.round(Fat)
     this.setState({ fat })
     this.updateCalories()
   }
@@ -105,12 +105,11 @@ export default class Profile extends Component {
           { merge: true }
         )
         .then(() => {
-          console.log('Success')
+          //  console.log('Success')
           this.toggleFade()
         })
         .catch(err => {
-          console.log(err)
-          console.log('Failure to update user data')
+          console.log("'Failure to update user data'", err)
         })
     }
   }
@@ -127,11 +126,11 @@ export default class Profile extends Component {
     
     return (
       <Layout className="profile">
-        <Container fluid="true">
+        <Container fluid>
           <Row className="justify-content-center topProfileContainer">
             
             <Col md={{size:5 , offset: -1}} className="chartCol">
-              <PieChart dailyCarbs = {parseFloat(carbs) * 4} dailyFats ={parseFloat(fat)*9} dailyProteins = {parseFloat(protein)*4}/>
+              <PieChart dailyCarbs = {carbs * 4} dailyFats ={fat*9} dailyProteins = {protein*4}/>
             </Col>
             <Col md={{size:5 , offset: 1}} className="profileInfoCol">
               <ListGroup className="profileInfoContainer">

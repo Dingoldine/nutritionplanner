@@ -13,9 +13,7 @@
 /* background: linear-gradient(130deg,#7eddb1,#00b698); */
 
 /* Circular Top Main Container */
-.CircularProgressbar {
-  text-shadow: 1px 1px 1px white;
-}
+
 
 .insideCircleText{
   position: absolute;
@@ -23,7 +21,7 @@
   width: 100%;
   color: white;
   top: 69%;
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .topMainRow {

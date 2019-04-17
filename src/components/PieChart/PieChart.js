@@ -20,7 +20,6 @@ class PieChart extends React.Component {
         }
       ]
     }
-
     const options = {
       annotation: {
         annotations: [
@@ -50,7 +49,10 @@ class PieChart extends React.Component {
       plugins: {
         datalabels: {
           formatter: (value) => {
-            return `${Math.round((value/total)*100)} %`
+            if (total && value !== 0) {
+              return `${Math.round((value/total)*100)} %`
+            }
+            return "" 
            },
           color: 'white'
         }

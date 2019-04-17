@@ -4,7 +4,7 @@ import './footer.css'
 
 const header = props => {
   return (
-    <Container fluid="true" >
+    <Container fluid >
       <Row className="footerRow extraSmallFont">
             © Nutrition Planner - William Westerlund & Philip Rumman
       </Row>

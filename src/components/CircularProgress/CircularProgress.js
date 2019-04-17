@@ -7,7 +7,7 @@ const CircularProgress = ({dailyCalories, targetCalories}) => {
     return(
         <CircularProgressbar
         percentage={(dailyCalories/targetCalories)*100}
-        text={`${(targetCalories-dailyCalories).toFixed(0)}`}
+        text={`${(Math.round(targetCalories-dailyCalories))}`}
         strokeWidth={5}
         initialAnimation
         />

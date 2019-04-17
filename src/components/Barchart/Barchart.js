@@ -5,98 +5,9 @@ import 'chartjs-plugin-zoom'
 import './barchart.css'
 import { chartColors } from '../../App/constants'
 
-const options ={
-    type: "bar",
-    responsive: true,
-    legend: {
-        position: 'bottom',
-    },
-    tooltips: {
-        callbacks: {
-           label: (t, d) => {
-              const xLabel = d.datasets[t.datasetIndex].label;
-              const { yLabel } = t;
 
-              return `${xLabel}:  ${yLabel.toFixed(0)} kCal`
-           }
-        }
-     },
-    title: {
-        display: true,
-        text: 'Timeline Overview'
-    },
-    scales: {
-        xAxes: [{
-            stacked: true,
-            gridLines: {
-                display: true,   
-            },
-            //  barPercentage: 0.3,
-            barPercentage: 1,
-            categoryPercentage: 1,
-            barThickness: 6,
-            maxBarThickness: 10,
-            // barThickness: "flex",
-            ticks: {
-                maxRotation: 0,
-                autoSkip: true, 
-                maxTicksLimit:50,
-                source: 'auto'
-            },
-            type: "time",
-            time: {
-                min: '1471174953000',
-                displayFormats: {
-                    day: 'MMM DD'
-                },
-                minUnit: "day",
-                //  min: 1471174953000,
-                //  max: 1473853353000,
-                parser: "YYYY-MM-DD",
-                // round: 'day'
-                tooltipFormat: "MM-DD"
-            },
-            offset: true
-        }],
-    	yAxes: [{
-      	    stacked: true,
-      	    ticks: {
-        	    beginAtZero: true 
-            },
-            gridLines: {
-                display:true
-            }
-            }]
-    },
-    plugins: {
-        zoom: {
-            pan: {
-                enabled: true,
-                mode: 'x',
-             },
-             zoom: {
-                enabled: true,
-                sensitivity:0.5,
-                mode: 'x',
-                rangeMin: {
-                    // Format of min zoom range depends on scale type
-                    x: "MM-DD",
-                    y: null
-                },
-                rangeMax: {
-                    // Format of max zoom range depends on scale type
-                    x: "2016-01-01",
-                    y: null
-                }
-             }
-        },
-        datalabels: {
-            display: () => {
-               return null
-            }
-         }
-    }
-}
+
+
 
 
 const calsPerGramFat = 9
@@ -107,13 +18,14 @@ const calsPerGramCarbs = 4
 class BarChart extends React.Component {
 
      render(){
-        const { timelineOverviewData } = this.props
+        const { timelineOverviewData, date } = this.props
         
         const xAxisLabels = []
         const carbsData = []
         const proteinData = []
         const fatsData = []
         const lineChartData = []
+
         function extractMapElements(nutrients, dateString) {
             xAxisLabels.push(dateString)
             const carbCalories = nutrients.carbs * calsPerGramCarbs
@@ -126,6 +38,126 @@ class BarChart extends React.Component {
         }
 
         timelineOverviewData.forEach(extractMapElements)
+
+
+        function addDays(d, days) {
+            const copy = new Date(Number(d))
+            copy.setDate(d.getDate() + days)
+            return copy
+        }
+
+        const focusedDate = new Date(date);
+        const year = focusedDate.getFullYear();
+        const month = focusedDate.getMonth();
+        const day = focusedDate.getDate();
+        const oneYearFromToday = new Date(year + 1, month, day)
+        const oneYearBeforeToday = new Date(year - 1, month, day)
+
+        const oneDayfromToday = addDays(focusedDate, 1);
+
+
+        const options ={
+            type: "bar",
+            responsive: true,
+            legend: {
+                position: 'bottom',
+            },
+            tooltips: {
+                callbacks: {
+                   label: (t, d) => {
+                      const xLabel = d.datasets[t.datasetIndex].label;
+                      const { yLabel } = t;
+        
+                      return `${xLabel}:  ${Math.round(yLabel)} kCal`
+                   }
+                }
+             },
+            title: {
+                display: true,
+                text: 'Timeline Overview'
+            },
+            scales: {
+                xAxes: [{
+                    stacked: true,
+                    gridLines: {
+                        display: true,   
+                    },
+                    barPercentage: 1,
+                    categoryPercentage: 1,
+                    barThickness: 8,
+                    //  barThickness: "flex",
+                    maxBarThickness: 10,
+                    ticks: {
+                        maxRotation: 0,
+                        autoSkip: true, 
+                        maxTicksLimit:50,
+                        source: 'auto'
+                    },
+                    type: "time",
+                    time: {
+                        min: focusedDate.setDate(focusedDate.getDate() - 6),
+                        max: oneDayfromToday,
+                        displayFormats: {
+                            day: 'MMM DD'
+                        },
+                        minUnit: "day",
+                        parser: "YYYY-MM-DD",
+                        tooltipFormat: "MM-DD",
+                        unitStepSize: 1,
+                    },
+                    offset: true
+                }],
+                yAxes: [{
+                      stacked: true,
+                      ticks: {
+                        beginAtZero: true 
+                    },
+                    gridLines: {
+                        display:true
+                    }
+                    }]
+            },
+            plugins: {
+                zoom: {
+                    pan: {
+                        enabled: true,
+                        mode: 'x',
+                        rangeMin: {
+                            // Format of min pan range depends on scale type
+                            x: oneYearBeforeToday,
+                            y: null
+                        },
+                        rangeMax: {
+                            // Format of max pan range depends on scale type
+                            x: oneYearFromToday,
+                            y: null
+                        },
+                        //  onPan: function({chart}) { console.log(`I was panned!!!`); }
+                     },
+                     zoom: {
+                        enabled: true,
+                        sensitivity:0.3,
+                        mode: 'x',
+                        rangeMin: {
+                            // Format of min zoom range depends on scale type
+                            x: oneYearBeforeToday,
+                            y: null
+                        },
+                        rangeMax: {
+                            // Format of max zoom range depends on scale type
+                            x: oneYearFromToday,
+                            y: null
+                        },
+                        //  onZoom: function({chart}) { console.log(chart) ; }
+                     }
+                },
+                datalabels: {
+                    display: () => {
+                       return null
+                    }
+                 }
+            }
+        }
 
         const data ={ 
             labels: xAxisLabels,
@@ -141,21 +173,21 @@ class BarChart extends React.Component {
                 // },
                 //  barcharts
                 {   
-                    tyoe: 'bar',
+                    type: 'bar',
                     label: 'protein',
                     data: proteinData,
                     backgroundColor: chartColors.green,
                     borderColor: chartColors.green,
                 },
                 {   
-                    tyoe: 'bar',
+                    type: 'bar',
                     label: 'fats',
                     data: fatsData,
                     backgroundColor: chartColors.red,
                     borderColor: chartColors.red,
                 },
                 {   
-                    tyoe: 'bar',
+                    type: 'bar',
                     label: 'carbs',
                     data: carbsData,
                     backgroundColor: chartColors.blue,

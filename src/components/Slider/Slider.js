@@ -5,7 +5,7 @@ import './slider.css'
 export const MacroSlider = ({ label, onChange, value, min, max, kcal }) => {
   return (
     <div className="macroDiv smallFont">
-      <span className="boldText">{label} {parseFloat(value).toFixed(0)}g</span> &nbsp; {parseFloat(value).toFixed(0) * kcal} kcal
+      <span className="boldText">{label} {Math.round(value)}g</span> &nbsp; {Math.round(value) * kcal} kcal
       <Slider
         classes={{ container: "slider" }}
         value={value}

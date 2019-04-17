@@ -116,12 +116,11 @@ class FoodModal extends React.Component { // eslint-disable-line
           { merge: true }
         )
         .then(() => {
-          console.log('Successfully added an item')
+          //  console.log('Successfully added an item')
           triggerRenderHome(foodObject)
         })
         .catch(err => {
-          console.log(err)
-          console.log('Failure to add a food item')
+          console.log("Failure to add a food item", err)
         }) 
     }
   }
@@ -258,7 +257,7 @@ class FoodModal extends React.Component { // eslint-disable-line
             className="modalButton"
             type="button"
             onClick={() => {
-              console.log('modal closed ')
+              //  console.log('modal closed ')
               close()
             }}
           >

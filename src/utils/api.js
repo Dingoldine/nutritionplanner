@@ -29,8 +29,7 @@ export function makeGetFoodRequest(value) {
   return axios.get(`https://trackapi.nutritionix.com/v2/search/instant?query=${value}`, getRequestConfig)
     .then(res => res.data)
     .catch(err => {
-      console.log(err)
-      console.log("Error in makeGetFoodRequest")
+      console.log("Error in makeGetFoodRequest", err)
     });
 }
 
@@ -40,7 +39,6 @@ export function makeGetNutrientsRequest(value) {
       return res.data
     })
     .catch(err => {
-      console.log(err)
-      console.log("Error in makeGetNutritionRequest api")
+      console.log("Error in makeGetNutritionRequest api", err)
     });
 }

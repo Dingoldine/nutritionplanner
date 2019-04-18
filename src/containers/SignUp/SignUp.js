@@ -156,7 +156,7 @@ class SignUp extends Component {
                 />
               </FormGroup>
             </Col>
-            <Button type="submit" className="smallFont uppercase">Submit</Button>
+            <Button type="submit" className="submitButton smallFont uppercase">Submit</Button>
             {error && error.message}
           </Form>
         </Container>

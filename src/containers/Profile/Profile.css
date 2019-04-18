@@ -109,4 +109,8 @@
         border-bottom-left-radius:0%;
         border-bottom-right-radius:0%;
     }
+    .bottomProfileContainer {
+        width: 320px;
+        min-width: 320px;
+    }
 }

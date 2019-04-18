@@ -91,6 +91,7 @@
     cursor: pointer;
     border: none;
     color: #888;
+    margin-bottom: 50px;
   }
 
 .register-link:hover {   

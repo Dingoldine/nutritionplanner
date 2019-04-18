@@ -108,3 +108,15 @@
   .welcome-text {
     white-space: pre-line;
   }
+
+  @media only screen and (max-width: 770px) {
+    .bm-menu-wrap {
+      width: 270px !important;
+    }
+    .github-nav {
+      margin-top: 0px;
+    }
+    .bm-menu {
+      padding-top: 20px;
+    }
+  }

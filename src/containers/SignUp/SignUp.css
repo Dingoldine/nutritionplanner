@@ -14,3 +14,10 @@
   letter-spacing: 0.0625rem;
   color: #888;
 } 
+
+@media only screen and (max-width: 770px) {
+  .submitButton {
+    float: none;
+    margin: 0 auto !important;
+  }
+}

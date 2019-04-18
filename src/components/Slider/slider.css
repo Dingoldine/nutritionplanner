@@ -10,3 +10,9 @@
 .boldText {
     font-weight: 500;
 }
+
+@media only screen and (max-width: 784px) { 
+    .macroDiv {
+        width: 270px;
+    }
+}

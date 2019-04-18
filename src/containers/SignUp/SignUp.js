@@ -85,7 +85,7 @@ class SignUp extends Component {
     const { username, email, password, error, validate } = this.state
     return (
       <Layout className="home">
-        <Container className="loginPage">
+        <Container className="entryPage">
           <Form className="form" onSubmit={e => this.submitForm(e)}>
             <Col>
               <h2 id="register-text" className="smallFont uppercase">Register now to start using the app!</h2>

@@ -536,7 +536,7 @@ class Home extends Component {
             }
           </Col>
         </Row>
-        <Row className="align-self-center">
+        <Row className="barchartContainer">
             <BarChart timelineOverviewData={timelineOverviewData} date={date}/>
         </Row>
         <Row className="emptySpace">

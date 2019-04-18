@@ -59,6 +59,7 @@ class BarChart extends React.Component {
         const options ={
             type: "bar",
             responsive: true,
+            maintainAspectRatio: false,
             legend: {
                 position: 'bottom',
             },

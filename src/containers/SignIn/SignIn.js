@@ -65,7 +65,7 @@ export default class SignIn extends Component {
     const { email, password, error, validate } = this.state
     return (
       <Layout className="home">
-        <Container className="loginPage">
+        <Container className="entryPage">
           <Row>
             <Col>
             <Form className="form" onSubmit={e => this.submitForm(e)}>

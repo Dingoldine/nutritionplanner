@@ -19,9 +19,19 @@ const INITIAL_STATE = {
 export default class SignIn extends Component {
   constructor(props) {
     super(props)
+    const { firebase, history } = this.props
+    firebase.auth.onAuthStateChanged(function(user) {
+      if (user) {
+        history.push('/home')
+      } else {
+        // No user is signed in.
+      }
+    });
     this.state = { ...INITIAL_STATE }
     this.handleChange = this.handleChange.bind(this)
   }
+
+
 
   handleChange = async event => {
     const { target } = event

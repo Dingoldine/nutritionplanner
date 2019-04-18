@@ -29,6 +29,15 @@ class SignUp extends Component {
     super(props)
     this.state = { ...INITIAL_STATE }
     this.handleChange = this.handleChange.bind(this)
+
+    const { firebase, history } = this.props
+    firebase.auth.onAuthStateChanged(function(user) {
+      if (user) {
+        history.push('/home')
+      } else {
+        // No user is signed in.
+      }
+    });
   }
 
   handleChange = async event => {

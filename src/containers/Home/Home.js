@@ -111,33 +111,33 @@ class Home extends Component {
   handleChange = async event => {
     const { target } = event
     const value = target.type === 'checkbox' ? target.checked : target.value
-    // const { name } = target
+    const { name } = target
 
     this.setState({
       searchTerm: value
     });
     
-    // await makeGetFoodRequest(value)      
-    // .then(res => {
-    //     this.setState({
-    //       [name]: value,
-    //       searchResult: res.common
-    //     })
-    //   })
-    //   .catch(err => {
-    //     console.log(err)
-    //     console.log('Error in handleChange')
-    //   })
+    await makeGetFoodRequest(value)      
+    .then(res => {
+        this.setState({
+          [name]: value,
+          searchResult: res.common
+        })
+      })
+      .catch(err => {
+        console.log(err)
+        console.log('Error in handleChange')
+      })
 
-    //   if (this.state.searchResult.length > 0){
-    //     this.setState({
-    //       dropdownVisible: true
-    //     })
-    //   } else {
-    //     this.setState({
-    //       dropdownVisible: false
-    //     })
-    //   }
+      if (this.state.searchResult.length > 0){
+        this.setState({
+          dropdownVisible: true
+        })
+      } else {
+        this.setState({
+          dropdownVisible: false
+        })
+      }
   }
 
   parseEatenFood() {
@@ -531,7 +531,7 @@ class Home extends Component {
                     <div className="smallFont noFoodAddedText">Nothing to show here <span><i><FaSadTear/></i></span></div>
                     )
             ) : (
-              <Spinner />
+              <Spinner className="homeSpinner" />
             )
             }
           </Col>

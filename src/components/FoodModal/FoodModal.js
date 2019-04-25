@@ -261,7 +261,7 @@ class FoodModal extends React.Component { // eslint-disable-line
               close()
             }}
           >
-            close modal
+            close
           </button>
         </div>
       </div>

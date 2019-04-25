@@ -12,7 +12,8 @@ const INITIAL_STATE = {
   error: null,
   validate: {
     emailState: ''
-  }
+  },
+  isLoading: true
 }
 
 const DEFAULT_VALUES = {
@@ -29,13 +30,17 @@ class SignUp extends Component {
     super(props)
     this.state = { ...INITIAL_STATE }
     this.handleChange = this.handleChange.bind(this)
+  }
 
+  componentDidMount() {
     const { firebase, history } = this.props
+    const this_ = this
     firebase.auth.onAuthStateChanged(function(user) {
       if (user) {
         history.push('/home')
       } else {
         // No user is signed in.
+        this_.setState({isLoading: false})
       }
     });
   }
@@ -91,9 +96,10 @@ class SignUp extends Component {
   }
 
   render() {
-    const { username, email, password, error, validate } = this.state
+    const { username, email, password, error, validate, isLoading } = this.state
     return (
       <Layout className="home">
+      {!isLoading ? (
         <Container className="entryPage">
           <Form className="form" onSubmit={e => this.submitForm(e)}>
             <Col>
@@ -169,6 +175,15 @@ class SignUp extends Component {
             {error && error.message}
           </Form>
         </Container>
+      ) : ( 
+        <div className="app-loading">
+          <div className="logo"></div>
+          <svg className="spinner" viewBox="25 25 50 50">
+            <circle className="path" cx="50" cy="50" r="20" fill="none" strokeWidth="2" strokeMiterlimit="10" />
+          </svg>
+        </div>
+      )
+      }
       </Layout>
     )
   }

@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import './SignIn.css'
 import { FaEnvelope, FaKey } from 'react-icons/fa'
 import { NavLink as RRNavLink } from 'react-router-dom'
-import { Container, Row, Col, Form, FormGroup, Label, Input, Button, FormFeedback, NavLink } from 'reactstrap'
+import { Container, Row, Col, Form, FormGroup, Label, Input, Button, FormFeedback, NavLink, Spinner } from 'reactstrap'
 import Layout from '../../components/Layout/Layout'
 import FakeLogo from '../../images/fake-logo.png'
 
@@ -13,25 +13,31 @@ const INITIAL_STATE = {
   error: null,
   validate: {
     emailState: ''
-  }
+  },
+  isLoading: true
 }
 
 export default class SignIn extends Component {
   constructor(props) {
     super(props)
+    
+    this.state = { ...INITIAL_STATE }
+    
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  componentDidMount() {
     const { firebase, history } = this.props
+    const this_ = this
     firebase.auth.onAuthStateChanged(function(user) {
       if (user) {
         history.push('/home')
       } else {
         // No user is signed in.
+        this_.setState({isLoading: false})
       }
     });
-    this.state = { ...INITIAL_STATE }
-    this.handleChange = this.handleChange.bind(this)
   }
-
-
 
   handleChange = async event => {
     const { target } = event
@@ -72,9 +78,11 @@ export default class SignIn extends Component {
   }
 
   render() {
-    const { email, password, error, validate } = this.state
+    const { email, password, error, validate, isLoading } = this.state
+    console.log(isLoading)
     return (
       <Layout className="home">
+      {!isLoading ? (
         <Container className="entryPage">
           <Row>
             <Col>
@@ -133,6 +141,16 @@ export default class SignIn extends Component {
             </Col>
           </Row>
         </Container>
+          ) :
+          (
+          <div className="app-loading">
+              <div className="logo"></div>
+              <svg className="spinner" viewBox="25 25 50 50">
+                <circle className="path" cx="50" cy="50" r="20" fill="none" strokeWidth="2" strokeMiterlimit="10" />
+              </svg>
+          </div>
+          )
+          }
       </Layout>
     )
   }

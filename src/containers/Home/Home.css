@@ -80,6 +80,10 @@ ul {
   list-style-type: none;
 }
 
+.dropdown-div {
+  padding-left: 30px;
+}
+
 .dropdown-list {
   max-height: 300px;
   overflow-y: scroll;
@@ -100,6 +104,14 @@ ul {
   display: table-cell;
   vertical-align: middle;
   padding-left: 10px;
+}
+
+
+/* FOOD SEARCH  */
+
+.foodSearchSpinner {
+  width: 30px;
+  margin: auto;
 }
 
 /* DATE PICKER  */

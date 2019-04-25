@@ -63,7 +63,8 @@ class Home extends Component {
       snapshot: [],
       timelineOverviewData: new Map(),
       datepickerIsOpen: false,
-      isLoading: false
+      isLoading: false,
+      searchFoodLoading: false
     }
 
     this.node = React.createRef()
@@ -95,11 +96,13 @@ class Home extends Component {
     e.preventDefault()
     const { searchTerm } = this.state
     if (searchTerm !== "") {
+      this.setState({searchFoodLoading: true})
       makeGetFoodRequest(searchTerm)      
       .then(res => {
           this.setState({
             searchResult: res.common,
-            dropdownVisible: true
+            dropdownVisible: true,
+            searchFoodLoading: false
           })
         })
         .catch(err => {
@@ -112,24 +115,29 @@ class Home extends Component {
     const { target } = event
     const value = target.type === 'checkbox' ? target.checked : target.value
     const { name } = target
-
-    this.setState({
-      searchTerm: value
-    });
     
-    await makeGetFoodRequest(value)      
-    .then(res => {
-        this.setState({
-          [name]: value,
-          searchResult: res.common
+    let searchResult = []
+    if(value !== ""){
+      this.setState({
+        searchTerm: value,
+        searchFoodLoading: true
+      });
+      await makeGetFoodRequest(value)      
+      .then(res => {
+          this.setState({
+            [name]: value,
+            searchResult: res.common,
+            searchFoodLoading: false
+          })
+          searchResult = res.common
         })
-      })
-      .catch(err => {
-        console.log(err)
-        console.log('Error in handleChange')
-      })
+        .catch(err => {
+          console.log(err)
+          console.log('Error in handleChange')
+        })  
+    }
 
-      if (this.state.searchResult.length > 0){
+      if (searchResult.length > 0){
         this.setState({
           dropdownVisible: true
         })
@@ -383,7 +391,7 @@ class Home extends Component {
     const { searchResult, dropdownVisible, dailyFats, 
       dailyProteins, dailyCarbs, dailyCalories, eatenFood, 
       targetCalories, targetFats, targetCarbs, targetProtein,
-      datepickerIsOpen, date, timelineOverviewData, isLoading } = this.state
+      datepickerIsOpen, date, timelineOverviewData, isLoading, searchFoodLoading } = this.state
     const { firebase } = this.props
 
     return (
@@ -425,6 +433,11 @@ class Home extends Component {
             <Col sm="12" md={{ size: 6, offset: 3 }}>
               <Form className="form" onSubmit={e => this.onSearch(e)}>
                 <InputGroup>
+                  <InputGroupAddon addonType="prepend" className="foodSearchSpinner">
+                    {searchFoodLoading && (
+                      <Spinner />
+                    )}
+                  </InputGroupAddon>
                   <Input
                     placeholder="Find a food"
                     onChange={e => { this.handleChange(e)}}
@@ -432,7 +445,7 @@ class Home extends Component {
                     autoComplete="off"
                     className="smallFont"
                   />
-                  <InputGroupAddon addonType="prepend">
+                  <InputGroupAddon addonType="append">
                     <Button className="searchButton smallFont" type="submit">Search</Button>
                   </InputGroupAddon>
                 </InputGroup>

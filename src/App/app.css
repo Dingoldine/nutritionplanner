@@ -5,7 +5,7 @@ html {
   box-sizing: border-box;
   height: 100%;
   max-width: 100%;
-  overflow-x: hidden;
+
 }
 
 body {
@@ -17,7 +17,7 @@ body {
   min-height: 100% !important;
   background-color: #f4f3f0;
   max-width: 100%;
-  overflow-x: hidden;
+
 }
 
 #root, .main {
@@ -25,17 +25,17 @@ body {
 }
 
 .largeFont {
-  font-size: 38px;
+  font-size: 34px;
   font-weight: 400;
 }
 
 .mediumFont {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 300;
 }
 
 .smallFont {
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 300;
 }
 

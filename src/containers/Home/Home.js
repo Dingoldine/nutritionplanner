@@ -398,7 +398,7 @@ class Home extends Component {
       <Layout className="home" >
         <Container fluid className="home">
           <Row className="topMainRow">
-            <Row style={{width: '100%',padding: '30px 0px 40px 0px'}}>
+            <Row style={{width: '100%',padding: '10px 0px 15px 0px'}}>
               <Col md={{ size: 2, offset: 2 } } className="eatenCol">
                 <div className="eatenDiv">
                   <span className="mediumFont">{Math.round(dailyCalories)}</span>

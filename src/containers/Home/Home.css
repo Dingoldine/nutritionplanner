@@ -23,7 +23,7 @@
   background: linear-gradient(130deg,#7eddb1,#00b698);
   border-bottom-left-radius:47%;
   border-bottom-right-radius:47%;
-  padding-bottom: 75px;
+  padding-bottom: 50px;
   margin-bottom: 50px;
   justify-content: center;
 }
@@ -36,7 +36,6 @@
 }
 
 .circleCol p {
-  font-size: 38px;
   color: white;
   padding: 20px 0;
 }

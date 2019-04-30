@@ -2,6 +2,7 @@
 import React from 'react'
 import Popup from 'reactjs-popup'
 import dateFormat from "dateformat"
+import { withAlert } from 'react-alert'
 import {Col, ListGroup, ListGroupItem, Input, InputGroup, InputGroupButtonDropdown, DropdownToggle, DropdownItem, DropdownMenu, Button } from 'reactstrap'
 import './foodModal.css'
 import { FaChevronRight } from 'react-icons/fa'
@@ -31,7 +32,7 @@ class FoodModal extends React.Component { // eslint-disable-line
       fats: 0,
       img: "",
       dropdownOpen: false,
-      splitButtonOpen: false,
+      splitButtonOpen: false,    
     }
   }
 
@@ -90,7 +91,8 @@ class FoodModal extends React.Component { // eslint-disable-line
     const today = dateFormat(date, "isoDate", true);
     
     const time = dateFormat(now, "longTime", true); // -> "10:46:21 PM UTC etc"
-    
+    const { alert } = this.props
+
     const foodObject = 
     {
       [time]: {
@@ -117,10 +119,15 @@ class FoodModal extends React.Component { // eslint-disable-line
         )
         .then(() => {
           //  console.log('Successfully added an item')
+          alert.show("Food object added", {
+              timeout: 2000, // custom timeout just for this one alert
+          })
+          
           triggerRenderHome(foodObject)
         })
         .catch(err => {
           console.log("Failure to add a food item", err)
+          alert.error("Oh No! Something went wrong")
         }) 
     }
   }
@@ -196,7 +203,8 @@ class FoodModal extends React.Component { // eslint-disable-line
   }
 
   render() {
-    const { nutrients, foodName, servingSelected, quantity, splitButtonOpen, calories, protein, carbs, sugar, fats } = this.state
+    const { nutrients, foodName, servingSelected, quantity, splitButtonOpen, calories, protein, carbs, sugar, fats, showAlert} = this.state
+
     return(
       <Popup
       trigger={<div className="openModal"><div className="icon-container"><FaChevronRight /><FaChevronRight /></div></div>}
@@ -227,7 +235,7 @@ class FoodModal extends React.Component { // eslint-disable-line
 
           <Col sm="6" align="center">
             <InputGroup id="inputGroupModal">
-              <Input type="number" id="inputQuantity" autoFocus="true" value={quantity} onChange={e => { this.handleInputChanged(e) }}/>
+              <Input type="number" id="inputQuantity" autoFocus  value={quantity} onChange={e => { this.handleInputChanged(e) }}/>
               <InputGroupButtonDropdown addonType="prepend" isOpen={splitButtonOpen} toggle={this.toggleSplit}>
                 <Button outline>{servingSelected ? <p>Serving ({nutrients.serving_weight_grams}g)</p> : <p>g</p>}</Button>
                 <DropdownToggle split outline />
@@ -271,4 +279,4 @@ class FoodModal extends React.Component { // eslint-disable-line
   }
 } 
 
-export default FoodModal
+export default withAlert()(FoodModal)

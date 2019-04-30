@@ -119,7 +119,7 @@ class FoodModal extends React.Component { // eslint-disable-line
         )
         .then(() => {
           //  console.log('Successfully added an item')
-          alert.show("Food object added", {
+          alert.show("Food added", {
               timeout: 2000, // custom timeout just for this one alert
           })
           

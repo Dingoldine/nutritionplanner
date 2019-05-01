@@ -121,6 +121,7 @@ class FoodModal extends React.Component { // eslint-disable-line
           //  console.log('Successfully added an item')
           alert.show("Food added", {
               timeout: 2000, // custom timeout just for this one alert
+              type: 'success',
           })
           
           triggerRenderHome(foodObject)

@@ -1,6 +1,5 @@
 # Nutrition Planner 
 
-## Final Project Submission
 
 The nutritionplanner is an application where you can set your daily intake of calories consisting of fat, carbs and proteins. You can monitor and track your intake of these macronutrients by adding the foods you eat and in what amount. Similar to Lifesum, myFitnessPal etc. 
 
